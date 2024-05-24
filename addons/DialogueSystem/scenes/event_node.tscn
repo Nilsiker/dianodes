@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cq6ogn4nj3s8w"]
+
+[node name="EventNode" type="GraphNode"]
+offset_right = 103.0
+offset_bottom = 86.0
+mouse_filter = 1
+title = "Event"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Emit..."
+expand_to_text_length = true

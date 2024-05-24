@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DialogueLineResource" load_steps=2 format=3 uid="uid://dycayexcq42ve"]
+
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_fi53t"]
+
+[resource]
+script = ExtResource("1_fi53t")
+name = ""
+line = ""
