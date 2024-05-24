@@ -7,11 +7,12 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 	[Tool]
 	public partial class LineNode : GraphNode, IHasPortrait, IHasNodeData
 	{
-		[Export] LineData _resource;
-		[Export] LineEdit _characterNameLineEdit;
+		[Export] LineEdit _name;
+		[Export] TextEdit _line;
 		[Export] Control _portraitContainer;
 		[Export] TextureButton _portraitButton;
 		[Export] FileDialog _portraitFileDialog;
+		[Export] LineData _resource;
 
 		public NodeData Data
 		{
@@ -19,10 +20,12 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			{
 				var data = (LineData)value;
 				_resource = data;
-				_characterNameLineEdit.Text = data.name;
+				_name.Text = data.name;
+				_line.Text = data.line;
 				_portraitButton.TextureNormal = data.portrait;
-				CallDeferred("set_size", data.size);
+				
 				PositionOffset = data.position;
+				CallDeferred("set_size", data.size);
 			}
 		}
 
@@ -31,13 +34,15 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		{
 			Resized += _OnResized;
 			PositionOffsetChanged += _OnPositionOffsetChanged;
+
+			_name.TextChanged += name => _resource.name = name;
+			_line.TextChanged += () => _resource.line = _line.Text;
 		}
 
 
 		public void SetPortraitVisibility(bool visible)
 		{
 			_portraitContainer.Visible = visible;
-			CallDeferred("Resize");
 		}
 
 		private void Resize()
@@ -52,7 +57,10 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			}
 		}
 
-		private void _OnResized() => Data.size = Size;
+		private void _OnResized()
+		{
+			Data.size = Size;
+		}
 
 		private void _OnPositionOffsetChanged() => Data.position = PositionOffset;
 

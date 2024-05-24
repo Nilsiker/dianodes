@@ -10,7 +10,7 @@ namespace Nilsiker.GodotTools.Dialogue.Models
         [Export] public Vector2 scrollOffset;
         [Export] public float zoom;
         [Export] public bool hidingPortraits;
-        [Export] public Godot.Collections.Dictionary connections;
-        [Export] public NodeData[] nodes;
+        [Export] public Godot.Collections.Array<Godot.Collections.Dictionary> connections;
+        [Export] public Godot.Collections.Array<NodeData> nodes;
     }
 }

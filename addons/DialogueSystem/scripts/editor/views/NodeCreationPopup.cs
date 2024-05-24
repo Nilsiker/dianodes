@@ -10,9 +10,9 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		// NOTE must be aligned with configured options on popup menu node!
 		public enum NodeCreationOption
 		{
-			NewNpcNode,
-			NewPlayerNode,
-			NewEventNode
+			Line,
+			Options,
+			Event
 		}
 
 		public override void _Ready()
@@ -24,9 +24,9 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		{
 			string s = (NodeCreationOption)index switch
 			{
-				NodeCreationOption.NewNpcNode => null,
-				NodeCreationOption.NewPlayerNode => null,
-				NodeCreationOption.NewEventNode => null,
+				NodeCreationOption.Line => null,
+				NodeCreationOption.Options => null,
+				NodeCreationOption.Event => null,
 				_ => null
 			};
 		}

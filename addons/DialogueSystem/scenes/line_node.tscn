@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/LineNode.cs" id="1_jr6iv"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="2_yc3v0"]
 
-[node name="LineNode" type="GraphNode" node_paths=PackedStringArray("_characterNameLineEdit", "_portraitContainer", "_portraitButton")]
+[node name="LineNode" type="GraphNode" node_paths=PackedStringArray("_name", "_line", "_portraitContainer", "_portraitButton")]
 offset_right = 401.0
 offset_bottom = 321.0
 mouse_filter = 1
@@ -28,7 +28,8 @@ slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
 script = ExtResource("1_jr6iv")
-_characterNameLineEdit = NodePath("MarginContainer/HBoxContainer/VBoxContainer/Name")
+_name = NodePath("MarginContainer/HBoxContainer/VBoxContainer/Name")
+_line = NodePath("MarginContainer/HBoxContainer/VBoxContainer/Line")
 _portraitContainer = NodePath("MarginContainer/HBoxContainer/PortraitContainer")
 _portraitButton = NodePath("MarginContainer/HBoxContainer/PortraitContainer/MarginContainer/TextureButton")
 
@@ -79,3 +80,4 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm LÖorem Ipusm "
 wrap_mode = 1
+scroll_fit_content_height = true
