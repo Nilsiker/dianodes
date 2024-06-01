@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
+using Nilsiker.GodotTools.Extensions;
 
 namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 {
@@ -15,6 +16,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         Vector2 _lastRightClickPosition = Vector2.Zero;
+        public bool HidePortraits => _hidePortraitsButton.ButtonPressed;
 
         public override void _Ready()
         {
@@ -28,12 +30,20 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             DeleteNodesRequest += _OnDeleteNodesRequest;
 
+            PopupRequest += _OnPopupRequested;
+
             _hidePortraitsButton.ButtonPressed = _data.hidingPortraits;
             _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
 
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
 
             LoadFromResource();
+        }
+
+        private void _SaveDialogue()
+        {
+            var res = ResourceSaver.Singleton.Save(_data);
+            this.Log(res);
         }
 
         private void LoadFromResource()
@@ -78,7 +88,10 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                 foreach (var connection in GetConnectionList())
                 {
                     var parsed = Utilities.ParseConnection(connection);
-                    _OnDisconnectionRequest(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
+                    if (parsed.FromNode == name || parsed.ToNode == name)
+                    {
+                        _OnDisconnectionRequest(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
+                    }
                 }
 
                 var node = GetNode<LineNode>(name);
@@ -94,6 +107,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             _nodeCreationMenu.Visible = true;
             var targetPosition = GetScreenPosition() + releasePosition;
             _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
+            _lastRightClickPosition = (GetLocalMousePosition() + ScrollOffset) / Zoom;
         }
 
         private void _OnHidePortraitsButtonToggled(bool hiding)
@@ -120,17 +134,9 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                     _data.zoom = Zoom;
                 }
             }
-        }
-
-        public override void _GuiInput(InputEvent @event)
-        {
-            base._GuiInput(@event);
-            if (@event is InputEventMouseButton button && button.IsReleased() && button.ButtonIndex == MouseButton.Right)
+            else if (@event is InputEventWithModifiers modEvent && modEvent.ShiftPressed && Input.IsKeyPressed(Key.S))
             {
-                _nodeCreationMenu.Visible = true;
-                var targetPosition = GetScreenPosition() + button.Position;
-                _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
-                _lastRightClickPosition = (GetLocalMousePosition() + ScrollOffset) / Zoom;
+                _SaveDialogue();
             }
         }
 
@@ -139,7 +145,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             var created = _lineNode.Instantiate<LineNode>();
             created.Data = data ?? new()
             {
-                guid = Guid.NewGuid().ToString()
+                guid = Guid.NewGuid().ToString(),
             };
             created.Name = created.Data.guid;
             AddChild(created);
@@ -151,6 +157,16 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             return created;
         }
+
+
+        private void _OnPopupRequested(Vector2 atPosition)
+        {
+            _nodeCreationMenu.Visible = true;
+            var targetPosition = GetScreenPosition() + atPosition;
+            _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
+            _lastRightClickPosition = (atPosition + ScrollOffset) / Zoom;
+        }
+
 
         private void _OnNodeCreationPopupIndexPressed(long option)
         {

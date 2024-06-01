@@ -12,21 +12,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		[Export] Control _portraitContainer;
 		[Export] TextureButton _portraitButton;
 		[Export] FileDialog _portraitFileDialog;
-		[Export] LineData _resource;
+		[Export] LineData _data;
 
 		public NodeData Data
 		{
-			get => _resource; set
-			{
-				var data = (LineData)value;
-				_resource = data;
-				_name.Text = data.name;
-				_line.Text = data.line;
-				_portraitButton.TextureNormal = data.portrait;
-				
-				PositionOffset = data.position;
-				CallDeferred("set_size", data.size);
-			}
+			get => _data; set => _data = (LineData)value;
 		}
 
 		// Called when the node enters the scene tree for the first time.
@@ -35,10 +25,28 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			Resized += _OnResized;
 			PositionOffsetChanged += _OnPositionOffsetChanged;
 
-			_name.TextChanged += name => _resource.name = name;
-			_line.TextChanged += () => _resource.line = _line.Text;
-		}
+			_name.TextChanged += name => _data.name = name;
+			_line.TextChanged += () => _data.line = _line.Text;
 
+			_name.Text = _data.name;
+			_line.Text = _data.line;
+			if (_data.portrait != null)
+			{
+				_portraitButton.TextureNormal = _data.portrait;
+			}
+			_portraitContainer.Visible = !GetParent<DialogueEditor>().HidePortraits;
+
+			PositionOffset = Data.position;
+			CallDeferred("set_size", Data.size);
+
+			_portraitButton.Pressed += () => _portraitFileDialog.Popup();
+			_portraitFileDialog.FileSelected += (file) =>
+			{
+				var portrait = GD.Load<Texture2D>(file);
+				_portraitButton.TextureNormal = portrait;
+				_data.portrait = portrait;
+			};
+		}
 
 		public void SetPortraitVisibility(bool visible)
 		{

@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=9 format=3 uid="uid://bqrmjw7q3j4in"]
+
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
+[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_idqo3"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="2_cdejx"]
+[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="3_tmmoa"]
+
+[sub_resource type="Resource" id="Resource_rko0f"]
+script = ExtResource("1_7fuci")
+name = "Player"
+line = "Hey there!"
+portrait = ExtResource("1_idqo3")
+guid = "88c85852-e242-480c-8bd6-2fb02ad6b8ce"
+size = Vector2(325, 239)
+position = Vector2(-840, 100)
+
+[sub_resource type="Resource" id="Resource_lrou0"]
+script = ExtResource("1_7fuci")
+name = "NPC"
+line = "..."
+portrait = ExtResource("3_tmmoa")
+guid = "ebed6c32-e9fe-4fda-bdbc-48ba4336aa92"
+size = Vector2(269, 211)
+position = Vector2(-480, 100)
+
+[sub_resource type="Resource" id="Resource_1o3si"]
+script = ExtResource("1_7fuci")
+name = "NPC"
+line = "Can't say I am."
+portrait = ExtResource("3_tmmoa")
+guid = "1912b879-a248-4148-bda7-6c0b3c3078f5"
+size = Vector2(260, 177)
+position = Vector2(120, 100)
+
+[sub_resource type="Resource" id="Resource_3yhru"]
+script = ExtResource("1_7fuci")
+name = "Player"
+line = "You're not very talkactive, are you?"
+portrait = ExtResource("1_idqo3")
+guid = "587028ee-fc99-42d9-996a-bd663dce1061"
+size = Vector2(256, 218)
+position = Vector2(-160, 100)
+
+[resource]
+script = ExtResource("2_cdejx")
+scrollOffset = Vector2(-904.68, -465)
+zoom = 0.909091
+hidingPortraits = false
+connections = Array[Dictionary]([{
+"from_node": &"88c85852-e242-480c-8bd6-2fb02ad6b8ce",
+"from_port": 0,
+"to_node": &"ebed6c32-e9fe-4fda-bdbc-48ba4336aa92",
+"to_port": 0
+}, {
+"from_node": &"587028ee-fc99-42d9-996a-bd663dce1061",
+"from_port": 0,
+"to_node": &"1912b879-a248-4148-bda7-6c0b3c3078f5",
+"to_port": 0
+}, {
+"from_node": &"ebed6c32-e9fe-4fda-bdbc-48ba4336aa92",
+"from_port": 0,
+"to_node": &"587028ee-fc99-42d9-996a-bd663dce1061",
+"to_port": 0
+}])
+nodes = [SubResource("Resource_rko0f"), SubResource("Resource_lrou0"), SubResource("Resource_1o3si"), SubResource("Resource_3yhru")]
