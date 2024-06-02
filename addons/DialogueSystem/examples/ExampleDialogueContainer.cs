@@ -25,7 +25,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 
 			var delegates = Utilities.CreateBlackboard(
 				new("add_10_coins", () => GD.Print("Add 10 coins!")),
-				new("feeling_generous", () => Rnd.Chance(10))
+				new("feeling_generous", () => Rnd.Chance(50))
 			);
 
 			DialogueChannel.Load(data, delegates);
