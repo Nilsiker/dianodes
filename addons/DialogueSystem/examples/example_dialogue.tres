@@ -1,61 +1,67 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=11 format=3 uid="uid://bqrmjw7q3j4in"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=13 format=3 uid="uid://bqrmjw7q3j4in"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
+[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_jnf35"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="2_cdejx"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/EventData.cs" id="2_hgbdc"]
+[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="3_gopon"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionData.cs" id="3_lc404"]
 
 [sub_resource type="Resource" id="Resource_qy2py"]
 script = ExtResource("1_7fuci")
-Name = "Test"
-Line = "Aasddfjkhdsfjksdhfjksdfhjk"
+Name = "Player"
+Line = "Hello stranger!"
+Portrait = ExtResource("1_jnf35")
 Guid = "5e737590-0fc3-4b88-ab44-0c6de864411d"
-Size = Vector2(260, 191)
-Position = Vector2(420, 160)
+Size = Vector2(280, 177)
+Position = Vector2(420, 20)
 
 [sub_resource type="Resource" id="Resource_vw8mm"]
 script = ExtResource("1_7fuci")
-Name = "NPC"
-Line = "You look poor..."
+Name = "Stranger"
+Line = "Oh my, you look quite rough."
+Portrait = ExtResource("3_gopon")
 Guid = "67ca3a92-2006-46d2-be6c-2e138d811d44"
-Size = Vector2(260, 177)
-Position = Vector2(720, 160)
+Size = Vector2(260, 187)
+Position = Vector2(720, 20)
 
 [sub_resource type="Resource" id="Resource_1lcuq"]
 script = ExtResource("1_7fuci")
-Name = "NPC"
+Name = "Stranger"
 Line = "Here, have some coins, it's the least I can do. Take care!"
+Portrait = ExtResource("3_gopon")
 Guid = "980a333a-2af5-482e-86f9-312cecf109d9"
-Size = Vector2(380, 169)
-Position = Vector2(1500, 140)
+Size = Vector2(380, 191)
+Position = Vector2(1420, -60)
 
 [sub_resource type="Resource" id="Resource_7g7qf"]
 script = ExtResource("2_hgbdc")
 EventName = "add_10_coins"
 Guid = "ad488a5e-2d40-4b8f-a580-9d886687680b"
 Size = Vector2(0, 0)
-Position = Vector2(1340, 220)
+Position = Vector2(1260, 60)
 
 [sub_resource type="Resource" id="Resource_e3bes"]
 script = ExtResource("1_7fuci")
-Name = "NPC"
+Name = "Stranger"
 Line = "I must be going, take care."
+Portrait = ExtResource("3_gopon")
 Guid = "1ee982ae-856b-4378-af7b-abe0de48dd46"
-Size = Vector2(266, 169)
-Position = Vector2(1520, 340)
+Size = Vector2(266, 191)
+Position = Vector2(1280, 160)
 
 [sub_resource type="Resource" id="Resource_u8mwh"]
 script = ExtResource("3_lc404")
 ConditionName = "feeling_generous"
 Guid = "b2674287-0cdf-461d-b76a-1a7a1dde1435"
 Size = Vector2(0, 0)
-Position = Vector2(1080, 240)
+Position = Vector2(1060, 80)
 
 [resource]
 script = ExtResource("2_cdejx")
 Name = "Example 1"
-ScrollOffset = Vector2(88.641, -140.697)
-Zoom = 0.660712
+ScrollOffset = Vector2(-215.41, -611.22)
+Zoom = 0.967349
 HidingPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",

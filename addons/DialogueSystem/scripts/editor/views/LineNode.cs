@@ -56,6 +56,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
 		private void _OnResized()
 		{
+			if (Data == null) return;
 			Data.Size = Size;
 		}
 
