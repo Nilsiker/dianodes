@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Nilsiker.GodotTools.Dialogue.Models
 {
-    [GlobalClass, Tool]
+    [GlobalClass, Tool, Icon("res://addons/DialogueSystem/icons/dialogue_resource.svg")]
     public partial class DialogueResource : Resource
     {
         [Export] public string Name;
@@ -15,6 +15,7 @@ namespace Nilsiker.GodotTools.Dialogue.Models
         [Export] public Godot.Collections.Array<Godot.Collections.Dictionary> Connections;
         [Export] public Godot.Collections.Array<NodeData> Nodes;
 
+        // TODO move this to logic class, making this POD-friendly
         public NodeData GetNode(string guid, int port = -1)
         {
             if (port < 0)

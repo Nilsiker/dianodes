@@ -1,31 +1,83 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch4l2gfdn2k0w"]
+[gd_scene load_steps=9 format=3 uid="uid://ch4l2gfdn2k0w"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueEditor.cs" id="1_ooesh"]
-[ext_resource type="Resource" uid="uid://bqrmjw7q3j4in" path="res://addons/DialogueSystem/examples/example_dialogue.tres" id="2_vnt5d"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueGraph.cs" id="2_jdveq"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_wyifm"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="5_fxg18"]
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/DialogueSystem/icons/event.svg" id="6_j45qr"]
 [ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/DialogueSystem/icons/condition.svg" id="6_or5hw"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/NodeCreationPopup.cs" id="6_os58y"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialoguePreview.cs" id="9_ngd0q"]
 
-[node name="DialogueEditor" type="GraphEdit" node_paths=PackedStringArray("_editing", "_nodeCreationMenu", "_hidePortraitsButton")]
-custom_minimum_size = Vector2(200, 200)
-offset_right = 1152.0
-offset_bottom = 648.0
+[node name="DialogueEditor" type="Control" node_paths=PackedStringArray("_graph", "_preview", "_runButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-scroll_offset = Vector2(0, -498.22)
-right_disconnects = true
-zoom = 0.967349
-show_zoom_label = true
 script = ExtResource("1_ooesh")
+_graph = NodePath("VBox/DialogueGraph")
+_preview = NodePath("DialoguePreview")
+_runButton = NodePath("VBox/Menu/RunButton")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="VBox/Menu"]
+layout_mode = 2
+disabled = true
+text = "New"
+
+[node name="LoadButton" type="Button" parent="VBox/Menu"]
+layout_mode = 2
+disabled = true
+text = "Load"
+
+[node name="SaveButton" type="Button" parent="VBox/Menu"]
+layout_mode = 2
+disabled = true
+text = "Save"
+
+[node name="RunButton" type="Button" parent="VBox/Menu"]
+layout_mode = 2
+text = "Run"
+
+[node name="Padding" type="Control" parent="VBox/Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HidePortraitsButton" type="CheckButton" parent="VBox/Menu"]
+layout_mode = 2
+text = "Hide Portraits"
+
+[node name="DialogueGraph" type="GraphEdit" parent="VBox" node_paths=PackedStringArray("_editor", "_editing", "_nodeCreationMenu", "_hidePortraitsButton")]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+right_disconnects = true
+zoom = 0.879408
+show_zoom_label = true
+show_arrange_button = false
+script = ExtResource("2_jdveq")
+_editor = NodePath("../..")
 _editing = NodePath("Editing")
 _nodeCreationMenu = NodePath("NodeCreationPopup")
-_hidePortraitsButton = NodePath("HidePortraitsButton")
-_data = ExtResource("2_vnt5d")
+_hidePortraitsButton = NodePath("../Menu/HidePortraitsButton")
 metadata/_edit_use_anchors_ = true
 
-[node name="Editing" type="Label" parent="."]
+[node name="Editing" type="Label" parent="VBox/DialogueGraph"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -36,9 +88,9 @@ offset_right = 79.0
 offset_bottom = 43.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
-text = "Drop a DialogueResource in this window"
+text = "Editing Linear Dialogue"
 
-[node name="NodeCreationPopup" type="PopupMenu" parent="."]
+[node name="NodeCreationPopup" type="PopupMenu" parent="VBox/DialogueGraph"]
 size = Vector2i(185, 92)
 item_count = 4
 item_0/text = "Line"
@@ -54,27 +106,16 @@ item_3/icon = ExtResource("6_or5hw")
 item_3/id = 3
 script = ExtResource("6_os58y")
 
-[node name="NodeCreationPopup2" type="PopupMenu" parent="."]
-auto_translate_mode = 1
-size = Vector2i(185, 92)
-item_count = 4
-item_0/text = "Line"
-item_0/icon = ExtResource("4_wyifm")
-item_1/text = "Options"
-item_1/icon = ExtResource("5_fxg18")
-item_1/id = 1
-item_2/text = "Event"
-item_2/icon = ExtResource("6_j45qr")
-item_2/id = 2
-item_3/text = "Condition"
-item_3/icon = ExtResource("6_or5hw")
-item_3/id = 3
-script = ExtResource("6_os58y")
-
-[node name="HidePortraitsButton" type="CheckButton" parent="."]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 45.0
-offset_right = 170.0
-offset_bottom = 76.0
-text = "Hide Portraits"
+[node name="DialoguePreview" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+script = ExtResource("9_ngd0q")

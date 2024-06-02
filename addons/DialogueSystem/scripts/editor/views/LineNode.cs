@@ -12,6 +12,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		[Export] Control _portraitContainer;
 		[Export] TextureButton _portraitButton;
 		[Export] FileDialog _portraitFileDialog;
+		[Export] Button _addOptionButton;
 		[Export] LineData _data;
 
 		public override NodeData Data
@@ -34,7 +35,8 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 				_portraitButton.TextureNormal = portrait;
 				_data.Portrait = portrait;
 			};
-
+			_addOptionButton.Pressed += _OnAddOptionButtonPressed;
+			
 			Resized += _OnResized;
 
 			if (_data == null) return;
@@ -46,10 +48,15 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 				_portraitButton.TextureNormal = _data.Portrait;
 			}
 			if (GetTree().CurrentScene == this) return;
-			_portraitContainer.Visible = !GetParent<DialogueEditor>().HidePortraits;
-		}
+			_portraitContainer.Visible = !GetParent<DialogueGraph>().HidePortraits;
+		}	
 
-		public void SetPortraitVisibility(bool visible)
+        private void _OnAddOptionButtonPressed()
+        {
+            
+        }
+
+        public void SetPortraitVisibility(bool visible)
 		{
 			_portraitContainer.Visible = visible;
 		}

@@ -6,14 +6,17 @@ using Nilsiker.GodotTools.Convenience;
 
 namespace Nilsiker.GodotTools.Dialogue.Example
 {
+	[Tool]
 	public partial class ExampleDialogueContainer : PanelContainer
 	{
 		[Signal] public delegate void DummyEventEventHandler();
+
 
 		[Export] Label _nameLabel;
 		[Export] Label _lineLabel;
 		[Export] TextureRect _portrait;
 		[Export] float _lineSpeed = 20;
+
 		float _lineProgress = 0;
 
 		// Called when the node enters the scene tree for the first time.
@@ -21,13 +24,13 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 		{
 			DialogueChannel.DialogueLineUpdated += _OnDialogueLineUpdated;
 			DialogueChannel.DialogueEnded += _OnDialogueEnded;
-			var data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
 
 			var delegates = Utilities.CreateBlackboard(
 				new("add_10_coins", () => GD.Print("Add 10 coins!")),
 				new("feeling_generous", () => Rnd.Chance(50))
 			);
-
+			var data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
+			this.Log("Example Dialogue starting: " + data.Name);
 			DialogueChannel.Load(data, delegates);
 		}
 
@@ -47,7 +50,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 
 		private void _OnDialogueEnded()
 		{
-			GetTree().Quit();
+			QueueFree();
 		}
 
 		private void _OnDialogueLineUpdated(NodeData data)

@@ -1,58 +1,58 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=12 format=3 uid="uid://dgwx8gawa3qyt"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=12 format=3 uid="uid://dw4gn381mckih"]
 
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
-[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_jnf35"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="2_cdejx"]
-[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="3_ywvn5"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/EventData.cs" id="4_0vmea"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionData.cs" id="5_2ct0u"]
+[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_ru5dx"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="2_h23j4"]
+[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="3_ar1qm"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/EventData.cs" id="4_a2rni"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionData.cs" id="5_jqfvj"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="6_onxkk"]
 
 [sub_resource type="Resource" id="Resource_qy2py"]
-script = ExtResource("1_7fuci")
+script = ExtResource("2_h23j4")
 Name = "Player"
 Line = "Hello stranger, can you spare some coin?"
-Portrait = ExtResource("1_jnf35")
+Portrait = ExtResource("1_ru5dx")
 Guid = "5f737590-0fc3-4b88-ab44-0c6de864411d"
 Size = Vector2(280, 366)
 Position = Vector2(680, -80)
 
 [sub_resource type="Resource" id="Resource_1lcuq"]
-script = ExtResource("1_7fuci")
+script = ExtResource("2_h23j4")
 Name = "Stranger"
 Line = "Here, have some coins, it's the least I can do. Take care!"
-Portrait = ExtResource("3_ywvn5")
+Portrait = ExtResource("3_ar1qm")
 Guid = "980a333a-2af5-482e-86f9-312cecf109d9"
 Size = Vector2(380, 380)
 Position = Vector2(1420, -60)
 
 [sub_resource type="Resource" id="Resource_7g7qf"]
-script = ExtResource("4_0vmea")
+script = ExtResource("4_a2rni")
 EventName = "add_10_coins"
 Guid = "ad488a5e-2d40-4b8f-a580-9d886687680b"
 Size = Vector2(0, 0)
 Position = Vector2(1260, 60)
 
 [sub_resource type="Resource" id="Resource_e3bes"]
-script = ExtResource("1_7fuci")
+script = ExtResource("2_h23j4")
 Name = "Stranger"
 Line = "I must be going, take care."
-Portrait = ExtResource("3_ywvn5")
+Portrait = ExtResource("3_ar1qm")
 Guid = "1ee982ae-856b-4378-af7b-abe0de48dd46"
 Size = Vector2(320.001, 366)
 Position = Vector2(1300, 320)
 
 [sub_resource type="Resource" id="Resource_u8mwh"]
-script = ExtResource("5_2ct0u")
+script = ExtResource("5_jqfvj")
 ConditionName = "feeling_generous"
 Guid = "b2674287-0cdf-461d-b76a-1a7a1dde1435"
 Size = Vector2(0, 0)
 Position = Vector2(1060, 120)
 
 [resource]
-script = ExtResource("2_cdejx")
+script = ExtResource("6_onxkk")
 Name = "Branching Dialogue"
-ScrollOffset = Vector2(-177.4, -136.3)
-Zoom = 0.879408
+ScrollOffset = Vector2(-78, -290.2)
+Zoom = 0.799462
 HidingPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",

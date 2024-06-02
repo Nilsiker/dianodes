@@ -7,9 +7,9 @@ namespace Nilsiker.GodotTools.Dialogue
 {
     public class Connection
     {
-        public StringName FromNode { get; set; }
+        public string FromNode { get; set; }
         public int FromPort { get; set; }
-        public StringName ToNode { get; set; }
+        public string ToNode { get; set; }
         public int ToPort { get; set; }
     }
 
@@ -20,9 +20,9 @@ namespace Nilsiker.GodotTools.Dialogue
         public static string GetSvgPath(string iconName) => $"{PluginPath}/icons/{iconName}.svg";
         public static Connection ParseConnection(Godot.Collections.Dictionary connection) => new()
         {
-            FromNode = (string)connection["from_node"],
+            FromNode = connection["from_node"].ToString(),
             FromPort = (int)connection["from_port"],
-            ToNode = (string)connection["to_node"],
+            ToNode = connection["to_node"].ToString(),
             ToPort = (int)connection["to_port"],
         };
 
