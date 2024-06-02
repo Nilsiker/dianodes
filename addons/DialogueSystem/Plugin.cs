@@ -80,7 +80,7 @@ namespace Nilsiker.GodotTools.Dialogue
 
 		public override void _SaveExternalData()
 		{
-			this.Log("Saving " + _instance.Data.Name + " to " + _instance.Data.ResourcePath);
+			this.Log("TODO implement resource save");
 		}
 	}
 }
