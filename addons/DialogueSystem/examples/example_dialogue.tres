@@ -38,9 +38,9 @@ Position = Vector2(1040, 220)
 
 [resource]
 script = ExtResource("2_cdejx")
-Name = "Exampel 1"
-ScrollOffset = Vector2(749.805, -228.338)
-Zoom = 1.28754
+Name = "Example 1"
+ScrollOffset = Vector2(408, -272.494)
+Zoom = 1.06408
 HidingPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",

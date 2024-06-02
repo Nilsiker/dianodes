@@ -44,7 +44,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             ScrollOffsetChanged += offset =>
             {
                 _data.ScrollOffset = offset;
-                this.Log(offset);
             };
         }
 
