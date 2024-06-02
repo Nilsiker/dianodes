@@ -1,12 +1,12 @@
 using Godot;
-using Godot.Collections;
 using System;
 
 namespace Nilsiker.GodotTools.Dialogue.Editor.Models
 {
     [Tool, GlobalClass]
-    public partial class EventData : NodeData
+    public partial class ConditionData : NodeData
     {
-        [Export] public string EventName;
+        [Export]
+        public string ConditionName { get; set; }
     }
 }

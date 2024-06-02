@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Godot;
 
-namespace Nilsiker.GodotTools.Extensions
+namespace Nilsiker.GodotTools.Convenience
 {
 	public static partial class NodeExtensions
 	{
@@ -22,4 +22,14 @@ namespace Nilsiker.GodotTools.Extensions
 		public static void Warn(this Node _, object message) => GD.PushWarning(message);
 		public static void Err(this Node _, object message) => GD.PushError(message);
 	}
+
+	public static class Rnd
+	{
+		public static bool Chance(int percentage)
+		{
+			return GD.Randf() < percentage / 100.0;
+		}
+
+	}
+
 }

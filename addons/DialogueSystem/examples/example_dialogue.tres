@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=8 format=3 uid="uid://bqrmjw7q3j4in"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=11 format=3 uid="uid://bqrmjw7q3j4in"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="2_cdejx"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/EventData.cs" id="2_hgbdc"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionData.cs" id="3_lc404"]
 
 [sub_resource type="Resource" id="Resource_qy2py"]
 script = ExtResource("1_7fuci")
 Name = "Test"
 Line = "Aasddfjkhdsfjksdhfjksdfhjk"
 Guid = "5e737590-0fc3-4b88-ab44-0c6de864411d"
-Size = Vector2(260, 169)
+Size = Vector2(260, 191)
 Position = Vector2(420, 160)
 
 [sub_resource type="Resource" id="Resource_vw8mm"]
@@ -17,30 +18,44 @@ script = ExtResource("1_7fuci")
 Name = "NPC"
 Line = "You look poor..."
 Guid = "67ca3a92-2006-46d2-be6c-2e138d811d44"
-Size = Vector2(260, 169)
+Size = Vector2(260, 177)
 Position = Vector2(720, 160)
 
 [sub_resource type="Resource" id="Resource_1lcuq"]
 script = ExtResource("1_7fuci")
 Name = "NPC"
-Line = "Here, have some coins, it's the least I can do."
+Line = "Here, have some coins, it's the least I can do. Take care!"
 Guid = "980a333a-2af5-482e-86f9-312cecf109d9"
-Size = Vector2(260, 235)
-Position = Vector2(1280, 140)
+Size = Vector2(380, 169)
+Position = Vector2(1500, 140)
 
 [sub_resource type="Resource" id="Resource_7g7qf"]
 script = ExtResource("2_hgbdc")
 EventName = "add_10_coins"
-Args = []
 Guid = "ad488a5e-2d40-4b8f-a580-9d886687680b"
 Size = Vector2(0, 0)
-Position = Vector2(1040, 220)
+Position = Vector2(1340, 220)
+
+[sub_resource type="Resource" id="Resource_e3bes"]
+script = ExtResource("1_7fuci")
+Name = "NPC"
+Line = "I must be going, take care."
+Guid = "1ee982ae-856b-4378-af7b-abe0de48dd46"
+Size = Vector2(266, 169)
+Position = Vector2(1520, 340)
+
+[sub_resource type="Resource" id="Resource_u8mwh"]
+script = ExtResource("3_lc404")
+ConditionName = "feeling_generous"
+Guid = "b2674287-0cdf-461d-b76a-1a7a1dde1435"
+Size = Vector2(0, 0)
+Position = Vector2(1080, 240)
 
 [resource]
 script = ExtResource("2_cdejx")
 Name = "Example 1"
-ScrollOffset = Vector2(408, -272.494)
-Zoom = 1.06408
+ScrollOffset = Vector2(88.641, -140.697)
+Zoom = 0.660712
 HidingPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",
@@ -48,14 +63,24 @@ Connections = Array[Dictionary]([{
 "to_node": &"67ca3a92-2006-46d2-be6c-2e138d811d44",
 "to_port": 0
 }, {
-"from_node": &"ad488a5e-2d40-4b8f-a580-9d886687680b",
-"from_port": 0,
-"to_node": &"980a333a-2af5-482e-86f9-312cecf109d9",
+"from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
+"from_port": 1,
+"to_node": &"1ee982ae-856b-4378-af7b-abe0de48dd46",
 "to_port": 0
 }, {
 "from_node": &"67ca3a92-2006-46d2-be6c-2e138d811d44",
 "from_port": 0,
+"to_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
+"to_port": 0
+}, {
+"from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
+"from_port": 0,
 "to_node": &"ad488a5e-2d40-4b8f-a580-9d886687680b",
 "to_port": 0
+}, {
+"from_node": &"ad488a5e-2d40-4b8f-a580-9d886687680b",
+"from_port": 0,
+"to_node": &"980a333a-2af5-482e-86f9-312cecf109d9",
+"to_port": 0
 }])
-Nodes = Array[Object]([SubResource("Resource_qy2py"), SubResource("Resource_vw8mm"), SubResource("Resource_1lcuq"), SubResource("Resource_7g7qf")])
+Nodes = Array[Object]([SubResource("Resource_qy2py"), SubResource("Resource_vw8mm"), SubResource("Resource_1lcuq"), SubResource("Resource_7g7qf"), SubResource("Resource_e3bes"), SubResource("Resource_u8mwh")])

@@ -4,7 +4,7 @@ using System.Text.Json;
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
-using Nilsiker.GodotTools.Extensions;
+using Nilsiker.GodotTools.Convenience;
 
 namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 {
@@ -18,7 +18,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
-        // PackedScene _optionsNode = GD.Load<PackedScene>(Utilities.GetScenePath("options_node"));
+        PackedScene _conditionNode = GD.Load<PackedScene>(Utilities.GetScenePath("condition_node"));
         Vector2 _lastRightClickPosition = Vector2.Zero;
         public bool HidePortraits => _hidePortraitsButton.ButtonPressed;
 
@@ -75,15 +75,19 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             ScrollOffset = _data.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
             foreach (var data in _data.Nodes)
             {
-                if (data is LineData lineData)
+                switch (data)
                 {
-                    CreateLineNode(lineData);
+                    case LineData lineData:
+                        CreateNode<LineNode, LineData>(_lineNode, lineData);
+                        break;
+                    case EventData eventData:
+                        CreateNode<EventNode, EventData>(_eventNode, eventData);
+                        break;
+                    case ConditionData conditionData:
+                        CreateNode<ConditionNode, ConditionData>(_conditionNode, conditionData);
+                        break;
+                        // TODO add load for other data types
                 }
-                else if (data is EventData eventData)
-                {
-                    CreateEventNode(eventData);
-                }
-                // TODO add load for other data types
             }
 
             foreach (var connection in _data.Connections)
@@ -100,6 +104,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         private void _OnConnectionRequest(StringName fromNode, long fromPort, StringName toNode, long toPort)
         {
             ConnectNode(fromNode, (int)fromPort, toNode, (int)toPort);
+            this.Log("Connection request: " + fromNode + ":" + fromPort + " -> " + toNode + ":" + toPort);
             _data.Connections = GetConnectionList();
         }
 
@@ -168,32 +173,12 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             }
         }
 
-        private LineNode CreateLineNode(LineData data = null, bool register = false)
+        private T CreateNode<T, U>(PackedScene scene, NodeData data = null, bool register = false)
+        where T : DialogueNode
+        where U : NodeData, new()
         {
-            var created = _lineNode.Instantiate<LineNode>();
-            created.Data = data ?? new()
-            {
-                Guid = Guid.NewGuid().ToString(),
-            };
-            created.Name = created.Data.Guid;
-            this.Log("created " + created.Name);
-            AddChild(created);
-
-            if (data == null)
-            {
-                _data.Nodes.Add(created.Data);
-            }
-
-            return created;
-        }
-
-        private EventNode CreateEventNode(EventData data = null, bool register = false)
-        {
-            var created = _eventNode.Instantiate<EventNode>();
-            created.Data = data ?? new()
-            {
-                Guid = Guid.NewGuid().ToString(),
-            };
+            var created = scene.Instantiate<T>();
+            created.Data = data ?? new U();
             created.Name = created.Data.Guid;
             this.Log("created " + created.Name);
             AddChild(created);
@@ -221,12 +206,16 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             switch ((NodeCreationPopup.NodeCreationOption)option)
             {
                 case NodeCreationPopup.NodeCreationOption.Line:
-                    var node = CreateLineNode();
+                    var node = CreateNode<LineNode, LineData>(_lineNode);
                     node.PositionOffset = _lastRightClickPosition;
                     break;
                 case NodeCreationPopup.NodeCreationOption.Event:
-                    var event_node = CreateEventNode();
+                    var event_node = CreateNode<EventNode, EventData>(_eventNode);
                     event_node.PositionOffset = _lastRightClickPosition;
+                    break;
+                case NodeCreationPopup.NodeCreationOption.Condition:
+                    var condition_node = CreateNode<ConditionNode, ConditionData>(_conditionNode);
+                    condition_node.PositionOffset = _lastRightClickPosition;
                     break;
             }
         }

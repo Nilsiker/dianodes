@@ -26,19 +26,12 @@ namespace Nilsiker.GodotTools.Dialogue
             ToPort = (int)connection["to_port"],
         };
 
-
-        public class EventBlackboardEntry
+        public static Dictionary<string, Delegate> CreateBlackboard(params KeyValuePair<string, Delegate>[] entries)
         {
-            public string EventName { get; set; }
-            public Action Emit { get; set; }
-        }
-
-        public static Dictionary<string, Action> CreateEventBlackboard(params EventBlackboardEntry[] entries)
-        {
-            var blackboard = new Dictionary<string, Action>();
+            var blackboard = new Dictionary<string, Delegate>();
             foreach (var entry in entries)
             {
-                blackboard.Add(entry.EventName, entry.Emit);
+                blackboard.Add(entry.Key, entry.Value);
             }
 
             return blackboard;

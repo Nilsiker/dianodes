@@ -9,7 +9,8 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		{
 			Line,
 			Options,
-			Event
+			Event,
+			Condition,
 		}
 	}
 }

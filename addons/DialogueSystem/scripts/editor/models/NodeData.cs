@@ -9,5 +9,10 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Models
         [Export] public string Guid = System.Guid.NewGuid().ToString();
         [Export] public Vector2 Size;
         [Export] public Vector2 Position;
+
+        public NodeData()
+        {
+            Guid = System.Guid.NewGuid().ToString();
+        }
     }
 }

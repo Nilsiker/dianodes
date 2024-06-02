@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cq6ogn4nj3s8w"]
+[gd_scene load_steps=4 format=3 uid="uid://cq6ogn4nj3s8w"]
 
+[ext_resource type="Theme" uid="uid://pe32ycfebc7i" path="res://addons/DialogueSystem/resources/node_title_black.tres" id="1_jpkty"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/EventNode.cs" id="1_pto8f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3eoe1"]
-bg_color = Color(0.507118, 0.379061, 2.88785e-07, 1)
+bg_color = Color(1, 0.939, 0.39, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -15,6 +16,7 @@ corner_radius_top_right = 4
 offset_right = 198.0
 offset_bottom = 82.0
 mouse_filter = 1
+theme = ExtResource("1_jpkty")
 theme_override_styles/titlebar = SubResource("StyleBoxFlat_3eoe1")
 title = " Event"
 slot/0/left_enabled = true

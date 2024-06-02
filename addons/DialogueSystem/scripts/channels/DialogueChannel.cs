@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
@@ -29,29 +30,50 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
             }
         }
 
-        public static Dictionary<string, Action> eventBlackboard;
+        public static Dictionary<string, Delegate> blackboard;
 
-        public static void Load(DialogueResource data, Dictionary<string, Action> blackboard)
+        public static void Load(DialogueResource data, Dictionary<string, Delegate> blackboard)
         {
             Data = data;
-            eventBlackboard = blackboard;
+            DialogueChannel.blackboard = blackboard;
         }
 
 
-        public static void Progress()
+        public static void Progress(int slot)
         {
-            var next = _data.GetNode(current, 0);
+            var next = _data.GetNode(current, slot);
+            GD.Print("Next is: ", Json.Stringify(next));
             if (next != null)
             {
                 current = next.Guid;
-                if (next is EventData ed)
+                switch (next)
                 {
-                    if (eventBlackboard.TryGetValue(ed.EventName, out Action action))
-                    {
-                        action.Invoke();
-                    }
-                    Progress();
-                    return;
+                    case EventData ed:
+                        if (blackboard.TryGetValue(ed.EventName, out Delegate action))
+                        {
+                            var ret = action.DynamicInvoke();
+                            GD.Print(ret);
+                        }
+                        else
+                        {
+                            GD.PushWarning($@"Event ""{ed.EventName}"" not found in dialogue blackboard.");
+
+                        }
+                        Progress(0);
+                        return;
+                    case ConditionData cd:
+                        GD.Print(cd.ConditionName);
+                        if (blackboard.TryGetValue(cd.ConditionName, out action))
+                        {
+                            GD.Print("condition returned ", (bool)action.DynamicInvoke());
+                            Progress((bool)action.DynamicInvoke() ? 0 : 1);
+                            return;
+                        }
+                        else
+                        {
+                            GD.PushWarning($@"Condition ""{cd.ConditionName}"" not found in dialogue blackboard.");
+                        }
+                        break;
                 }
                 UpdateLine(next);
             }

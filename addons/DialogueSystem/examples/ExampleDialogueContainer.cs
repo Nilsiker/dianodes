@@ -2,8 +2,7 @@ using Godot;
 using Nilsiker.GodotTools.Dialogue.Channels;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
-using Nilsiker.GodotTools.Extensions;
-using System;
+using Nilsiker.GodotTools.Convenience;
 
 namespace Nilsiker.GodotTools.Dialogue.Example
 {
@@ -24,13 +23,12 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 			DialogueChannel.DialogueEnded += _OnDialogueEnded;
 			var data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
 
-			var blackboard = Utilities.CreateEventBlackboard(new Utilities.EventBlackboardEntry()
-			{
-				EventName = "add_10_coins",
-				Emit = () => GD.Print($"This is a dummy placeholder for logic that grants the player 10 coins!")
-			});
+			var delegates = Utilities.CreateBlackboard(
+				new("add_10_coins", () => GD.Print("Add 10 coins!")),
+				new("feeling_generous", () => Rnd.Chance(10))
+			);
 
-			DialogueChannel.Load(data, blackboard);
+			DialogueChannel.Load(data, delegates);
 		}
 
 		public override void _ExitTree()
@@ -68,7 +66,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 			base._GuiInput(@event);
 			if (@event is InputEventMouseButton mouseButton && @event.IsReleased() && mouseButton.ButtonIndex == MouseButton.Left)
 			{
-				DialogueChannel.Progress();
+				DialogueChannel.Progress(0);
 			}
 		}
 	}

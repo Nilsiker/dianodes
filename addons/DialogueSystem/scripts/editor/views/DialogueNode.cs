@@ -4,7 +4,7 @@ using System;
 
 namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 {
-    public abstract partial class DialogueNode : GraphNode, IHasNodeData
+    public abstract partial class DialogueNode : GraphNode, IDialogueNode
     {
         [Export] NodeData _data;
 
@@ -13,7 +13,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         public override void _Ready()
         {
             PositionOffsetChanged += _OnPositionOffsetChanged;
-            
+
             if (Data == null) return;
             PositionOffset = Data.Position;
             CallDeferred("set_size", Data.Size);

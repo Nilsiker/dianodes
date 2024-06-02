@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch4l2gfdn2k0w"]
+[gd_scene load_steps=8 format=3 uid="uid://ch4l2gfdn2k0w"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueEditor.cs" id="1_ooesh"]
 [ext_resource type="Resource" uid="uid://bqrmjw7q3j4in" path="res://addons/DialogueSystem/examples/example_dialogue.tres" id="2_vnt5d"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_wyifm"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="5_fxg18"]
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/DialogueSystem/icons/event.svg" id="6_j45qr"]
+[ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/DialogueSystem/icons/condition.svg" id="6_or5hw"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/NodeCreationPopup.cs" id="6_os58y"]
 
 [node name="DialogueEditor" type="GraphEdit" node_paths=PackedStringArray("_editing", "_nodeCreationMenu", "_hidePortraitsButton")]
@@ -13,7 +14,9 @@ offset_right = 1152.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+scroll_offset = Vector2(0, -272.494)
 right_disconnects = true
+zoom = 1.06408
 show_zoom_label = true
 script = ExtResource("1_ooesh")
 _editing = NodePath("Editing")
@@ -33,11 +36,11 @@ offset_right = 79.0
 offset_bottom = 43.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
-text = "Editing Exampel 1"
+text = "Editing Example 1"
 
 [node name="NodeCreationPopup" type="PopupMenu" parent="."]
 size = Vector2i(185, 92)
-item_count = 3
+item_count = 4
 item_0/text = "Line"
 item_0/icon = ExtResource("4_wyifm")
 item_1/text = "Options"
@@ -46,6 +49,26 @@ item_1/id = 1
 item_2/text = "Event"
 item_2/icon = ExtResource("6_j45qr")
 item_2/id = 2
+item_3/text = "Condition"
+item_3/icon = ExtResource("6_or5hw")
+item_3/id = 3
+script = ExtResource("6_os58y")
+
+[node name="NodeCreationPopup2" type="PopupMenu" parent="."]
+auto_translate_mode = 1
+size = Vector2i(185, 92)
+item_count = 4
+item_0/text = "Line"
+item_0/icon = ExtResource("4_wyifm")
+item_1/text = "Options"
+item_1/icon = ExtResource("5_fxg18")
+item_1/id = 1
+item_2/text = "Event"
+item_2/icon = ExtResource("6_j45qr")
+item_2/id = 2
+item_3/text = "Condition"
+item_3/icon = ExtResource("6_or5hw")
+item_3/id = 3
 script = ExtResource("6_os58y")
 
 [node name="HidePortraitsButton" type="CheckButton" parent="."]

@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://pe32ycfebc7i"]
+
+[resource]
+GraphNodeTitleLabel/colors/font_color = Color(0, 0, 0, 1)
+GraphNodeTitleLabel/constants/shadow_offset_y = 1
+GraphNodeTitleLabel/constants/shadow_outline_size = 0

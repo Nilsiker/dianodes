@@ -21,8 +21,7 @@ namespace Nilsiker.GodotTools.Dialogue.Models
             {
                 return Nodes.Where(n => n.Guid == guid).FirstOrDefault();
             }
-
-            var conn = Connections.Where(c => (string)c["from_node"] == guid && (int)c["to_port"] == port).FirstOrDefault();
+            var conn = Connections.Where(c => (string)c["from_node"] == guid && (int)c["from_port"] == port).FirstOrDefault();
             if (conn == null) return null;
 
             var parsed = Utilities.ParseConnection(conn);
