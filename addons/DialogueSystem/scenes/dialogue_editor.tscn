@@ -7,16 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/DialogueSystem/icons/event.svg" id="6_j45qr"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/NodeCreationPopup.cs" id="6_os58y"]
 
-[node name="DialogueEditor" type="GraphEdit" node_paths=PackedStringArray("_nodeCreationMenu", "_hidePortraitsButton")]
+[node name="DialogueEditor" type="GraphEdit" node_paths=PackedStringArray("_editing", "_nodeCreationMenu", "_hidePortraitsButton")]
 custom_minimum_size = Vector2(200, 200)
 offset_right = 1152.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-scroll_offset = Vector2(-899.68, -648)
 right_disconnects = true
 show_zoom_label = true
 script = ExtResource("1_ooesh")
+_editing = NodePath("Editing")
 _nodeCreationMenu = NodePath("NodeCreationPopup")
 _hidePortraitsButton = NodePath("HidePortraitsButton")
 _data = ExtResource("2_vnt5d")
@@ -33,7 +33,7 @@ offset_right = 79.0
 offset_bottom = 43.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
-text = "Editing <null>"
+text = "Editing Exampel 1"
 
 [node name="NodeCreationPopup" type="PopupMenu" parent="."]
 size = Vector2i(185, 92)

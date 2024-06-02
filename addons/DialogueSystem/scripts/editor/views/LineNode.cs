@@ -5,7 +5,7 @@ using Nilsiker.GodotTools.Dialogue.Editor.Models;
 namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 {
 	[Tool]
-	public partial class LineNode : GraphNode, IHasPortrait, IHasNodeData
+	public partial class LineNode : DialogueNode, IDialogueNode, IHasPortrait
 	{
 		[Export] LineEdit _name;
 		[Export] TextEdit _line;
@@ -14,7 +14,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		[Export] FileDialog _portraitFileDialog;
 		[Export] LineData _data;
 
-		public NodeData Data
+		public override NodeData Data
 		{
 			get => _data; set => _data = (LineData)value;
 		}
@@ -22,30 +22,31 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			Resized += _OnResized;
-			PositionOffsetChanged += _OnPositionOffsetChanged;
+			base._Ready();
 
-			_name.TextChanged += name => _data.name = name;
-			_line.TextChanged += () => _data.line = _line.Text;
-
-			_name.Text = _data.name;
-			_line.Text = _data.line;
-			if (_data.portrait != null)
-			{
-				_portraitButton.TextureNormal = _data.portrait;
-			}
-			_portraitContainer.Visible = !GetParent<DialogueEditor>().HidePortraits;
-
-			PositionOffset = Data.position;
-			CallDeferred("set_size", Data.size);
+			_name.TextChanged += name => _data.Name = name;
+			_line.TextChanged += () => _data.Line = _line.Text;
 
 			_portraitButton.Pressed += () => _portraitFileDialog.Popup();
 			_portraitFileDialog.FileSelected += (file) =>
 			{
 				var portrait = GD.Load<Texture2D>(file);
 				_portraitButton.TextureNormal = portrait;
-				_data.portrait = portrait;
+				_data.Portrait = portrait;
 			};
+
+			Resized += _OnResized;
+
+			if (_data == null) return;
+			_name.Text = _data.Name;
+			_line.Text = _data.Line;
+
+			if (_data.Portrait != null)
+			{
+				_portraitButton.TextureNormal = _data.Portrait;
+			}
+			if (GetTree().CurrentScene == this) return;
+			_portraitContainer.Visible = !GetParent<DialogueEditor>().HidePortraits;
 		}
 
 		public void SetPortraitVisibility(bool visible)
@@ -53,24 +54,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			_portraitContainer.Visible = visible;
 		}
 
-		private void Resize()
-		{
-			if (_portraitContainer.Visible)
-			{
-				Size = new(Size.X + 100, Size.Y);
-			}
-			else
-			{
-				Size = new(Size.X - 100, Size.Y);
-			}
-		}
-
 		private void _OnResized()
 		{
-			Data.size = Size;
+			Data.Size = Size;
 		}
 
-		private void _OnPositionOffsetChanged() => Data.position = PositionOffset;
 
 		private void _OnPortraitClear() => _portraitButton.TextureNormal = null;
 

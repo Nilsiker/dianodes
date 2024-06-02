@@ -8,24 +8,25 @@ namespace Nilsiker.GodotTools.Dialogue.Models
     [GlobalClass, Tool]
     public partial class DialogueResource : Resource
     {
-        [Export] public Vector2 scrollOffset;
-        [Export] public float zoom;
-        [Export] public bool hidingPortraits;
-        [Export] public Godot.Collections.Array<Godot.Collections.Dictionary> connections;
-        [Export] public Godot.Collections.Array<NodeData> nodes;
+        [Export] public string Name;
+        [Export] public Vector2 ScrollOffset;
+        [Export] public float Zoom;
+        [Export] public bool HidingPortraits;
+        [Export] public Godot.Collections.Array<Godot.Collections.Dictionary> Connections;
+        [Export] public Godot.Collections.Array<NodeData> Nodes;
 
         public NodeData GetNode(string guid, int port = -1)
         {
             if (port < 0)
             {
-                return nodes.Where(n => n.guid == guid).FirstOrDefault();
+                return Nodes.Where(n => n.Guid == guid).FirstOrDefault();
             }
 
-            var conn = connections.Where(c => (string)c["from_node"] == guid && (int)c["to_port"] == port).FirstOrDefault();
+            var conn = Connections.Where(c => (string)c["from_node"] == guid && (int)c["to_port"] == port).FirstOrDefault();
             if (conn == null) return null;
-            
+
             var parsed = Utilities.ParseConnection(conn);
-            return nodes.Where(n => n.guid == parsed.ToNode).FirstOrDefault();
+            return Nodes.Where(n => n.Guid == parsed.ToNode).FirstOrDefault();
         }
     }
 }

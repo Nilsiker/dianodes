@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json;
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
@@ -10,11 +11,14 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
     [Tool]
     public partial class DialogueEditor : GraphEdit
     {
+        [Export] Label _editing;
         [Export] PopupMenu _nodeCreationMenu;
         [Export] CheckButton _hidePortraitsButton;
         [Export] DialogueResource _data;
 
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
+        PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
+        // PackedScene _optionsNode = GD.Load<PackedScene>(Utilities.GetScenePath("options_node"));
         Vector2 _lastRightClickPosition = Vector2.Zero;
         public bool HidePortraits => _hidePortraitsButton.ButtonPressed;
 
@@ -22,7 +26,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         {
             base._Ready();
 
-            ScrollOffsetChanged += offset => _data.scrollOffset = offset;
 
             ConnectionRequest += _OnConnectionRequest;
             DisconnectionRequest += _OnDisconnectionRequest;
@@ -32,13 +35,29 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             PopupRequest += _OnPopupRequested;
 
-            _hidePortraitsButton.ButtonPressed = _data.hidingPortraits;
+            _hidePortraitsButton.ButtonPressed = _data.HidingPortraits;
             _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
 
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
 
             LoadFromResource();
+            ScrollOffsetChanged += offset =>
+            {
+                _data.ScrollOffset = offset;
+                this.Log(offset);
+            };
         }
+
+        private void _OnFilesDropped(string[] files)
+        {
+            if (files.Length == 1)
+            {
+                var file = files.FirstOrDefault();
+                var dialogue = GD.Load<DialogueResource>(file);
+                GD.Print(dialogue);
+            }
+        }
+
 
         private void _SaveDialogue()
         {
@@ -48,37 +67,47 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         private void LoadFromResource()
         {
-            Zoom = _data.zoom;
-            ScrollOffset = _data.scrollOffset;
+            foreach (var child in GetChildren().OfType<GraphElement>())
+            {
+                child.QueueFree();
+            }
 
-            foreach (var data in _data.nodes)
+            Zoom = _data.Zoom;
+            ScrollOffset = _data.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
+            foreach (var data in _data.Nodes)
             {
                 if (data is LineData lineData)
                 {
                     CreateLineNode(lineData);
                 }
+                else if (data is EventData eventData)
+                {
+                    CreateEventNode(eventData);
+                }
                 // TODO add load for other data types
             }
 
-            foreach (var connection in _data.connections)
+            foreach (var connection in _data.Connections)
             {
                 var parsed = Utilities.ParseConnection(connection);
-                ConnectNode(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
+                var res = ConnectNode(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
             }
 
-            _UpdatePortraitVisibility(!_data.hidingPortraits);
+            _editing.Text = "Editing " + (_data.Name ?? _data.ResourceName);
+
+            _UpdatePortraitVisibility(!_data.HidingPortraits);
         }
 
         private void _OnConnectionRequest(StringName fromNode, long fromPort, StringName toNode, long toPort)
         {
             ConnectNode(fromNode, (int)fromPort, toNode, (int)toPort);
-            _data.connections = GetConnectionList();
+            _data.Connections = GetConnectionList();
         }
 
         private void _OnDisconnectionRequest(StringName fromNode, long fromPort, StringName toNode, long toPort)
         {
             DisconnectNode(fromNode, (int)fromPort, toNode, (int)toPort);
-            _data.connections = GetConnectionList();
+            _data.Connections = GetConnectionList();
         }
 
         private void _OnDeleteNodesRequest(Godot.Collections.Array nodes)
@@ -94,11 +123,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                     }
                 }
 
-                var node = GetNode<LineNode>(name);
-                _data.nodes.Remove(node.Data);
+                var node = GetNode<IDialogueNode>(name);
+                _data.Nodes.Remove(node.Data);
                 node.QueueFree();
             }
-            _data.connections = GetConnectionList();
+            _data.Connections = GetConnectionList();
         }
 
 
@@ -112,7 +141,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         private void _OnHidePortraitsButtonToggled(bool hiding)
         {
-            _data.hidingPortraits = hiding;
+            _data.HidingPortraits = hiding;
             _UpdatePortraitVisibility(!hiding);
         }
 
@@ -131,7 +160,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             {
                 if (button.ButtonIndex == MouseButton.WheelDown || button.ButtonIndex == MouseButton.WheelUp)
                 {
-                    _data.zoom = Zoom;
+                    _data.Zoom = Zoom;
                 }
             }
             else if (@event is InputEventWithModifiers modEvent && modEvent.ShiftPressed && Input.IsKeyPressed(Key.S))
@@ -145,14 +174,34 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             var created = _lineNode.Instantiate<LineNode>();
             created.Data = data ?? new()
             {
-                guid = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
             };
-            created.Name = created.Data.guid;
+            created.Name = created.Data.Guid;
+            this.Log("created " + created.Name);
             AddChild(created);
 
             if (data == null)
             {
-                _data.nodes.Add(created.Data);
+                _data.Nodes.Add(created.Data);
+            }
+
+            return created;
+        }
+
+        private EventNode CreateEventNode(EventData data = null, bool register = false)
+        {
+            var created = _eventNode.Instantiate<EventNode>();
+            created.Data = data ?? new()
+            {
+                Guid = Guid.NewGuid().ToString(),
+            };
+            created.Name = created.Data.Guid;
+            this.Log("created " + created.Name);
+            AddChild(created);
+
+            if (data == null)
+            {
+                _data.Nodes.Add(created.Data);
             }
 
             return created;
@@ -176,7 +225,34 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                     var node = CreateLineNode();
                     node.PositionOffset = _lastRightClickPosition;
                     break;
+                case NodeCreationPopup.NodeCreationOption.Event:
+                    var event_node = CreateEventNode();
+                    event_node.PositionOffset = _lastRightClickPosition;
+                    break;
             }
+        }
+
+        public override bool _CanDropData(Vector2 atPosition, Variant data)
+        {
+            var dict = data.AsGodotDictionary();
+            if (dict.TryGetValue("files", out Variant files))
+            {
+                if (files.AsStringArray().Length != 1) return false;
+                var resource = GD.Load(files.AsStringArray().First());
+                return resource is DialogueResource && resource != _data;
+            }
+
+            return false;
+        }
+        public override void _DropData(Vector2 atPosition, Variant data)
+        {
+            // be bold about this ,since _CanDropData has validated the variant
+            base._DropData(atPosition, data);
+            var dict = data.AsGodotDictionary();
+            var dialogue = GD.Load<DialogueResource>(dict["files"].AsStringArray().First());
+
+            _data = dialogue;
+            LoadFromResource();
         }
     }
 }

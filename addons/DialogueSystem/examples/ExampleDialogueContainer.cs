@@ -9,6 +9,8 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 {
 	public partial class ExampleDialogueContainer : PanelContainer
 	{
+		[Signal] public delegate void DummyEventEventHandler();
+
 		[Export] Label _nameLabel;
 		[Export] Label _lineLabel;
 		[Export] TextureRect _portrait;
@@ -20,7 +22,15 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 		{
 			DialogueChannel.DialogueLineUpdated += _OnDialogueLineUpdated;
 			DialogueChannel.DialogueEnded += _OnDialogueEnded;
-			DialogueChannel.Data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
+			var data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
+
+			var blackboard = Utilities.CreateEventBlackboard(new Utilities.EventBlackboardEntry()
+			{
+				EventName = "add_10_coins",
+				Emit = () => GD.Print($"This is a dummy placeholder for logic that grants the player 10 coins!")
+			});
+
+			DialogueChannel.Load(data, blackboard);
 		}
 
 		public override void _ExitTree()
@@ -47,9 +57,9 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 			_lineProgress = 0;
 			if (data is LineData lineData)
 			{
-				_nameLabel.Text = lineData.name;
-				_lineLabel.Text = lineData.line;
-				_portrait.Texture = lineData.portrait;
+				_nameLabel.Text = lineData.Name;
+				_lineLabel.Text = lineData.Line;
+				_portrait.Texture = lineData.Portrait;
 			}
 		}
 

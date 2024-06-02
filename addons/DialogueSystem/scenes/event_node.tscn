@@ -1,10 +1,22 @@
-[gd_scene format=3 uid="uid://cq6ogn4nj3s8w"]
+[gd_scene load_steps=3 format=3 uid="uid://cq6ogn4nj3s8w"]
 
-[node name="EventNode" type="GraphNode"]
-offset_right = 103.0
-offset_bottom = 86.0
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/EventNode.cs" id="1_pto8f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3eoe1"]
+bg_color = Color(0.507118, 0.379061, 2.88785e-07, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[node name="EventNode" type="GraphNode" node_paths=PackedStringArray("_eventName")]
+offset_right = 198.0
+offset_bottom = 82.0
 mouse_filter = 1
-title = "Event"
+theme_override_styles/titlebar = SubResource("StyleBoxFlat_3eoe1")
+title = " Event"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -14,8 +26,10 @@ slot/0/right_type = 0
 slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
+script = ExtResource("1_pto8f")
+_eventName = NodePath("EventName")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="EventName" type="LineEdit" parent="."]
 layout_mode = 2
-placeholder_text = "Emit..."
+placeholder_text = "Enter Event Name..."
 expand_to_text_length = true

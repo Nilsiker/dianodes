@@ -2,16 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/examples/ExampleDialogueContainer.cs" id="1_yv24s"]
 
-[node name="SimpleDialogue" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="DialogueContainer" type="PanelContainer" parent="." node_paths=PackedStringArray("_nameLabel", "_lineLabel", "_portrait")]
-layout_mode = 1
+[node name="ExampleDialogueContainer" type="PanelContainer" node_paths=PackedStringArray("_nameLabel", "_lineLabel", "_portrait")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,24 +14,24 @@ _nameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
 _lineLabel = NodePath("MarginContainer/VBoxContainer/LineLabel")
 _portrait = NodePath("MarginContainer/VBoxContainer/Portrait")
 
-[node name="MarginContainer" type="MarginContainer" parent="DialogueContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 60
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DialogueContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="DialogueContainer/MarginContainer/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 size_flags_horizontal = 4
 expand_mode = 1
 
-[node name="NameLabel" type="Label" parent="DialogueContainer/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.446777, 0.446777, 0.446777, 1)
@@ -49,7 +40,7 @@ text = "<name goes here>"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineLabel" type="Label" parent="DialogueContainer/MarginContainer/VBoxContainer"]
+[node name="LineLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 4
