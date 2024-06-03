@@ -24,13 +24,13 @@ Position = Vector2(680, -80)
 [resource]
 script = ExtResource("2_cdejx")
 Name = "Linear Example"
-ScrollOffset = Vector2(24, -310)
+ScrollOffset = Vector2(0, -200)
 Zoom = 0.879408
-HidingPortraits = false
-Connections = Array[Dictionary]([{
+ShowPortraits = false
+Connections = [{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",
 "from_port": 0,
 "to_node": &"18ba30e5-6d8a-4e90-85d2-2661a6960c63",
 "to_port": 0
-}])
-Nodes = Array[Object]([SubResource("Resource_qy2py"), SubResource("Resource_3xcm1")])
+}]
+Nodes = [SubResource("Resource_qy2py"), SubResource("Resource_3xcm1")]

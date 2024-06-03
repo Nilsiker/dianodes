@@ -19,14 +19,14 @@ Name = "Stranger"
 Line = "Hi..."
 Guid = "18ba30e5-6d8a-4e90-85d2-2661a6960c63"
 Size = Vector2(260, 366)
-Position = Vector2(660, -60)
+Position = Vector2(680, -80)
 
 [resource]
 script = ExtResource("3_3vn4g")
-Name = "Linear Example"
-ScrollOffset = Vector2(-407, -304)
-Zoom = 0.879408
-HidingPortraits = false
+Name = "Linear Examples"
+ScrollOffset = Vector2(-81.4994, -232.501)
+Zoom = 0.660712
+ShowPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",
 "from_port": 0,

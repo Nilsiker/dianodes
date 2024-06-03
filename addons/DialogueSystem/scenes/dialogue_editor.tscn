@@ -92,7 +92,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 split_offset = 200
 
-[node name="DialogueGraph" type="GraphEdit" parent="VBox/HSplitContainer" node_paths=PackedStringArray("_editor", "_editing", "_nodeCreationMenu", "_hidePortraitsButton")]
+[node name="DialogueGraph" type="GraphEdit" parent="VBox/HSplitContainer" node_paths=PackedStringArray("_editor", "_dialogueNameEdit", "_nodeCreationMenu", "_hidePortraitsButton")]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -104,23 +104,24 @@ show_zoom_label = true
 show_arrange_button = false
 script = ExtResource("2_jdveq")
 _editor = NodePath("../../..")
-_editing = NodePath("Editing")
+_dialogueNameEdit = NodePath("Editing")
 _nodeCreationMenu = NodePath("NodeCreationPopup")
 _hidePortraitsButton = NodePath("../../Menu/HidePortraitsButton")
 metadata/_edit_use_anchors_ = true
 
-[node name="Editing" type="Label" parent="VBox/HSplitContainer/DialogueGraph"]
+[node name="Editing" type="LineEdit" parent="VBox/HSplitContainer/DialogueGraph"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -78.0
 offset_top = 9.0
-offset_right = 79.0
-offset_bottom = 43.0
+offset_right = 145.0
+offset_bottom = 45.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
-text = "Editing Linear Dialogue"
+placeholder_text = "Enter dialogue name..."
+expand_to_text_length = true
 
 [node name="NodeCreationPopup" type="PopupMenu" parent="VBox/HSplitContainer/DialogueGraph"]
 size = Vector2i(185, 92)

@@ -13,7 +13,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         public bool HidePortraits => _hidePortraitsButton.ButtonPressed;
 
         [Export] DialogueEditor _editor = null!;
-        [Export] Label _editing = null!;
+        [Export] LineEdit _dialogueNameEdit = null!;
         [Export] PopupMenu _nodeCreationMenu = null!;
         [Export] CheckButton _hidePortraitsButton = null!;
 
@@ -21,7 +21,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
         PackedScene _conditionNode = GD.Load<PackedScene>(Utilities.GetScenePath("condition_node"));
-        Vector2 _lastRightClickPosition = default;
+        Vector2 _lastRightClickPosition;
 
         public override void _Ready()
         {
@@ -38,10 +38,27 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             PopupRequest += _OnPopupRequested;
 
-            _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
+            _dialogueNameEdit.TextChanged += _OnDialogueNameEditTextChanged;
 
+            _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
             ScrollOffsetChanged += _OnScrollOffsetChanged;
+        }
+
+        private void _OnEditorDataChanged(DialogueResource? resource)
+        {
+            if (resource == null) return;
+            if (_data is not null)
+            {
+            }
+            _data = resource;   // TODO remove this and handle all data fetches/updates through signals?
+            LoadFromResource(resource);
+        }
+
+        private void _OnDialogueNameEditTextChanged(string newText)
+        {
+            if (_data is null) return;
+            _data.Name = newText;
         }
 
         private void _OnScrollOffsetChanged(Vector2 offset)
@@ -49,14 +66,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             if (_data == null) return;
             _data.ScrollOffset = offset;
         }
-
-        private void _OnEditorDataChanged(DialogueResource? resource)
-        {
-            if (resource == null) return;
-            _data = resource;   // TODO remove this and handle all data fetches/updates through signals?
-            LoadFromResource(resource);
-        }
-
 
         private void _SaveDialogue()
         {
@@ -88,8 +97,8 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                 ConnectNode(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
             }
 
-            _editing.Text = resource.Name ?? resource.ResourceName;
-            _UpdatePortraitVisibility(!resource.HidingPortraits);
+            _dialogueNameEdit.Text = resource.Name ?? resource.ResourceName;
+            _UpdatePortraitVisibility(!resource.ShowPortraits);
         }
 
         private void _Clear()
@@ -153,7 +162,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         private void _OnHidePortraitsButtonToggled(bool hiding)
         {
             if (_data == null) return;
-            _data.HidingPortraits = hiding;
+            _data.ShowPortraits = hiding;
             _UpdatePortraitVisibility(!hiding);
         }
 
