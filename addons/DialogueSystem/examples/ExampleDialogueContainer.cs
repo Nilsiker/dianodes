@@ -12,9 +12,9 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 		[Signal] public delegate void DummyEventEventHandler();
 
 
-		[Export] Label _nameLabel;
-		[Export] Label _lineLabel;
-		[Export] TextureRect _portrait;
+		[Export] Label _nameLabel = null!;
+		[Export] Label _lineLabel = null!;
+		[Export] TextureRect _portrait = null!;
 		[Export] float _lineSpeed = 20;
 
 		float _lineProgress = 0;
@@ -36,15 +36,17 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 
 		public override void _ExitTree()
 		{
+#nullable disable
 			DialogueChannel.DialogueLineUpdated -= _OnDialogueLineUpdated;
 			DialogueChannel.DialogueEnded -= _OnDialogueEnded;
+#nullable enable
 		}
 
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
+			if (_lineLabel is null) return;
 			_lineProgress += (float)delta * _lineSpeed;
-
 			_lineLabel.VisibleCharacters = Mathf.FloorToInt(_lineProgress);
 		}
 

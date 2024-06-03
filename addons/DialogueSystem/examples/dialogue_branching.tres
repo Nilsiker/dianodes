@@ -51,8 +51,8 @@ Position = Vector2(1060, 120)
 [resource]
 script = ExtResource("6_onxkk")
 Name = "Branching Dialogue"
-ScrollOffset = Vector2(75, -188)
-Zoom = 0.799462
+ScrollOffset = Vector2(0, -141.2)
+Zoom = 0.879408
 HidingPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
