@@ -13,10 +13,10 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
         public static Action<NodeData>? DialogueLineUpdated { get; set; }
         public static Action? DialogueEnded { get; set; }
 
-        public static void UpdateLine(NodeData? line) => DialogueLineUpdated?.Invoke(line);
+        public static void UpdateLine(NodeData line) => DialogueLineUpdated?.Invoke(line);
 
         private static string? current;
-        private static DialogueResource _data;
+        private static DialogueResource? _data;
         public static DialogueResource Data
         {
             set
@@ -28,7 +28,7 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
             }
         }
 
-        public static Dictionary<string, Delegate>? blackboard;
+        public static Dictionary<string, Delegate> blackboard = new();
 
         public static void Load(DialogueResource data, Dictionary<string, Delegate> blackboard)
         {
@@ -36,11 +36,11 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
             DialogueChannel.blackboard = blackboard;
         }
 
-
         public static void Progress(int slot)
         {
-            var next = _data.GetNode(current, slot);
-            GD.Print("Next is: ", Json.Stringify(next));
+            if (current == null) return;
+
+            NodeData? next = _data.GetNode(current, slot);
             if (next != null)
             {
                 current = next.Guid;
@@ -55,7 +55,6 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
                         else
                         {
                             GD.PushWarning($@"Event ""{ed.EventName}"" not found in dialogue blackboard.");
-
                         }
                         Progress(0);
                         return;
