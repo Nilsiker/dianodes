@@ -39,7 +39,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
 		private void _SaveResourceToPreview()
 		{
-			var path = "res://addons/DialogueSystem/examples/preview_dialogue.tres";
+			var path = Constants.Paths.PreviewDialogueResource;
 			ResourceSaver.Singleton.Save(_resource, path);
 			EditorInterface.Singleton.GetResourceFilesystem().UpdateFile(path);
 			EditorInterface.Singleton.GetResourceFilesystem().ReimportFiles(new[] { path });

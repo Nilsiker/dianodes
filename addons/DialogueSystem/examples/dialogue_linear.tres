@@ -24,8 +24,8 @@ Position = Vector2(680, -80)
 [resource]
 script = ExtResource("3_3vn4g")
 Name = "Linear Examples"
-ScrollOffset = Vector2(-81.4994, -232.501)
-Zoom = 0.660712
+ScrollOffset = Vector2(2.73943, -153.014)
+Zoom = 1.17049
 ShowPortraits = false
 Connections = Array[Dictionary]([{
 "from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",

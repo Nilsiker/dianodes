@@ -29,7 +29,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 				new("add_10_coins", () => GD.Print("Add 10 coins!")),
 				new("feeling_generous", () => Rnd.Chance(50))
 			);
-			var data = GD.Load<DialogueResource>("res://addons/DialogueSystem/examples/example_dialogue.tres");
+			var data = GD.Load<DialogueResource>(Constants.Paths.PreviewDialogueResource);
 			this.Log("Example Dialogue starting: " + data.Name);
 			DialogueChannel.Load(data, delegates);
 		}

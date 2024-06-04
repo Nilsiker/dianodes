@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=6 format=3 uid="uid://dgwx8gawa3qyt"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=6 format=3 uid="uid://i6jwaie3w66m"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_jnf35"]
