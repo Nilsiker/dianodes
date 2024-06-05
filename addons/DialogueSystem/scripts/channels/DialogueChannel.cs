@@ -15,7 +15,7 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
 
         public static void UpdateLine(NodeData line) => DialogueLineUpdated?.Invoke(line);
 
-        private static string? current;
+        private static StringName? current;
         private static DialogueResource? _data;
         public static DialogueResource Data
         {

@@ -17,12 +17,15 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         [Export] PopupMenu _nodeCreationMenu = null!;
         [Export] CheckButton _hidePortraitsButton = null!;
 
+
         DialogueResource? _data;
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
         PackedScene _conditionNode = GD.Load<PackedScene>(Utilities.GetScenePath("condition_node"));
         Vector2 _lastRightClickPosition;
 
+
+        #region Godot Methods
         public override void _Ready()
         {
             if (GetTree().CurrentScene == this) return;
@@ -30,148 +33,18 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             _editor.DataChanged += _OnEditorDataChanged;
 
-            ConnectionRequest += _OnConnectionRequest;
-            DisconnectionRequest += _OnDisconnectionRequest;
+            ConnectionRequest += _OnConnectionRequested;
+            DisconnectionRequest += _OnDisconnectionRequested;
             ConnectionToEmpty += _OnConnectionToEmpty;
 
-            DeleteNodesRequest += _OnDeleteNodesRequest;
+            _dialogueNameEdit.TextChanged += _OnDialogueNameEditTextChanged;
+            _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
+            ScrollOffsetChanged += _OnScrollOffsetChanged;
 
             PopupRequest += _OnPopupRequested;
 
-            _dialogueNameEdit.TextChanged += _OnDialogueNameEditTextChanged;
-
-            _hidePortraitsButton.Toggled += _OnHidePortraitsButtonToggled;
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
-            ScrollOffsetChanged += _OnScrollOffsetChanged;
-        }
-
-        private void _OnEditorDataChanged(DialogueResource? resource)
-        {
-            if (resource == null) return;
-            if (_data is not null)
-            {
-            }
-            _data = resource;   // TODO remove this and handle all data fetches/updates through signals?
-            LoadFromResource(resource);
-        }
-
-        private void _OnDialogueNameEditTextChanged(string newText)
-        {
-            if (_data is null) return;
-            _data.Name = newText;
-        }
-
-        private void _OnScrollOffsetChanged(Vector2 offset)
-        {
-            if (_data == null) return;
-            _data.ScrollOffset = offset;
-        }
-
-        private void _SaveDialogue()
-        {
-            var res = ResourceSaver.Singleton.Save(_data);
-            this.Log(res);
-        }
-
-        private void LoadFromResource(DialogueResource resource)
-        {
-            _Clear();
-
-            Zoom = resource.Zoom;
-            ScrollOffset = resource.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
-            foreach (var data in resource.Nodes)
-            {
-                var node = data switch
-                {
-                    LineData ld => CreateNode<LineNode, LineData>(_lineNode, ld),
-                    EventData ed => CreateNode<EventNode, EventData>(_eventNode, ed),
-                    ConditionData cd => CreateNode<ConditionNode, ConditionData>(_conditionNode, cd),
-                    _ => throw new NotImplementedException(),
-                };
-                AddChild(node);
-            }
-
-            foreach (var connection in resource.Connections)
-            {
-                var parsed = Utilities.ParseConnection(connection);
-                ConnectNode(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
-            }
-
-            _dialogueNameEdit.Text = resource.Name ?? resource.ResourceName;
-            _UpdatePortraitVisibility(!resource.ShowPortraits);
-        }
-
-        private void _Clear()
-        {
-            ClearConnections();
-            foreach (var child in GetChildren().OfType<GraphElement>())
-            {
-                child.QueueFree();
-            }
-        }
-
-
-        private void _OnConnectionRequest(StringName fromNode, long fromPort, StringName toNode, long toPort)
-        {
-            if (_data is null) return;
-
-            ConnectNode(fromNode, (int)fromPort, toNode, (int)toPort);
-            this.Log("Connection request: " + fromNode + ":" + fromPort + " -> " + toNode + ":" + toPort);
-            _data.Connections = GetConnectionList();
-        }
-
-        private void _OnDisconnectionRequest(StringName fromNode, long fromPort, StringName toNode, long toPort)
-        {
-            if (_data is null) return;
-
-            DisconnectNode(fromNode, (int)fromPort, toNode, (int)toPort);
-            _data.Connections = GetConnectionList();
-        }
-
-        private void _OnDeleteNodesRequest(Godot.Collections.Array nodes)
-        {
-            if (_data is null) return;
-
-            foreach (string name in nodes)
-            {
-                foreach (var connection in GetConnectionList())
-                {
-                    var parsed = Utilities.ParseConnection(connection);
-                    if (parsed.FromNode == name || parsed.ToNode == name)
-                    {
-                        _OnDisconnectionRequest(parsed.FromNode, parsed.FromPort, parsed.ToNode, parsed.ToPort);
-                    }
-                }
-
-                var node = GetNode<IDialogueNode>(name);
-                _data.Nodes.Remove(node.Data);
-                node.QueueFree();
-            }
-            _data.Connections = GetConnectionList();
-        }
-
-
-        private void _OnConnectionToEmpty(StringName fromNode, long fromPort, Vector2 releasePosition)
-        {
-            _nodeCreationMenu.Visible = true;
-            var targetPosition = GetScreenPosition() + releasePosition;
-            _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
-            _lastRightClickPosition = (GetLocalMousePosition() + ScrollOffset) / Zoom;
-        }
-
-        private void _OnHidePortraitsButtonToggled(bool hiding)
-        {
-            if (_data == null) return;
-            _data.ShowPortraits = hiding;
-            _UpdatePortraitVisibility(!hiding);
-        }
-
-        private void _UpdatePortraitVisibility(bool visible)
-        {
-            foreach (var child in GetChildren().OfType<IHasPortrait>())
-            {
-                child.SetPortraitVisibility(visible);
-            }
+            DeleteNodesRequest += _OnDeleteNodesRequest;
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -191,26 +64,110 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                 _SaveDialogue();
             }
         }
+        #endregion
 
-        private DialogueNode CreateNode<T, U>(PackedScene scene, NodeData data = null, bool register = false)
+        #region Data Event Handlers
+        private void _OnEditorDataChanged(DialogueResource? resource)
+        {
+            _UnregisterCurrentData();   // always try and unregister, since the plugin might shut down and be reset
+
+            if (resource == null) return;
+
+            _RegisterData(resource);
+
+            _data = resource;   // TODO remove this and handle all data fetches/updates through signals?
+            this.Log("data changed to " + resource.Name);
+
+            _LoadFromResource(resource);
+        }
+
+        private void _RegisterData(DialogueResource resource)
+        {
+            resource.NodeAdded += _OnDataNodeAdded;
+            resource.NodeRemoved += _OnDataNodeRemoved;
+            resource.ConnectionAdded += _OnConnectionAdded;
+            resource.ConnectionRemoved += _OnConnectionRemoved;
+            resource.ShowPortraitsChanged += _OnDataShowPortraitsChanged;
+            this.Log("registered new resource " + resource.Name);
+        }
+
+        private void _UnregisterCurrentData()
+        {
+            if (_data is null) return;
+            _data.NodeAdded -= _OnDataNodeAdded;
+            _data.NodeRemoved -= _OnDataNodeRemoved;
+            _data.ConnectionAdded -= _OnConnectionAdded;
+            _data.ConnectionRemoved -= _OnConnectionRemoved;
+            _data.ShowPortraitsChanged -= _OnDataShowPortraitsChanged;
+            this.Log("unregistered current resource " + _data.Name);
+        }
+
+        private void _OnDataNodeAdded(NodeData data)
+        {
+            var node = data switch
+            {
+                LineData ld => _CreateNode<LineNode, LineData>(_lineNode, ld),
+                EventData ed => _CreateNode<EventNode, EventData>(_eventNode, ed),
+                ConditionData cd => _CreateNode<ConditionNode, ConditionData>(_conditionNode, cd),
+                _ => throw new NotImplementedException(),
+            };
+            AddChild(node);
+            this.Log($"Added node {node?.Name} to graph.");
+        }
+
+        private void _OnDataNodeRemoved(NodeData data)
+        {
+            var node = GetChildren()
+                .OfType<DialogueNode>()
+                .Where(node => node.Data == data)
+                .First();
+            node.QueueFree();
+        }
+
+        private void _OnConnectionAdded(Connection connection)
+        {
+            if (_data is null) return;
+            ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
+            this.Log("Connection request: " + connection.FromNode + ":" + connection.FromPort + " -> " + connection.ToNode + ":" + connection.ToPort);
+        }
+
+        private void _OnConnectionRemoved(Connection connection)
+        {
+            if (_data is null) return;
+            DisconnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
+        }
+        #endregion
+
+        #region Data Helpers
+        private DialogueNode? _CreateNode<T, U>(PackedScene scene, NodeData data)
         where T : DialogueNode
         where U : NodeData, new()
         {
+            if (_data is null) return null;
+
             var created = scene.Instantiate<T>();
+
             created.Data = data ?? new U();
-            this.Log("created " + created.Name);
-
             created.Name = created.Data.Guid;
-            this.Log("added to graph as " + created.Name);
-
-
-            if (data == null)
-            {
-                _data.Nodes.Add(created.Data);
-            }
+            created.PositionOffset = created.Data.Position;
 
             return created;
         }
+        #endregion
+
+        #region UI Event Handlers
+        private void _OnDialogueNameEditTextChanged(string newText)
+        {
+            if (_data is null) return;
+            _data.Name = newText;
+        }
+
+        private void _OnScrollOffsetChanged(Vector2 offset)
+        {
+            if (_data == null) return;
+            _data.ScrollOffset = offset;
+        }
+
 
         private void _OnPopupRequested(Vector2 atPosition)
         {
@@ -222,15 +179,123 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         private void _OnNodeCreationPopupIndexPressed(long option)
         {
-            var node = (NodeCreationPopup.NodeCreationOption)option switch
+            if (_data is null) return;
+
+            NodeData data = (NodeCreationPopup.NodeCreationOption)option switch
             {
-                NodeCreationPopup.NodeCreationOption.Line => CreateNode<LineNode, LineData>(_lineNode),
-                NodeCreationPopup.NodeCreationOption.Event => CreateNode<EventNode, EventData>(_eventNode),
-                NodeCreationPopup.NodeCreationOption.Condition => CreateNode<ConditionNode, ConditionData>(_conditionNode),
+                NodeCreationPopup.NodeCreationOption.Line => new LineData(),
+                NodeCreationPopup.NodeCreationOption.Event => new EventData(),
+                NodeCreationPopup.NodeCreationOption.Condition => new ConditionData(),
                 _ => throw new NotImplementedException(),
             };
-            node.PositionOffset = _lastRightClickPosition;
-            AddChild(node);
+
+            data.Position = _lastRightClickPosition;
+            _data.AddNode(data);
+        }
+
+        private void _OnDeleteNodesRequest(Godot.Collections.Array nodes)
+        {
+            if (_data is null) return;
+
+            foreach (string name in nodes)
+            {
+                var node = GetNode<IDialogueNode>(name);
+                _data.RemoveNode(node.Data);
+            }
+        }
+
+        private void _OnConnectionRequested(StringName fromNode, long fromPort, StringName toNode, long toPort)
+        {
+            if (_data is null) return;
+            Connection connection = new Connection
+            {
+                FromNode = fromNode.ToString(),
+                FromPort = (int)fromPort,
+                ToNode = toNode.ToString(),
+                ToPort = (int)toPort
+            };
+            _data.AddConnection(connection);
+        }
+
+        private void _OnDisconnectionRequested(StringName fromNode, long fromPort, StringName toNode, long toPort)
+        {
+            if (_data is null) return;
+            Connection connection = new Connection
+            {
+                FromNode = fromNode.ToString(),
+                FromPort = (int)fromPort,
+                ToNode = toNode.ToString(),
+                ToPort = (int)toPort
+            };
+            _data.RemoveConnection(connection);
+        }
+
+        private void _OnConnectionToEmpty(StringName fromNode, long fromPort, Vector2 releasePosition)
+        {
+            _nodeCreationMenu.Visible = true;
+            var targetPosition = GetScreenPosition() + releasePosition;
+            _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
+            _lastRightClickPosition = (GetLocalMousePosition() + ScrollOffset) / Zoom;
+            // TODO implement!
+        }
+
+        private void _OnHidePortraitsButtonToggled(bool hiding)
+        {
+            if (_data == null) return;
+            _data.ShowPortraits = hiding;
+        }
+        #endregion
+
+        #region UI Helpers
+        private void _SaveDialogue()
+        {
+            var res = ResourceSaver.Singleton.Save(_data);
+            this.Log(res);
+        }
+
+        private void _LoadFromResource(DialogueResource resource)
+        {
+            _Clear();
+
+            Zoom = resource.Zoom;
+            ScrollOffset = resource.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
+            foreach (var data in resource.Nodes)
+            {
+                var node = data switch
+                {
+                    LineData ld => _CreateNode<LineNode, LineData>(_lineNode, ld),
+                    EventData ed => _CreateNode<EventNode, EventData>(_eventNode, ed),
+                    ConditionData cd => _CreateNode<ConditionNode, ConditionData>(_conditionNode, cd),
+                    _ => throw new NotImplementedException(),
+                };
+                AddChild(node);
+            }
+
+            foreach (var connection in resource.Connections)
+            {
+                ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
+            }
+
+            _dialogueNameEdit.Text = resource.Name ?? resource.ResourceName;
+            _OnDataShowPortraitsChanged(!resource.ShowPortraits);
+        }
+
+        private void _Clear()
+        {
+            ClearConnections();
+            foreach (var child in GetChildren().OfType<GraphElement>())
+            {
+                child.QueueFree();
+            }
+        }
+        #endregion
+
+        private void _OnDataShowPortraitsChanged(bool visible)
+        {
+            foreach (var child in GetChildren().OfType<IHasPortrait>())
+            {
+                child.SetPortraitVisibility(visible);
+            }
         }
     }
 }

@@ -32,8 +32,15 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			_runButton.Pressed += _OnTestButtonPressed;
 		}
 
+		public override void _ExitTree()
+		{
+			base._ExitTree();
+			Data = null;
+		}
+
 		private void _OnTestButtonPressed()
 		{
+			_SaveResourceToPreview();
 			_preview.Play();
 		}
 

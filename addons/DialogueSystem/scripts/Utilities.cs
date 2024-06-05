@@ -5,14 +5,6 @@ using Godot;
 
 namespace Nilsiker.GodotTools.Dialogue
 {
-    public class Connection
-    {
-        public string FromNode { get; set; }
-        public int FromPort { get; set; }
-        public string ToNode { get; set; }
-        public int ToPort { get; set; }
-    }
-
     public class Utilities
     {
         public static string PluginPath => "res://addons/DialogueSystem";

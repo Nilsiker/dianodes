@@ -1,36 +1,39 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=6 format=3 uid="uid://i6jwaie3w66m"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=8 format=3 uid="uid://bqokey55phuwb"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="1_7fuci"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_jnf35"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_wykwi"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="2_cdejx"]
+
+[sub_resource type="Resource" id="Resource_0ksm6"]
+script = ExtResource("1_wykwi")
+FromNode = &"5e737590-0fc3-4b88-ab44-0c6de864411d"
+FromPort = 0
+ToNode = &"791b3dc7-bef4-4336-b033-f4f3994c4040"
+ToPort = 0
 
 [sub_resource type="Resource" id="Resource_qy2py"]
 script = ExtResource("1_7fuci")
 Name = "Player"
 Line = "Hello stranger!"
 Portrait = ExtResource("1_jnf35")
-Guid = "5e737590-0fc3-4b88-ab44-0c6de864411d"
+Guid = &"5e737590-0fc3-4b88-ab44-0c6de864411d"
 Size = Vector2(280, 366)
 Position = Vector2(240, -80)
 
-[sub_resource type="Resource" id="Resource_3xcm1"]
+[sub_resource type="Resource" id="Resource_q5jgr"]
 script = ExtResource("1_7fuci")
-Name = "Stranger"
-Line = "Hi..."
-Guid = "18ba30e5-6d8a-4e90-85d2-2661a6960c63"
-Size = Vector2(260, 366)
-Position = Vector2(680, -80)
+Name = "C"
+Line = ""
+Guid = &"791b3dc7-bef4-4336-b033-f4f3994c4040"
+Size = Vector2(260, 350)
+Position = Vector2(1569.55, 77.1051)
 
 [resource]
 script = ExtResource("2_cdejx")
-Name = "Linear Example"
-ScrollOffset = Vector2(0, -200)
-Zoom = 0.879408
+Name = "Linear Examples"
+ScrollOffset = Vector2(-279.871, -259.954)
+Zoom = 1.06408
 ShowPortraits = false
-Connections = [{
-"from_node": &"5e737590-0fc3-4b88-ab44-0c6de864411d",
-"from_port": 0,
-"to_node": &"18ba30e5-6d8a-4e90-85d2-2661a6960c63",
-"to_port": 0
-}]
-Nodes = [SubResource("Resource_qy2py"), SubResource("Resource_3xcm1")]
+Connections = [SubResource("Resource_0ksm6")]
+Nodes = [SubResource("Resource_qy2py"), SubResource("Resource_q5jgr")]

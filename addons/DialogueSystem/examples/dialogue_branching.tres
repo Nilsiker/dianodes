@@ -12,7 +12,7 @@ script = ExtResource("2_h23j4")
 Name = "Player"
 Line = "Hello stranger, can you spare some coin?"
 Portrait = ExtResource("1_ru5dx")
-Guid = "5f737590-0fc3-4b88-ab44-0c6de864411d"
+Guid = &"5f737590-0fc3-4b88-ab44-0c6de864411d"
 Size = Vector2(280, 368)
 Position = Vector2(680, -80)
 
@@ -21,14 +21,14 @@ script = ExtResource("2_h23j4")
 Name = "Stranger"
 Line = "Here, have some coins, it's the least I can do. Take care!"
 Portrait = ExtResource("3_ar1qm")
-Guid = "980a333a-2af5-482e-86f9-312cecf109d9"
+Guid = &"980a333a-2af5-482e-86f9-312cecf109d9"
 Size = Vector2(380, 380)
 Position = Vector2(1420, -60)
 
 [sub_resource type="Resource" id="Resource_7g7qf"]
 script = ExtResource("4_a2rni")
 EventName = "add_10_coins"
-Guid = "ad488a5e-2d40-4b8f-a580-9d886687680b"
+Guid = &"ad488a5e-2d40-4b8f-a580-9d886687680b"
 Size = Vector2(0, 0)
 Position = Vector2(1260, 60)
 
@@ -37,42 +37,22 @@ script = ExtResource("2_h23j4")
 Name = "Stranger"
 Line = "I must be going, take care."
 Portrait = ExtResource("3_ar1qm")
-Guid = "1ee982ae-856b-4378-af7b-abe0de48dd46"
+Guid = &"1ee982ae-856b-4378-af7b-abe0de48dd46"
 Size = Vector2(320.001, 366)
 Position = Vector2(1300, 320)
 
 [sub_resource type="Resource" id="Resource_u8mwh"]
 script = ExtResource("5_jqfvj")
 ConditionName = "feeling_generous"
-Guid = "b2674287-0cdf-461d-b76a-1a7a1dde1435"
+Guid = &"b2674287-0cdf-461d-b76a-1a7a1dde1435"
 Size = Vector2(0, 0)
 Position = Vector2(1060, 120)
 
 [resource]
 script = ExtResource("6_onxkk")
 Name = "Branching Dialogue"
-ScrollOffset = Vector2(0, -234.617)
+ScrollOffset = Vector2(0, -300.617)
 Zoom = 0.600647
 ShowPortraits = false
-Connections = Array[Dictionary]([{
-"from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
-"from_port": 0,
-"to_node": &"ad488a5e-2d40-4b8f-a580-9d886687680b",
-"to_port": 0
-}, {
-"from_node": &"ad488a5e-2d40-4b8f-a580-9d886687680b",
-"from_port": 0,
-"to_node": &"980a333a-2af5-482e-86f9-312cecf109d9",
-"to_port": 0
-}, {
-"from_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
-"from_port": 1,
-"to_node": &"1ee982ae-856b-4378-af7b-abe0de48dd46",
-"to_port": 0
-}, {
-"from_node": &"5f737590-0fc3-4b88-ab44-0c6de864411d",
-"from_port": 0,
-"to_node": &"b2674287-0cdf-461d-b76a-1a7a1dde1435",
-"to_port": 0
-}])
-Nodes = Array[Object]([SubResource("Resource_qy2py"), SubResource("Resource_1lcuq"), SubResource("Resource_7g7qf"), SubResource("Resource_e3bes"), SubResource("Resource_u8mwh")])
+Connections = []
+Nodes = [SubResource("Resource_qy2py"), SubResource("Resource_1lcuq"), SubResource("Resource_7g7qf"), SubResource("Resource_e3bes"), SubResource("Resource_u8mwh")]
