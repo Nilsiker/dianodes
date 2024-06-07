@@ -8,16 +8,20 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 	[Tool]
 	public partial class DialogueEditor : Control
 	{
+		public DialogueFiles Files => _files;
+		public DialogueGraph Graph => _graph;
+
+		[Export] DialogueFiles _files = null!;
 		[Export] DialogueGraph _graph = null!;
 		[Export] DialoguePreview _preview = null!;
 		[Export] Button _runButton = null!;
-
-		DialogueResource _data = GD.Load<DialogueResource>(Constants.Paths.TempDialogueResource);
 
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
 			_runButton.Pressed += _OnTestButtonPressed;
+			_files.FilePicked += _OnFilePicked;
+			_graph.DataModified += _OnGraphDataModified;
 		}
 
 		public override void _ExitTree()
@@ -26,43 +30,35 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 			this.Log("editor exiting tree");
 		}
 
-		public void LoadResource(DialogueResource resource)
-		{
-			if (resource is null) return;
-
-			_data.Name = resource.Name;
-			_data.Nodes = new(resource.Nodes);
-			_data.Connections = new(resource.Connections);
-			_data.ScrollOffset = resource.ScrollOffset;
-			_data.Zoom = resource.Zoom;
-			_data.ShowPortraits = resource.ShowPortraits;
-
-			_graph.Refresh();
-		}
-
 		public override void _UnhandledInput(InputEvent @event)
 		{
 
 			if (@event is InputEventWithModifiers modEvent && modEvent.ShiftPressed && Input.IsKeyPressed(Key.S))
 			{
-				_SaveDialogue();
+				Files.SaveFile();
 			}
 		}
 
-
-		private void _SaveDialogue()
+		public void LoadResource(DialogueResource resource)
 		{
-			var loadedPath = ProjectSettings.Singleton.GetSetting("dialogue/loaded_path").AsString();
-			this.Log($"Saving {_data.ResourcePath} to {loadedPath}");
-			var res = ResourceSaver.Singleton.Save(_data, loadedPath);
-			ResourceLoader.Load<DialogueResource>(loadedPath, "DialogueResource", ResourceLoader.CacheMode.Replace);
-
-			this.Log(res);
+			if (resource is null) return;
+			_graph.RegisterData(resource);
 		}
 
 		private void _OnTestButtonPressed()
 		{
-			_preview.Play();
+			_preview.Play(_files.OpenedDialoguePath);
+		}
+
+		private void _OnFilePicked(DialogueResource resource)
+		{
+			this.Log($"picked {resource.Name}");
+			LoadResource(resource);
+		}
+
+		private void _OnGraphDataModified()
+		{
+			_files.MarkCurrentAsModified();
 		}
 	}
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch4l2gfdn2k0w"]
+[gd_scene load_steps=11 format=3 uid="uid://ch4l2gfdn2k0w"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueEditor.cs" id="1_ooesh"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueGraph.cs" id="2_jdveq"]
 [ext_resource type="Texture2D" uid="uid://dl2kn66hcvc10" path="res://addons/DialogueSystem/icons/play.svg" id="2_llwop"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueFiles.cs" id="3_qnsr4"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_wyifm"]
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/DialogueSystem/icons/event.svg" id="6_j45qr"]
 [ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/DialogueSystem/icons/condition.svg" id="6_or5hw"]
@@ -27,7 +28,7 @@ public partial class RunButton : Button
 }
 "
 
-[node name="DialogueEditor" type="Control" node_paths=PackedStringArray("_graph", "_preview", "_runButton")]
+[node name="DialogueEditor" type="Control" node_paths=PackedStringArray("_files", "_graph", "_preview", "_runButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +38,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_ooesh")
+_files = NodePath("VBox/HSplitContainer/VSplitContainer/Files")
 _graph = NodePath("VBox/HSplitContainer/DialogueGraph")
 _preview = NodePath("DialoguePreview")
 _runButton = NodePath("VBox/Menu/RunButton")
@@ -99,20 +101,14 @@ layout_mode = 2
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="Callbacks" type="ItemList" parent="VBox/HSplitContainer/VSplitContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_vertical = 3
+script = ExtResource("3_qnsr4")
 
 [node name="DialogueGraph" type="GraphEdit" parent="VBox/HSplitContainer" node_paths=PackedStringArray("_editor", "_dialogueNameEdit", "_nodeCreationMenu", "_hidePortraitsButton")]
-custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-scroll_offset = Vector2(0, -200)
 right_disconnects = true
-zoom = 1.17049
+zoom = 1.28754
 show_zoom_label = true
 show_arrange_button = false
 script = ExtResource("2_jdveq")

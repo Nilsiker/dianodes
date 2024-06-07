@@ -13,6 +13,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Models
         public NodeResource()
         {
             Guid = System.Guid.NewGuid().ToString();
+            ResourceLocalToScene = true;
         }
     }
 }

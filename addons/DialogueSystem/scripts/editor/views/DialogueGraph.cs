@@ -10,6 +10,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
     [Tool]
     public partial class DialogueGraph : GraphEdit
     {
+        public Action? DataModified { get; set; }
         public bool HidePortraits => _hidePortraitsButton.ButtonPressed;
 
         [Export] DialogueEditor _editor = null!;
@@ -17,8 +18,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         [Export] PopupMenu _nodeCreationMenu = null!;
         [Export] CheckButton _hidePortraitsButton = null!;
 
-        DialogueResource _data = GD.Load<DialogueResource>(Constants.Paths.TempDialogueResource);
-        string LoadedPath => (string)ProjectSettings.Singleton.GetSetting("dialogue_loaded_path");
+        DialogueResource _data = null!;
 
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
@@ -28,12 +28,13 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         StringName? _connectToNode;
         int? _connectToPort;
 
-        public void Refresh()
+        private void _Refresh()
         {
             _Clear();
+            if (_data is null) return;
+
             this.Log($"refreshing to reflect data: {_data.Name} ({_data.ResourcePath})");
-            Zoom = _data.Zoom;
-            ScrollOffset = _data.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
+
             foreach (var data in _data.Nodes)
             {
                 var node = data switch
@@ -44,16 +45,16 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                     _ => throw new NotImplementedException(),
                 };
                 AddChild(node);
-                this.Log($"Added node to graph as {node?.Name}");
             }
 
             foreach (var connection in _data.Connections)
             {
                 ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
-                this.Log($"Added connection {connection.FromNode}:{connection.FromPort} -> {connection.ToNode}:{connection.ToPort}");
-            }
+            }S
 
             _dialogueNameEdit.Text = _data.Name ?? _data.ResourceName;
+            Zoom = _data.Zoom;
+            ScrollOffset = _data.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
             _OnDataShowPortraitsChanged(_data.ShowPortraits);
         }
 
@@ -62,6 +63,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         {
             if (GetTree().CurrentScene == this) return;
             base._Ready();
+
             _Clear();
             // UI
             ConnectionRequest += _OnConnectionRequested;
@@ -77,10 +79,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
             DeleteNodesRequest += _OnDeleteNodesRequest;
 
-            // Data
-            _RegisterData();
-
-            Refresh();
+            _Refresh();
         }
 
         public override void _ExitTree()
@@ -105,14 +104,19 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         #endregion
 
         #region Data Event Handlers
-        private void _RegisterData()
+
+
+
+        public void RegisterData(DialogueResource data)
         {
+            _UnregisterCurrentData();
+            _data = data;
             _data.NodeAdded += _OnDataNodeAdded;
             _data.NodeRemoved += _OnDataNodeRemoved;
             _data.ConnectionAdded += _OnConnectionAdded;
             _data.ConnectionRemoved += _OnConnectionRemoved;
             _data.ShowPortraitsChanged += _OnDataShowPortraitsChanged;
-            this.Log("registered new resource " + _data.Name);
+            _Refresh();
         }
 
         private void _UnregisterCurrentData()
@@ -123,11 +127,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             _data.ConnectionAdded -= _OnConnectionAdded;
             _data.ConnectionRemoved -= _OnConnectionRemoved;
             _data.ShowPortraitsChanged -= _OnDataShowPortraitsChanged;
-            this.Log("unregistered current resource " + _data.Name);
         }
 
         private void _OnDataNodeAdded(NodeResource data)
         {
+            DataModified?.Invoke();
             var node = data switch
             {
                 LineNodeResource ld => _CreateNode<LineNode, LineNodeResource>(_lineNode, ld),
@@ -136,11 +140,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                 _ => throw new NotImplementedException(),
             };
             AddChild(node);
-            this.Log($"Added node {node?.Name} to graph.");
         }
 
         private void _OnDataNodeRemoved(NodeResource data)
         {
+            DataModified?.Invoke();
             var node = GetChildren()
                 .OfType<DialogueNode>()
                 .Where(node => node.Data == data)
@@ -150,16 +154,14 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         private void _OnConnectionAdded(Connection connection)
         {
-            if (_data is null) return;
+            DataModified?.Invoke();
             ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
-            this.Log("Connection request: " + connection.FromNode + ":" + connection.FromPort + " -> " + connection.ToNode + ":" + connection.ToPort);
         }
 
         private void _OnConnectionRemoved(Connection connection)
         {
-            if (_data is null) return;
+            DataModified?.Invoke();
             DisconnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
-            this.Log("Connection removed: " + connection.FromNode + ":" + connection.FromPort + " -> " + connection.ToNode + ":" + connection.ToPort);
 
         }
 
@@ -199,6 +201,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         private void _OnScrollOffsetChanged(Vector2 offset)
         {
             if (_data == null) return;
+            this.Log(offset);
             _data.ScrollOffset = offset;
         }
 

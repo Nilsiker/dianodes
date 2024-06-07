@@ -11,6 +11,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 	{
 		[Signal] public delegate void DummyEventEventHandler();
 
+		public string DataPath = "";
 
 		[Export] Label _nameLabel = null!;
 		[Export] Label _lineLabel = null!;
@@ -19,8 +20,7 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 
 		float _lineProgress = 0;
 
-		// Called when the node enters the scene tree for the first time.
-		public override void _Ready()
+		public void Start()
 		{
 			DialogueChannel.DialogueLineUpdated += _OnDialogueLineUpdated;
 			DialogueChannel.DialogueEnded += _OnDialogueEnded;
@@ -30,17 +30,16 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 				new("feeling_generous", () => Rnd.Chance(50))
 			);
 
-			var data = GD.Load<DialogueResource>(Constants.Paths.TempDialogueResource);
+			var data = GD.Load<DialogueResource>(DataPath);
+
 			this.Log("Example Dialogue starting: " + data.Name);
 			DialogueChannel.Load(data, delegates);
 		}
 
 		public override void _ExitTree()
 		{
-#nullable disable
 			DialogueChannel.DialogueLineUpdated -= _OnDialogueLineUpdated;
 			DialogueChannel.DialogueEnded -= _OnDialogueEnded;
-#nullable enable
 		}
 
 		public override void _Process(double delta)

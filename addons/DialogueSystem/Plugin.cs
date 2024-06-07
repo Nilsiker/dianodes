@@ -17,7 +17,7 @@ namespace Nilsiker.GodotTools.Dialogue
 		PackedScene _mainControl = GD.Load<PackedScene>(GetScenePath("dialogue_editor"));
 		Texture2D _icon = GD.Load<Texture2D>(GetSvgPath("dialogue"));
 		Texture2D _resourceIcon = GD.Load<Texture2D>("res://addons/DialogueSystem/icons/dialogue_resource.svg");
-		DialogueEditor? _instance;
+		DialogueEditor? _editor;
 
 		public override void _EnablePlugin()
 		{
@@ -28,21 +28,19 @@ namespace Nilsiker.GodotTools.Dialogue
 		{
 			base._DisablePlugin();
 		}
-
 		public override void _ExitTree()
 		{
 			base._ExitTree();
-			if (_instance == null) return;
-			_instance?.QueueFree();
+			if (_editor == null) return;
+			_editor?.QueueFree();
 		}
 
 		public override void _Ready()
 		{
-
 			base._Ready();
-			_instance = _mainControl.Instantiate<DialogueEditor>();
-			_instance.Visible = false;
-			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_instance);
+			_editor = _mainControl.Instantiate<DialogueEditor>();
+			_editor.Visible = false;
+			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_editor);
 		}
 
 		public override bool _HasMainScreen() => true;
@@ -51,21 +49,21 @@ namespace Nilsiker.GodotTools.Dialogue
 
 		public override void _MakeVisible(bool visible)
 		{
-			if (_instance == null) return;
+			if (_editor == null) return;
 			if (visible)
 			{
 				_Reload();
 			}
-			_instance.Visible = visible;
+			_editor.Visible = visible;
 		}
 
 		private void _Reload()
 		{
-			if (_instance == null) return;
+			if (_editor == null) return;
 			this.Log("Reloading...");
-			_instance.QueueFree();
-			_instance = _mainControl.Instantiate<DialogueEditor>();
-			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_instance);
+			_editor.QueueFree();
+			_editor = _mainControl.Instantiate<DialogueEditor>();
+			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_editor);
 		}
 
 		public override bool _Handles(GodotObject @object)
@@ -75,12 +73,23 @@ namespace Nilsiker.GodotTools.Dialogue
 
 		public override void _Edit(GodotObject @object)
 		{
-			if (_instance is null || @object is null) return;
+			if (_editor is null || @object is null) return;
 			var resource = (DialogueResource)@object;
-			ProjectSettings.Singleton.SetSetting("dialogue/loaded_path", resource.ResourcePath);
-			_instance.LoadResource(resource);
+			_editor.Files.Load(resource);
 		}
-	}
+
+		public override string _GetUnsavedStatus(string forScene)
+		{
+			if (_editor.Files.AnyUnsavedFiles) return "There are unsaved dialogues. Would you like to save them?";
+			return base._GetUnsavedStatus(forScene);
+		}
+
+        public override void _SaveExternalData()
+        {
+            base._SaveExternalData();
+			_editor.Files.SaveAll();
+        }
+    }
 }
 
 #endif

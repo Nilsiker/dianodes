@@ -1,41 +1,42 @@
 [gd_resource type="Resource" script_class="DialogueResource" load_steps=8 format=3 uid="uid://bqrmjw7q3j4in"]
 
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_beaue"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_4fugu"]
 [ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_gxkvt"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineNodeResource.cs" id="2_m36x2"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="3_3vn4g"]
 
-[sub_resource type="Resource" id="Resource_hixpp"]
-script = ExtResource("1_beaue")
+[sub_resource type="Resource" id="Resource_00voi"]
+script = ExtResource("1_4fugu")
 FromNode = &"dddee422-3747-4ac4-b763-5bbb72b86923"
 FromPort = 0
-ToNode = &"3cf940f4-9d51-46fe-9c04-38d99433a3ed"
+ToNode = &"3bf61e1d-6ccc-4525-9116-e1eb31f336af"
 ToPort = 0
 
 [sub_resource type="Resource" id="Resource_7pumc"]
+resource_local_to_scene = true
 script = ExtResource("2_m36x2")
 Name = "Player"
-Line = "Hello stranger!
-
-Can you spare some coins?"
+Line = "Hello stranger!"
 Portrait = ExtResource("2_gxkvt")
 Guid = &"dddee422-3747-4ac4-b763-5bbb72b86923"
 Size = Vector2(300, 220)
-Position = Vector2(820, -20)
+Position = Vector2(880, -80)
 
-[sub_resource type="Resource" id="Resource_526s7"]
+[sub_resource type="Resource" id="Resource_myaib"]
+resource_local_to_scene = true
 script = ExtResource("2_m36x2")
-Name = "Test"
-Line = "ssss"
-Guid = &"3cf940f4-9d51-46fe-9c04-38d99433a3ed"
-Size = Vector2(221, 202)
-Position = Vector2(1220, -20)
+Name = "Stranger"
+Line = "Why, hello!"
+Guid = &"3bf61e1d-6ccc-4525-9116-e1eb31f336af"
+Size = Vector2(260, 202)
+Position = Vector2(1280, -80)
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("3_3vn4g")
-Name = "Branching Dialogue"
-ScrollOffset = Vector2(-140.364, -240.716)
-Zoom = 1.17049
+Name = "Linear Dialogue"
+ScrollOffset = Vector2(776.66, -415.189)
+Zoom = 0.967347
 ShowPortraits = true
-Connections = [SubResource("Resource_hixpp")]
-Nodes = [SubResource("Resource_7pumc"), SubResource("Resource_526s7")]
+Connections = [SubResource("Resource_00voi")]
+Nodes = [SubResource("Resource_7pumc"), SubResource("Resource_myaib")]
