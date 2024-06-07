@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=4 format=3 uid="uid://egojjr2qesxg"]
+
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineNodeResource.cs" id="1_bc566"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="1_vh7aq"]
+
+[sub_resource type="Resource" id="Resource_ntm21"]
+script = ExtResource("1_bc566")
+Name = "TeS"
+Line = "WFa"
+Guid = &"fae462ad-1ecf-43cd-a11d-bb474250a55d"
+Size = Vector2(134, 148)
+Position = Vector2(240, 120)
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_vh7aq")
+Name = ""
+ScrollOffset = Vector2(31, -7)
+Zoom = 1.88509
+ShowPortraits = false
+Connections = []
+Nodes = [SubResource("Resource_ntm21")]

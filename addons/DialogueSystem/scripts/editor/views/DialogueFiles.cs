@@ -63,7 +63,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 				var path = file.ResourcePath;
 				string name = file.ResourcePath.Split('/').Last();
 				var data = (DialogueResource)file.Duplicate(true);
-				data.ResourceLocalToScene = true;
 				_paths.Add(ItemCount, path);
 				_files.Add(ItemCount, data);
 

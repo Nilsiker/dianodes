@@ -50,7 +50,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             foreach (var connection in _data.Connections)
             {
                 ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
-            }S
+            }
 
             _dialogueNameEdit.Text = _data.Name ?? _data.ResourceName;
             Zoom = _data.Zoom;
@@ -111,6 +111,7 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         {
             _UnregisterCurrentData();
             _data = data;
+            _data.NameChanged += _OnDataNameChanged;
             _data.NodeAdded += _OnDataNodeAdded;
             _data.NodeRemoved += _OnDataNodeRemoved;
             _data.ConnectionAdded += _OnConnectionAdded;
@@ -119,9 +120,16 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             _Refresh();
         }
 
+        private void _OnDataNameChanged(string name)
+        {
+            GD.Print(name);
+        }
+
+
         private void _UnregisterCurrentData()
         {
             if (_data is null) return;
+            _data.NameChanged -= _OnDataNameChanged;
             _data.NodeAdded -= _OnDataNodeAdded;
             _data.NodeRemoved -= _OnDataNodeRemoved;
             _data.ConnectionAdded -= _OnConnectionAdded;
