@@ -77,8 +77,8 @@ namespace Nilsiker.GodotTools.Dialogue
 		{
 			if (_instance is null || @object is null) return;
 			var resource = (DialogueResource)@object;
+			ProjectSettings.Singleton.SetSetting("dialogue/loaded_path", resource.ResourcePath);
 			_instance.LoadResource(resource);
-			ProjectSettings.Singleton.GetSetting("dialogue/loaded_path", resource.ResourcePath);
 		}
 	}
 }

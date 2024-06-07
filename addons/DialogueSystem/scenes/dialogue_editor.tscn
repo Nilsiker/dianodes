@@ -92,13 +92,27 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 split_offset = 200
 
+[node name="VSplitContainer" type="VSplitContainer" parent="VBox/HSplitContainer"]
+layout_mode = 2
+
+[node name="Files" type="ItemList" parent="VBox/HSplitContainer/VSplitContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Callbacks" type="ItemList" parent="VBox/HSplitContainer/VSplitContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="DialogueGraph" type="GraphEdit" parent="VBox/HSplitContainer" node_paths=PackedStringArray("_editor", "_dialogueNameEdit", "_nodeCreationMenu", "_hidePortraitsButton")]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+scroll_offset = Vector2(0, -200)
 right_disconnects = true
-zoom = 0.879408
+zoom = 1.17049
 show_zoom_label = true
 show_arrange_button = false
 script = ExtResource("2_jdveq")
@@ -119,6 +133,7 @@ offset_right = 145.0
 offset_bottom = 45.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
+text = "Branching Dialogue"
 placeholder_text = "Double click a Dialogue resource to open in editor"
 expand_to_text_length = true
 

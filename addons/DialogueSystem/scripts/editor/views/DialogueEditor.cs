@@ -29,10 +29,10 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		public void LoadResource(DialogueResource resource)
 		{
 			if (resource is null) return;
-			
+
 			_data.Name = resource.Name;
-			_data.Nodes = resource.Nodes;
-			_data.Connections = resource.Connections;
+			_data.Nodes = new(resource.Nodes);
+			_data.Connections = new(resource.Connections);
 			_data.ScrollOffset = resource.ScrollOffset;
 			_data.Zoom = resource.Zoom;
 			_data.ShowPortraits = resource.ShowPortraits;
@@ -53,9 +53,9 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		private void _SaveDialogue()
 		{
 			var loadedPath = ProjectSettings.Singleton.GetSetting("dialogue/loaded_path").AsString();
+			this.Log($"Saving {_data.ResourcePath} to {loadedPath}");
 			var res = ResourceSaver.Singleton.Save(_data, loadedPath);
-			EditorInterface.Singleton.GetResourceFilesystem().UpdateFile(loadedPath);
-			EditorInterface.Singleton.GetResourceFilesystem().ReimportFiles(new[] { loadedPath });
+			ResourceLoader.Load<DialogueResource>(loadedPath, "DialogueResource", ResourceLoader.CacheMode.Replace);
 
 			this.Log(res);
 		}

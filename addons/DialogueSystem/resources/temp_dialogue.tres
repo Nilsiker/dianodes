@@ -1,75 +1,73 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=14 format=3 uid="uid://cn4eqmxw7tbhj"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=14 format=3 uid="uid://4muighe8q1xq"]
 
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_4p0bg"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="1_6scqs"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_j3y2m"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineNodeResource.cs" id="3_iw80x"]
-[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_pwioy"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionNodeResource.cs" id="5_gdu3d"]
-[ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="5_tph10"]
-
-[sub_resource type="Resource" id="Resource_dgtq1"]
-script = ExtResource("1_j3y2m")
-FromNode = &"605e26b5-8170-427a-9b06-b443855e4678"
-FromPort = 0
-ToNode = &"d400fee1-0692-43e8-8f62-7d9e1ac245f4"
-ToPort = 0
+[ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_214ws"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineNodeResource.cs" id="3_u42yn"]
+[ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_gpbn8"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionNodeResource.cs" id="5_p2s8y"]
 
 [sub_resource type="Resource" id="Resource_vpkka"]
-script = ExtResource("1_j3y2m")
+script = ExtResource("1_4p0bg")
 FromNode = &"605e26b5-8170-427a-9b06-b443855e4678"
 FromPort = 1
 ToNode = &"980a333a-2af5-482e-86f9-312cecf109d9"
 ToPort = 0
 
 [sub_resource type="Resource" id="Resource_ayhhh"]
-script = ExtResource("1_j3y2m")
+script = ExtResource("1_4p0bg")
 FromNode = &"dddee422-3747-4ac4-b763-5bbb72b86923"
 FromPort = 0
 ToNode = &"605e26b5-8170-427a-9b06-b443855e4678"
 ToPort = 0
 
-[sub_resource type="Resource" id="Resource_1lcuq"]
-script = ExtResource("3_iw80x")
-Name = "Stranger"
-Line = "No, goodbye."
-Portrait = ExtResource("4_pwioy")
-Guid = &"980a333a-2af5-482e-86f9-312cecf109d9"
-Size = Vector2(380, 202)
-Position = Vector2(1460, 140)
-
-[sub_resource type="Resource" id="Resource_6lhiw"]
-script = ExtResource("3_iw80x")
-Name = "Stranger"
-Line = "Here's some coins, you look like you need it.
-
-Bye!"
-Guid = &"d400fee1-0692-43e8-8f62-7d9e1ac245f4"
-Size = Vector2(380, 220)
-Position = Vector2(1460, -80)
-
-[sub_resource type="Resource" id="Resource_nx7sw"]
-script = ExtResource("5_gdu3d")
-ConditionName = "rich"
-Guid = &"605e26b5-8170-427a-9b06-b443855e4678"
-Size = Vector2(0, 0)
-Position = Vector2(1128.51, 140.976)
+[sub_resource type="Resource" id="Resource_ngpm0"]
+script = ExtResource("1_4p0bg")
+FromNode = &"605e26b5-8170-427a-9b06-b443855e4678"
+FromPort = 0
+ToNode = &"171ac3f9-7033-4942-9c37-98e16ece9fc0"
+ToPort = 0
 
 [sub_resource type="Resource" id="Resource_7pumc"]
-script = ExtResource("3_iw80x")
+script = ExtResource("3_u42yn")
 Name = "Player"
 Line = "Hello stranger!
 
 Can you spare some coins?"
-Portrait = ExtResource("5_tph10")
+Portrait = ExtResource("2_214ws")
 Guid = &"dddee422-3747-4ac4-b763-5bbb72b86923"
 Size = Vector2(300, 220)
-Position = Vector2(760, 20)
+Position = Vector2(820, -20)
+
+[sub_resource type="Resource" id="Resource_1lcuq"]
+script = ExtResource("3_u42yn")
+Name = "Stranger"
+Line = "No, goodbye."
+Portrait = ExtResource("4_gpbn8")
+Guid = &"980a333a-2af5-482e-86f9-312cecf109d9"
+Size = Vector2(380, 202)
+Position = Vector2(1460, 140)
+
+[sub_resource type="Resource" id="Resource_nx7sw"]
+script = ExtResource("5_p2s8y")
+ConditionName = "rich"
+Guid = &"605e26b5-8170-427a-9b06-b443855e4678"
+Size = Vector2(0, 0)
+Position = Vector2(1200, 80)
+
+[sub_resource type="Resource" id="Resource_c6xh7"]
+script = ExtResource("3_u42yn")
+Name = "A"
+Line = "BBBB"
+Guid = &"171ac3f9-7033-4942-9c37-98e16ece9fc0"
+Size = Vector2(221, 202)
+Position = Vector2(1360, -120)
 
 [resource]
 script = ExtResource("1_6scqs")
 Name = "Branching Dialogue"
-ScrollOffset = Vector2(0, -221.488)
+ScrollOffset = Vector2(268, -111)
 Zoom = 1.28754
 ShowPortraits = true
-Connections = [SubResource("Resource_dgtq1"), SubResource("Resource_vpkka"), SubResource("Resource_ayhhh")]
-Nodes = [SubResource("Resource_1lcuq"), SubResource("Resource_6lhiw"), SubResource("Resource_nx7sw"), SubResource("Resource_7pumc")]
+Connections = [SubResource("Resource_vpkka"), SubResource("Resource_ayhhh"), SubResource("Resource_ngpm0")]
+Nodes = [SubResource("Resource_7pumc"), SubResource("Resource_1lcuq"), SubResource("Resource_nx7sw"), SubResource("Resource_c6xh7")]
