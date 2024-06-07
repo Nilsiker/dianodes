@@ -4,16 +4,17 @@ using System.Linq;
 
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
+using Nilsiker.GodotTools.Dialogue.Editor.Views;
 using Nilsiker.GodotTools.Dialogue.Models;
 namespace Nilsiker.GodotTools.Dialogue.Channels
 {
     public static class DialogueChannel
     {
 
-        public static Action<NodeData>? DialogueLineUpdated { get; set; }
+        public static Action<NodeResource>? DialogueLineUpdated { get; set; }
         public static Action? DialogueEnded { get; set; }
 
-        public static void UpdateLine(NodeData line) => DialogueLineUpdated?.Invoke(line);
+        public static void UpdateLine(NodeResource line) => DialogueLineUpdated?.Invoke(line);
 
         private static StringName? current;
         private static DialogueResource? _data;
@@ -40,14 +41,14 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
         {
             if (current == null) return;
 
-            NodeData? next = _data.GetNode(current, slot);
+            NodeResource? next = _data.GetNode(current, slot);
             if (next != null)
             {
                 current = next.Guid;
                 switch (next)
                 {
-                    case EventData ed:
-                        if (blackboard.TryGetValue(ed.EventName, out Delegate action))
+                    case EventNodeResource ed:
+                        if (blackboard.TryGetValue(ed.EventName, out Delegate? action))
                         {
                             var ret = action.DynamicInvoke();
                             GD.Print(ret);
@@ -58,11 +59,10 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
                         }
                         Progress(0);
                         return;
-                    case ConditionData cd:
-                        GD.Print(cd.ConditionName);
+                    case ConditionNodeResource cd:
                         if (blackboard.TryGetValue(cd.ConditionName, out action))
                         {
-                            GD.Print("condition returned ", (bool)action.DynamicInvoke());
+                            GD.Print("condition returned ", (bool)action?.DynamicInvoke());
                             Progress((bool)action.DynamicInvoke() ? 0 : 1);
                             return;
                         }
@@ -70,9 +70,14 @@ namespace Nilsiker.GodotTools.Dialogue.Channels
                         {
                             GD.PushWarning($@"Condition ""{cd.ConditionName}"" not found in dialogue blackboard.");
                         }
+
+                        Progress(0);
+                        break;
+
+                    case LineNodeResource line:
+                        UpdateLine(line);
                         break;
                 }
-                UpdateLine(next);
             }
             else
             {

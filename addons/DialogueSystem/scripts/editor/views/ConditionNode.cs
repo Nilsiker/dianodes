@@ -8,11 +8,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 	public partial class ConditionNode : DialogueNode
 	{
 		[Export] LineEdit _conditionName;
-		[Export] ConditionData _data;
+		[Export] ConditionNodeResource _data;
 		public int TrueSlot = 1;
 		public int FalseSlot = 2;
 
-		public override NodeData Data { get => _data; set => _data = (ConditionData)value; }
+		public override NodeResource Data { get => _data; set => _data = (ConditionNodeResource)value; }
 
 		public override void _Ready()
 		{

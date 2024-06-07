@@ -90,23 +90,3 @@ scroll_fit_content_height = true
 [node name="ButtonAddOption" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Add option"
-
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter option here..."
-scroll_fit_content_height = true
-
-[node name="TextEdit2" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter option here..."
-scroll_fit_content_height = true
-
-[node name="TextEdit3" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter option here..."
-scroll_fit_content_height = true
-
-[node name="TextEdit4" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter option here..."
-scroll_fit_content_height = true

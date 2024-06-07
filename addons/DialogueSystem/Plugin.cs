@@ -1,11 +1,16 @@
 #if TOOLS
+using System;
 using Godot;
-using Nilsiker.GodotTools.Convenience;
+using Nilsiker.GodotTools.Dialogue.Convenience;
 using Nilsiker.GodotTools.Dialogue.Editor.Views;
 using Nilsiker.GodotTools.Dialogue.Models;
 using static Nilsiker.GodotTools.Dialogue.Utilities;
 namespace Nilsiker.GodotTools.Dialogue
 {
+	/// <summary>
+	/// The main plugin class for the DialogueSystem.
+	/// It handles the plugin registration, instantiating and showing the editor, and keeps the reference to the currently edited resource.
+	/// </summary>
 	[Tool]
 	public partial class Plugin : EditorPlugin
 	{
@@ -17,7 +22,6 @@ namespace Nilsiker.GodotTools.Dialogue
 		public override void _EnablePlugin()
 		{
 			base._EnablePlugin();
-			AddCustomType("DialogueResource", "Resource", _instance?.GetScript().As<Script>(), _resourceIcon);
 		}
 
 		public override void _DisablePlugin()
@@ -25,23 +29,20 @@ namespace Nilsiker.GodotTools.Dialogue
 			base._DisablePlugin();
 		}
 
-		public override void _EnterTree()
+		public override void _ExitTree()
 		{
-			base._EnterTree();
-			_instance = _mainControl.Instantiate<DialogueEditor>();
-			_instance.Visible = false;
-			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_instance);
+			base._ExitTree();
+			if (_instance == null) return;
+			_instance?.QueueFree();
 		}
 
 		public override void _Ready()
 		{
-			base._Ready();
-		}
 
-		public override void _ExitTree()
-		{
-			base._ExitTree();
-			_instance?.QueueFree();
+			base._Ready();
+			_instance = _mainControl.Instantiate<DialogueEditor>();
+			_instance.Visible = false;
+			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_instance);
 		}
 
 		public override bool _HasMainScreen() => true;
@@ -67,7 +68,6 @@ namespace Nilsiker.GodotTools.Dialogue
 			EditorInterface.Singleton.GetEditorMainScreen().AddChild(_instance);
 		}
 
-
 		public override bool _Handles(GodotObject @object)
 		{
 			return @object is DialogueResource;
@@ -75,14 +75,10 @@ namespace Nilsiker.GodotTools.Dialogue
 
 		public override void _Edit(GodotObject @object)
 		{
-			if (_instance is null) return;
-			_instance.Data = (DialogueResource)@object;
-			this.Log(_instance.Data);
-		}
-
-		public override void _SaveExternalData()
-		{
-			this.Log("TODO implement resource save");
+			if (_instance is null || @object is null) return;
+			var resource = (DialogueResource)@object;
+			_instance.LoadResource(resource);
+			ProjectSettings.Singleton.GetSetting("dialogue/loaded_path", resource.ResourcePath);
 		}
 	}
 }

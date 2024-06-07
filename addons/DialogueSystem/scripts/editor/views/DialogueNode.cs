@@ -6,9 +6,9 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 {
     public abstract partial class DialogueNode : GraphNode, IDialogueNode
     {
-        [Export] NodeData _data;
+        [Export] NodeResource _data;
 
-        public virtual NodeData Data { get; set; }
+        public virtual NodeResource Data { get; set; }
 
         public override void _Ready()
         {

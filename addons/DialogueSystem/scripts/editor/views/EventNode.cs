@@ -8,11 +8,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 	{
 
 		[Export] public LineEdit _eventName;
-		[Export] EventData _data;
+		[Export] EventNodeResource _data;
 
-		public override NodeData Data
+		public override NodeResource Data
 		{
-			get => _data; set => _data = (EventData)value;
+			get => _data; set => _data = (EventNodeResource)value;
 		}
 
 		public override void _Ready()

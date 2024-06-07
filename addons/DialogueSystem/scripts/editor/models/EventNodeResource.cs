@@ -5,7 +5,7 @@ using System;
 namespace Nilsiker.GodotTools.Dialogue.Editor.Models
 {
     [Tool, GlobalClass]
-    public partial class EventData : NodeData
+    public partial class EventNodeResource : NodeResource
     {
         [Export] public string EventName = "";
     }

@@ -16,6 +16,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor
     
     public interface IHasNodeData
     {
-        NodeData Data { get; set; }
+        NodeResource Data { get; set; }
     }
 }

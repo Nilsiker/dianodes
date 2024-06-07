@@ -8,7 +8,6 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		public enum NodeCreationOption
 		{
 			Line,
-			Options,
 			Event,
 			Condition,
 		}

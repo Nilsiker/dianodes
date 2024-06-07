@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://ch4l2gfdn2k0w"]
+[gd_scene load_steps=10 format=3 uid="uid://ch4l2gfdn2k0w"]
 
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueEditor.cs" id="1_ooesh"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/DialogueGraph.cs" id="2_jdveq"]
 [ext_resource type="Texture2D" uid="uid://dl2kn66hcvc10" path="res://addons/DialogueSystem/icons/play.svg" id="2_llwop"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="4_wyifm"]
-[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="5_fxg18"]
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/DialogueSystem/icons/event.svg" id="6_j45qr"]
 [ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/DialogueSystem/icons/condition.svg" id="6_or5hw"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/views/NodeCreationPopup.cs" id="6_os58y"]
@@ -82,9 +81,10 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HidePortraitsButton" type="CheckButton" parent="VBox/Menu"]
+[node name="ShowPortraitsButton" type="CheckButton" parent="VBox/Menu"]
 layout_mode = 2
-text = "Hide Portraits"
+button_pressed = true
+text = "Show Portraits"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBox"]
 layout_mode = 2
@@ -105,7 +105,7 @@ script = ExtResource("2_jdveq")
 _editor = NodePath("../../..")
 _dialogueNameEdit = NodePath("Editing")
 _nodeCreationMenu = NodePath("NodeCreationPopup")
-_hidePortraitsButton = NodePath("../../Menu/HidePortraitsButton")
+_hidePortraitsButton = NodePath("../../Menu/ShowPortraitsButton")
 metadata/_edit_use_anchors_ = true
 
 [node name="Editing" type="LineEdit" parent="VBox/HSplitContainer/DialogueGraph"]
@@ -119,23 +119,20 @@ offset_right = 145.0
 offset_bottom = 45.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
-placeholder_text = "Enter dialogue name..."
+placeholder_text = "Double click a Dialogue resource to open in editor"
 expand_to_text_length = true
 
 [node name="NodeCreationPopup" type="PopupMenu" parent="VBox/HSplitContainer/DialogueGraph"]
 size = Vector2i(185, 92)
-item_count = 4
+item_count = 3
 item_0/text = "Line"
 item_0/icon = ExtResource("4_wyifm")
-item_1/text = "Options"
-item_1/icon = ExtResource("5_fxg18")
-item_1/id = 1
-item_2/text = "Event"
-item_2/icon = ExtResource("6_j45qr")
-item_2/id = 2
-item_3/text = "Condition"
-item_3/icon = ExtResource("6_or5hw")
-item_3/id = 3
+item_1/text = "Event"
+item_1/icon = ExtResource("6_j45qr")
+item_1/id = 2
+item_2/text = "Condition"
+item_2/icon = ExtResource("6_or5hw")
+item_2/id = 3
 script = ExtResource("6_os58y")
 
 [node name="DialoguePreview" type="MarginContainer" parent="."]

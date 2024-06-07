@@ -2,7 +2,7 @@ using System.Linq;
 using Godot;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
-using Nilsiker.GodotTools.Convenience;
+using Nilsiker.GodotTools.Dialogue.Convenience;
 using System;
 
 namespace Nilsiker.GodotTools.Dialogue.Editor.Views
@@ -17,22 +17,53 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         [Export] PopupMenu _nodeCreationMenu = null!;
         [Export] CheckButton _hidePortraitsButton = null!;
 
+        DialogueResource _data = GD.Load<DialogueResource>(Constants.Paths.TempDialogueResource);
+        string LoadedPath => (string)ProjectSettings.Singleton.GetSetting("dialogue_loaded_path");
 
-        DialogueResource? _data;
         PackedScene _lineNode = GD.Load<PackedScene>(Utilities.GetScenePath("line_node"));
         PackedScene _eventNode = GD.Load<PackedScene>(Utilities.GetScenePath("event_node"));
         PackedScene _conditionNode = GD.Load<PackedScene>(Utilities.GetScenePath("condition_node"));
         Vector2 _lastRightClickPosition;
 
+        StringName? _connectToNode;
+        int? _connectToPort;
+
+        public void Refresh()
+        {
+            _Clear();
+            this.Log($"refreshing to reflect data: {_data.Name} ({_data.ResourcePath})");
+            Zoom = _data.Zoom;
+            ScrollOffset = _data.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
+            foreach (var data in _data.Nodes)
+            {
+                var node = data switch
+                {
+                    LineNodeResource ld => _CreateNode<LineNode, LineNodeResource>(_lineNode, ld),
+                    EventNodeResource ed => _CreateNode<EventNode, EventNodeResource>(_eventNode, ed),
+                    ConditionNodeResource cd => _CreateNode<ConditionNode, ConditionNodeResource>(_conditionNode, cd),
+                    _ => throw new NotImplementedException(),
+                };
+                AddChild(node);
+                this.Log($"Added node to graph as {node?.Name}");
+            }
+
+            foreach (var connection in _data.Connections)
+            {
+                ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
+                this.Log($"Added connection {connection.FromNode}:{connection.FromPort} -> {connection.ToNode}:{connection.ToPort}");
+            }
+
+            _dialogueNameEdit.Text = _data.Name ?? _data.ResourceName;
+            _OnDataShowPortraitsChanged(_data.ShowPortraits);
+        }
 
         #region Godot Methods
         public override void _Ready()
         {
             if (GetTree().CurrentScene == this) return;
             base._Ready();
-
-            _editor.DataChanged += _OnEditorDataChanged;
-
+            _Clear();
+            // UI
             ConnectionRequest += _OnConnectionRequested;
             DisconnectionRequest += _OnDisconnectionRequested;
             ConnectionToEmpty += _OnConnectionToEmpty;
@@ -45,6 +76,17 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
             _nodeCreationMenu.IndexPressed += _OnNodeCreationPopupIndexPressed;
             DeleteNodesRequest += _OnDeleteNodesRequest;
+
+            // Data
+            _RegisterData();
+
+            Refresh();
+        }
+
+        public override void _ExitTree()
+        {
+            base._ExitTree();
+            _UnregisterCurrentData();
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -59,36 +101,18 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
                     _data.Zoom = Zoom;
                 }
             }
-            else if (@event is InputEventWithModifiers modEvent && modEvent.ShiftPressed && Input.IsKeyPressed(Key.S))
-            {
-                _SaveDialogue();
-            }
         }
         #endregion
 
         #region Data Event Handlers
-        private void _OnEditorDataChanged(DialogueResource? resource)
+        private void _RegisterData()
         {
-            _UnregisterCurrentData();   // always try and unregister, since the plugin might shut down and be reset
-
-            if (resource == null) return;
-
-            _RegisterData(resource);
-
-            _data = resource;   // TODO remove this and handle all data fetches/updates through signals?
-            this.Log("data changed to " + resource.Name);
-
-            _LoadFromResource(resource);
-        }
-
-        private void _RegisterData(DialogueResource resource)
-        {
-            resource.NodeAdded += _OnDataNodeAdded;
-            resource.NodeRemoved += _OnDataNodeRemoved;
-            resource.ConnectionAdded += _OnConnectionAdded;
-            resource.ConnectionRemoved += _OnConnectionRemoved;
-            resource.ShowPortraitsChanged += _OnDataShowPortraitsChanged;
-            this.Log("registered new resource " + resource.Name);
+            _data.NodeAdded += _OnDataNodeAdded;
+            _data.NodeRemoved += _OnDataNodeRemoved;
+            _data.ConnectionAdded += _OnConnectionAdded;
+            _data.ConnectionRemoved += _OnConnectionRemoved;
+            _data.ShowPortraitsChanged += _OnDataShowPortraitsChanged;
+            this.Log("registered new resource " + _data.Name);
         }
 
         private void _UnregisterCurrentData()
@@ -102,20 +126,20 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             this.Log("unregistered current resource " + _data.Name);
         }
 
-        private void _OnDataNodeAdded(NodeData data)
+        private void _OnDataNodeAdded(NodeResource data)
         {
             var node = data switch
             {
-                LineData ld => _CreateNode<LineNode, LineData>(_lineNode, ld),
-                EventData ed => _CreateNode<EventNode, EventData>(_eventNode, ed),
-                ConditionData cd => _CreateNode<ConditionNode, ConditionData>(_conditionNode, cd),
+                LineNodeResource ld => _CreateNode<LineNode, LineNodeResource>(_lineNode, ld),
+                EventNodeResource ed => _CreateNode<EventNode, EventNodeResource>(_eventNode, ed),
+                ConditionNodeResource cd => _CreateNode<ConditionNode, ConditionNodeResource>(_conditionNode, cd),
                 _ => throw new NotImplementedException(),
             };
             AddChild(node);
             this.Log($"Added node {node?.Name} to graph.");
         }
 
-        private void _OnDataNodeRemoved(NodeData data)
+        private void _OnDataNodeRemoved(NodeResource data)
         {
             var node = GetChildren()
                 .OfType<DialogueNode>()
@@ -135,13 +159,23 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         {
             if (_data is null) return;
             DisconnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
+            this.Log("Connection removed: " + connection.FromNode + ":" + connection.FromPort + " -> " + connection.ToNode + ":" + connection.ToPort);
+
+        }
+
+        private void _OnDataShowPortraitsChanged(bool visible)
+        {
+            foreach (var child in GetChildren().OfType<IHasPortrait>())
+            {
+                child.SetPortraitVisibility(visible);
+            }
         }
         #endregion
 
         #region Data Helpers
-        private DialogueNode? _CreateNode<T, U>(PackedScene scene, NodeData data)
+        private DialogueNode? _CreateNode<T, U>(PackedScene scene, NodeResource data)
         where T : DialogueNode
-        where U : NodeData, new()
+        where U : NodeResource, new()
         {
             if (_data is null) return null;
 
@@ -168,29 +202,41 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
             _data.ScrollOffset = offset;
         }
 
-
         private void _OnPopupRequested(Vector2 atPosition)
         {
             _nodeCreationMenu.Popup();
             var targetPosition = GetScreenPosition() + atPosition;
             _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
             _lastRightClickPosition = (atPosition + ScrollOffset) / Zoom;
+            _connectToNode = null;
+            _connectToPort = null;
         }
 
         private void _OnNodeCreationPopupIndexPressed(long option)
         {
             if (_data is null) return;
 
-            NodeData data = (NodeCreationPopup.NodeCreationOption)option switch
+            NodeResource data = (NodeCreationPopup.NodeCreationOption)option switch
             {
-                NodeCreationPopup.NodeCreationOption.Line => new LineData(),
-                NodeCreationPopup.NodeCreationOption.Event => new EventData(),
-                NodeCreationPopup.NodeCreationOption.Condition => new ConditionData(),
+                NodeCreationPopup.NodeCreationOption.Line => new LineNodeResource(),
+                NodeCreationPopup.NodeCreationOption.Event => new EventNodeResource(),
+                NodeCreationPopup.NodeCreationOption.Condition => new ConditionNodeResource(),
                 _ => throw new NotImplementedException(),
             };
 
             data.Position = _lastRightClickPosition;
             _data.AddNode(data);
+
+            if (_connectToNode != null && _connectToPort != null)
+            {
+                _data.AddConnection(new Connection
+                {
+                    FromNode = _connectToNode,
+                    FromPort = _connectToPort.Value,
+                    ToNode = data.Guid,
+                    ToPort = 0,
+                });
+            }
         }
 
         private void _OnDeleteNodesRequest(Godot.Collections.Array nodes)
@@ -232,11 +278,12 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 
         private void _OnConnectionToEmpty(StringName fromNode, long fromPort, Vector2 releasePosition)
         {
-            _nodeCreationMenu.Visible = true;
+            _nodeCreationMenu.Popup();
             var targetPosition = GetScreenPosition() + releasePosition;
             _nodeCreationMenu.Position = new((int)targetPosition.X, (int)targetPosition.Y);
             _lastRightClickPosition = (GetLocalMousePosition() + ScrollOffset) / Zoom;
-            // TODO implement!
+            _connectToNode = fromNode;
+            _connectToPort = (int)fromPort;
         }
 
         private void _OnHidePortraitsButtonToggled(bool hiding)
@@ -247,55 +294,14 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
         #endregion
 
         #region UI Helpers
-        private void _SaveDialogue()
-        {
-            var res = ResourceSaver.Singleton.Save(_data);
-            this.Log(res);
-        }
-
-        private void _LoadFromResource(DialogueResource resource)
-        {
-            _Clear();
-
-            Zoom = resource.Zoom;
-            ScrollOffset = resource.ScrollOffset;  // FIXME scroll offset resets to 0 on positive axes. WHY?!
-            foreach (var data in resource.Nodes)
-            {
-                var node = data switch
-                {
-                    LineData ld => _CreateNode<LineNode, LineData>(_lineNode, ld),
-                    EventData ed => _CreateNode<EventNode, EventData>(_eventNode, ed),
-                    ConditionData cd => _CreateNode<ConditionNode, ConditionData>(_conditionNode, cd),
-                    _ => throw new NotImplementedException(),
-                };
-                AddChild(node);
-            }
-
-            foreach (var connection in resource.Connections)
-            {
-                ConnectNode(connection.FromNode, connection.FromPort, connection.ToNode, connection.ToPort);
-            }
-
-            _dialogueNameEdit.Text = resource.Name ?? resource.ResourceName;
-            _OnDataShowPortraitsChanged(!resource.ShowPortraits);
-        }
-
         private void _Clear()
         {
             ClearConnections();
             foreach (var child in GetChildren().OfType<GraphElement>())
             {
-                child.QueueFree();
+                child.Free();
             }
         }
         #endregion
-
-        private void _OnDataShowPortraitsChanged(bool visible)
-        {
-            foreach (var child in GetChildren().OfType<IHasPortrait>())
-            {
-                child.SetPortraitVisibility(visible);
-            }
-        }
     }
 }

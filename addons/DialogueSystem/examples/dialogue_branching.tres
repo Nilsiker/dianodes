@@ -1,58 +1,75 @@
-[gd_resource type="Resource" script_class="DialogueResource" load_steps=12 format=3 uid="uid://dw4gn381mckih"]
+[gd_resource type="Resource" script_class="DialogueResource" load_steps=14 format=3 uid="uid://dw4gn381mckih"]
 
-[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/DialogueSystem/icons/player.svg" id="1_ru5dx"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineData.cs" id="2_h23j4"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/Connection.cs" id="1_5ocnd"]
+[ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_15sw5"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/DialogueSystem/icons/npc.svg" id="3_ar1qm"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/EventData.cs" id="4_a2rni"]
-[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionData.cs" id="5_jqfvj"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/LineNodeResource.cs" id="3_j2fen"]
+[ext_resource type="Script" path="res://addons/DialogueSystem/scripts/editor/models/ConditionNodeResource.cs" id="5_y1nyr"]
 [ext_resource type="Script" path="res://addons/DialogueSystem/scripts/DialogueResource.cs" id="6_onxkk"]
 
-[sub_resource type="Resource" id="Resource_qy2py"]
-script = ExtResource("2_h23j4")
+[sub_resource type="Resource" id="Resource_dgtq1"]
+script = ExtResource("1_5ocnd")
+FromNode = &"605e26b5-8170-427a-9b06-b443855e4678"
+FromPort = 0
+ToNode = &"d400fee1-0692-43e8-8f62-7d9e1ac245f4"
+ToPort = 0
+
+[sub_resource type="Resource" id="Resource_vpkka"]
+script = ExtResource("1_5ocnd")
+FromNode = &"605e26b5-8170-427a-9b06-b443855e4678"
+FromPort = 1
+ToNode = &"980a333a-2af5-482e-86f9-312cecf109d9"
+ToPort = 0
+
+[sub_resource type="Resource" id="Resource_ayhhh"]
+script = ExtResource("1_5ocnd")
+FromNode = &"dddee422-3747-4ac4-b763-5bbb72b86923"
+FromPort = 0
+ToNode = &"605e26b5-8170-427a-9b06-b443855e4678"
+ToPort = 0
+
+[sub_resource type="Resource" id="Resource_7pumc"]
+script = ExtResource("3_j2fen")
 Name = "Player"
-Line = "Hello stranger, can you spare some coin?"
-Portrait = ExtResource("1_ru5dx")
-Guid = &"5f737590-0fc3-4b88-ab44-0c6de864411d"
-Size = Vector2(280, 368)
-Position = Vector2(680, -80)
+Line = "Hello stranger!
+
+Can you spare some coins?"
+Portrait = ExtResource("2_15sw5")
+Guid = &"dddee422-3747-4ac4-b763-5bbb72b86923"
+Size = Vector2(300, 220)
+Position = Vector2(760, 20)
 
 [sub_resource type="Resource" id="Resource_1lcuq"]
-script = ExtResource("2_h23j4")
+script = ExtResource("3_j2fen")
 Name = "Stranger"
-Line = "Here, have some coins, it's the least I can do. Take care!"
+Line = "No, goodbye."
 Portrait = ExtResource("3_ar1qm")
 Guid = &"980a333a-2af5-482e-86f9-312cecf109d9"
-Size = Vector2(380, 380)
-Position = Vector2(1420, -60)
+Size = Vector2(380, 202)
+Position = Vector2(1460, 140)
 
-[sub_resource type="Resource" id="Resource_7g7qf"]
-script = ExtResource("4_a2rni")
-EventName = "add_10_coins"
-Guid = &"ad488a5e-2d40-4b8f-a580-9d886687680b"
-Size = Vector2(0, 0)
-Position = Vector2(1260, 60)
-
-[sub_resource type="Resource" id="Resource_e3bes"]
-script = ExtResource("2_h23j4")
+[sub_resource type="Resource" id="Resource_6lhiw"]
+script = ExtResource("3_j2fen")
 Name = "Stranger"
-Line = "I must be going, take care."
-Portrait = ExtResource("3_ar1qm")
-Guid = &"1ee982ae-856b-4378-af7b-abe0de48dd46"
-Size = Vector2(320.001, 366)
-Position = Vector2(1300, 320)
+Line = "Here's some coins, you look like you need it.
 
-[sub_resource type="Resource" id="Resource_u8mwh"]
-script = ExtResource("5_jqfvj")
-ConditionName = "feeling_generous"
-Guid = &"b2674287-0cdf-461d-b76a-1a7a1dde1435"
+Bye!"
+Guid = &"d400fee1-0692-43e8-8f62-7d9e1ac245f4"
+Size = Vector2(380, 220)
+Position = Vector2(1460, -80)
+
+[sub_resource type="Resource" id="Resource_nx7sw"]
+script = ExtResource("5_y1nyr")
+ConditionName = "rich"
+Guid = &"605e26b5-8170-427a-9b06-b443855e4678"
 Size = Vector2(0, 0)
-Position = Vector2(1060, 120)
+Position = Vector2(1128.51, 140.976)
 
 [resource]
 script = ExtResource("6_onxkk")
 Name = "Branching Dialogue"
-ScrollOffset = Vector2(0, -300.617)
-Zoom = 0.600647
-ShowPortraits = false
-Connections = []
-Nodes = [SubResource("Resource_qy2py"), SubResource("Resource_1lcuq"), SubResource("Resource_7g7qf"), SubResource("Resource_e3bes"), SubResource("Resource_u8mwh")]
+ScrollOffset = Vector2(0, -221.488)
+Zoom = 1.28754
+ShowPortraits = true
+Connections = [SubResource("Resource_dgtq1"), SubResource("Resource_vpkka"), SubResource("Resource_ayhhh")]
+Nodes = [SubResource("Resource_7pumc"), SubResource("Resource_1lcuq"), SubResource("Resource_6lhiw"), SubResource("Resource_nx7sw")]

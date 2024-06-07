@@ -2,7 +2,7 @@ using Godot;
 using Nilsiker.GodotTools.Dialogue.Channels;
 using Nilsiker.GodotTools.Dialogue.Editor.Models;
 using Nilsiker.GodotTools.Dialogue.Models;
-using Nilsiker.GodotTools.Convenience;
+using Nilsiker.GodotTools.Dialogue.Convenience;
 
 namespace Nilsiker.GodotTools.Dialogue.Example
 {
@@ -29,7 +29,8 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 				new("add_10_coins", () => GD.Print("Add 10 coins!")),
 				new("feeling_generous", () => Rnd.Chance(50))
 			);
-			var data = GD.Load<DialogueResource>(Constants.Paths.PreviewDialogueResource);
+
+			var data = GD.Load<DialogueResource>(Constants.Paths.TempDialogueResource);
 			this.Log("Example Dialogue starting: " + data.Name);
 			DialogueChannel.Load(data, delegates);
 		}
@@ -55,10 +56,10 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 			QueueFree();
 		}
 
-		private void _OnDialogueLineUpdated(NodeData data)
+		private void _OnDialogueLineUpdated(NodeResource data)
 		{
 			_lineProgress = 0;
-			if (data is LineData lineData)
+			if (data is LineNodeResource lineData)
 			{
 				_nameLabel.Text = lineData.Name;
 				_lineLabel.Text = lineData.Line;
@@ -75,5 +76,4 @@ namespace Nilsiker.GodotTools.Dialogue.Example
 			}
 		}
 	}
-
 }

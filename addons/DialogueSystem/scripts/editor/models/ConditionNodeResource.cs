@@ -4,11 +4,11 @@ using System;
 namespace Nilsiker.GodotTools.Dialogue.Editor.Models
 {
     [Tool, GlobalClass]
-    public partial class ConditionData : NodeData
+    public partial class ConditionNodeResource : NodeResource
     {
-
         [Export]
         public string ConditionName { get; set; } = "";
 
     }
+
 }

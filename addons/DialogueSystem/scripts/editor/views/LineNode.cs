@@ -13,11 +13,11 @@ namespace Nilsiker.GodotTools.Dialogue.Editor.Views
 		[Export] TextureButton _portraitButton;
 		[Export] FileDialog _portraitFileDialog;
 		[Export] Button _addOptionButton;
-		[Export] LineData _data;
+		[Export] LineNodeResource _data;
 
-		public override NodeData Data
+		public override NodeResource Data
 		{
-			get => _data; set => _data = (LineData)value;
+			get => _data; set => _data = (LineNodeResource)value;
 		}
 
 		// Called when the node enters the scene tree for the first time.

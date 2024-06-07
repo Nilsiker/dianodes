@@ -4,7 +4,7 @@ using System;
 namespace Nilsiker.GodotTools.Dialogue.Editor.Models
 {
     [Tool, GlobalClass]
-    public partial class LineData : NodeData
+    public partial class LineNodeResource : NodeResource
     {
         [Export] public string Name = "";
         [Export] public string Line = "";
