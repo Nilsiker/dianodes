@@ -1,32 +1,8 @@
-[gd_resource type="Resource" script_class="Dialogue" load_steps=5 format=3 uid="uid://dbe558te2elsw"]
+[gd_resource type="Resource" script_class="Dialogue" load_steps=2 format=3 uid="uid://dbe558te2elsw"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="1_377w7"]
-[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_dbir6"]
-
-[sub_resource type="Resource" id="Resource_wyg6r"]
-script = ExtResource("1_dbir6")
-_character_name = ""
-_name = ""
-name = ""
-guid = "-9223367459442986297"
-position = Vector2(220, 200)
-size = Vector2(162, 130)
-
-[sub_resource type="Resource" id="Resource_s2w0q"]
-script = ExtResource("1_dbir6")
-_character_name = ""
-_name = ""
-name = ""
-guid = "-9223367436827299541"
-position = Vector2(480, 200)
-size = Vector2(162, 130)
 
 [resource]
 script = ExtResource("1_377w7")
-nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_wyg6r"), SubResource("Resource_s2w0q")])
-connections = Array[Dictionary]([{
-"from_node": "-9223367459442986297",
-"from_port": &"-9223367436827299541",
-"to_node": 0,
-"to_port": 0
-}])
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([])
+connections = Array[Dictionary]([])

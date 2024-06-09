@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://i7bflbb5kv57"]
+[gd_scene load_steps=13 format=3 uid="uid://i7bflbb5kv57"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueEditor.gd" id="1_bqdsv"]
 [ext_resource type="Texture2D" uid="uid://dl2kn66hcvc10" path="res://addons/dianodes/icons/play.svg" id="1_v4xmj"]
@@ -6,13 +6,23 @@
 [ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueFiles.gd" id="3_wogok"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="4_8sxjj"]
 [ext_resource type="Texture2D" uid="uid://cn5cahumlnmrm" path="res://addons/dianodes/icons/npc.svg" id="4_ovqwt"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="5_3lmmf"]
 [ext_resource type="Texture2D" uid="uid://bfxb7gk35hqys" path="res://addons/dianodes/icons/event.svg" id="5_jyaj7"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/NodeCreatorPopup.gd" id="6_dc56l"]
 [ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/dianodes/icons/condition.svg" id="6_qy6wd"]
 
+[sub_resource type="Resource" id="Resource_f26po"]
+script = ExtResource("5_3lmmf")
+_character_name = ""
+_name = ""
+name = ""
+guid = ""
+position = Vector2(0, 0)
+size = Vector2(0, 0)
+
 [sub_resource type="Resource" id="Resource_teces"]
 script = ExtResource("4_8sxjj")
-nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([])
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_f26po")])
 connections = Array[Dictionary]([])
 
 [node name="DialogueEditor" type="Control" node_paths=PackedStringArray("_graph", "_files")]

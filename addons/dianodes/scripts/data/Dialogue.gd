@@ -13,10 +13,16 @@ signal connection_removed(conn: Dictionary)
 func add_node(node: BaseNodeData):
     nodes.append(node)
     node_added.emit(node)
+
     print("data: added node ", node, " to ", resource_path)
 
+func remove_node_by_guid(guid: String):
+    var found = nodes.filter(func(n): return n.guid == guid)
+    remove_node(found.pop_back())
+
 func remove_node(node: BaseNodeData):
-    nodes.erase(nodes.find(node))
+    nodes.remove_at(nodes.find(node))
+    _remove_connections_to(node.guid)
     node_removed.emit(node)
 
 func add_connection(conn: Dictionary):
@@ -27,10 +33,11 @@ func remove_connection(conn: Dictionary):
     var found = connections.filter(func(c):
         return c["from_node"] == conn["from_node"] and c["to_node"] == conn["to_node"] and c["from_port"] == conn["from_port"] and c["to_port"] == conn["to_port"]
     )
-    if found[0]: 
+    if found[0]:
         connections.erase(found[0])
         connection_removed.emit(conn)
 
 func _remove_connections_to(node: StringName):
-    for conn in connections.filter(func(c): c["to_node"] == node or c["from_node"] == node):
+    print("removing connections for ", node)
+    for conn in connections.filter(func(c): return c["to_node"] == node or c["from_node"] == node):
         remove_connection(conn)
