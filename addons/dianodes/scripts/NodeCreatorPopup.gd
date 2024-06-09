@@ -21,5 +21,7 @@ func _on_index_pressed(index):
 		0: data = LineNodeData.new()
 		1: data = ConditionNodeData.new()
 		2: data = EventNodeData.new()
+
+	data.position = _last_create_pos
 	node_data_created.emit(data)
 	

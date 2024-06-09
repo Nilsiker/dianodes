@@ -54,8 +54,10 @@ func _on_disconnection_request(from, to, from_port, to_port):
 #region DATA HANDLERS
 
 func register(data: Dialogue):
-	unregister()
-
+	# todo unregister this might be unnecessary once i don't reload the editor. 
+	# now it throw annoying but harmless errors on graph load
+	unregister()	
+	
 	data.node_added.connect(_on_data_node_added)
 	data.node_removed.connect(_on_data_node_removed)
 	data.connection_added.connect(_on_connection_added)
@@ -67,7 +69,7 @@ func register(data: Dialogue):
 	_render_view()
 
 func unregister():
-	if data:
+	if data != null:
 		data.node_added.disconnect(_on_data_node_added)
 		data.node_removed.disconnect(_on_data_node_removed)
 		data.connection_added.disconnect(_on_connection_added)
