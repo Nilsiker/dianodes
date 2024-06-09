@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhprqc2wco6en"]
+
+[ext_resource type="Script" path="res://addons/DialogueSystem/examples/ExampleDialogueContainer.cs" id="1_yv24s"]
+[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/dianodes/icons/player.svg" id="3_5jess"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cthh"]
+bg_color = Color(0.176419, 0.176419, 0.176419, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+
+[node name="ExampleDialogueContainer" type="PanelContainer" node_paths=PackedStringArray("_nameLabel", "_lineLabel", "_portrait")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3cthh")
+script = ExtResource("1_yv24s")
+_nameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
+_lineLabel = NodePath("MarginContainer/VBoxContainer/LineLabel")
+_portrait = NodePath("MarginContainer/VBoxContainer/Portrait")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Portrait" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_5jess")
+expand_mode = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.446777, 0.446777, 0.446777, 1)
+theme_override_font_sizes/font_size = 52
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 52
+text = "Hello stranger, can you spare some coin?"
+horizontal_alignment = 1
+autowrap_mode = 2
+visible_characters = 39467
+visible_ratio = 986.675

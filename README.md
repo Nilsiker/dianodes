@@ -5,7 +5,7 @@
 >
 > For a more fully featured dialogue editor, take a look at [Dialogue Manager for Godot 4](https://github.com/nathanhoad/godot_dialogue_manager) by [Nathan Hoad](https://nathanhoad.net/).
 
-A node-based dialogue system for the Godot Engine. It requires a Godot version with .NET support since it's fully implemented in C#.
+A node-based dialogue system for the Godot Engine.
 
 ![alt text](media/example.gif)
 ![alt text](media/graph.png)
