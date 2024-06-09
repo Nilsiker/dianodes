@@ -1,8 +1,27 @@
-[gd_resource type="Resource" script_class="Dialogue" load_steps=2 format=3 uid="uid://dbe558te2elsw"]
+[gd_resource type="Resource" script_class="Dialogue" load_steps=5 format=3 uid="uid://dbe558te2elsw"]
 
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_8ykbr"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="1_377w7"]
+
+[sub_resource type="Resource" id="Resource_4vuho"]
+script = ExtResource("1_8ykbr")
+line = ""
+name = ""
+guid = "-9223345386666517819"
+position = Vector2(-160, -40)
+size = Vector2(163.863, 189)
+
+[sub_resource type="Resource" id="Resource_f44n8"]
+script = ExtResource("1_8ykbr")
+line = ""
+name = ""
+guid = "-9223344652310996065"
+position = Vector2(80, -40)
+size = Vector2(133, 155)
 
 [resource]
 script = ExtResource("1_377w7")
-nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([])
+zoom = 1.61051
+scroll_offset = Vector2(-431.85, -269.128)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_4vuho"), SubResource("Resource_f44n8")])
 connections = Array[Dictionary]([])

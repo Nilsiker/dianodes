@@ -15,3 +15,5 @@ func _process(delta):
 
 func edit(dialogue: Dialogue):
 	_graph.register(dialogue)
+	$NoFileOverlay.visible = dialogue == null
+

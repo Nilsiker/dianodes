@@ -2,7 +2,7 @@
 class_name DialogueGraph
 extends GraphEdit
 
-@export var data: Dialogue
+@export var data: Dialogue = null
 
 @onready var popup: NodeCreatorPopup = $NodeCreatorPopup
 
@@ -18,6 +18,14 @@ func _ready():
 	connection_request.connect(_on_connection_request)
 	disconnection_request.connect(_on_disconnection_request)
 	delete_nodes_request.connect(_on_delete_nodes_request)
+	
+	scroll_offset_changed.connect(_on_scroll_offset_changed)
+
+func _gui_input(event):
+	if not data: return
+	if not event is InputEventMouseButton: return
+	if event.button_index == MOUSE_BUTTON_WHEEL_DOWN or event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		data.zoom = zoom
 
 #endregion
 
@@ -29,9 +37,11 @@ func _on_popup_request(at_position: Vector2):
 	popup.open(open_pos, create_pos)
 
 func _on_popup_node_created(node):
+	if not data: return
 	data.add_node(node)
 
 func _on_connection_request(from_node, from_port, to_node, to_port):
+	if not data: return	
 	data.add_connection(
 		{
 			"from_node"=from_node,
@@ -42,6 +52,7 @@ func _on_connection_request(from_node, from_port, to_node, to_port):
 	)
 
 func _on_disconnection_request(from_node, from_port, to_node, to_port):
+	if not data: return	
 	data.remove_connection(
 		{
 			"from_node"=from_node,
@@ -52,11 +63,15 @@ func _on_disconnection_request(from_node, from_port, to_node, to_port):
 	)
 
 func _on_delete_nodes_request(nodes):
+	if not data: return	
 	for node in nodes:
 		data.remove_node_by_guid(node)
 
-#endregion
+func _on_scroll_offset_changed(offset):
+	if not data: return
+	data.scroll_offset = offset
 
+#endregion
 
 #region UI HELPERS
 
@@ -64,11 +79,15 @@ func _render_view():
 	for node_data in data.nodes:
 		var created = _node_scene.instantiate()
 		created.data = node_data
-		created.name = str(node_data.guid)
 		add_child(created)
+		created.name = node_data.guid
 	
 	for conn in data.connections:
 		connect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+	
+	zoom = data.zoom
+	scroll_offset = data.scroll_offset
+
 
 func _clear_view():
 	for child in self.get_children():
@@ -96,14 +115,13 @@ func register(data: Dialogue):
 	_render_view()
 
 func unregister():
-	if data != null:
-		data.node_added.disconnect(_on_data_node_added)
-		data.node_removed.disconnect(_on_data_node_removed)
-		data.connection_added.disconnect(_on_connection_added)
-		data.connection_removed.disconnect(_on_disconnection_removed)
-		
-		print("unregistered ", data)
-		data = null
+	if not self.data: return
+	print("unregistering ", data)
+	data.node_added.disconnect(_on_data_node_added)
+	data.node_removed.disconnect(_on_data_node_removed)
+	data.connection_added.disconnect(_on_connection_added)
+	data.connection_removed.disconnect(_on_disconnection_removed)	
+	data = null
 	
 	_clear_view()
 
@@ -119,10 +137,14 @@ func _on_data_node_removed(data: BaseNodeData):
 			node.free()
 			break
 
-func _on_connection_added(connection: Dictionary):
-	connect_node(connection["from_node"], connection["from_port"], connection["to_node"], connection["to_port"])
+func _on_connection_added(conn: Dictionary):
+	connect_node(
+		conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"]
+	)
 
-func _on_disconnection_removed(connection: Dictionary):
-	disconnect_node(connection["from_node"], connection["from_port"], connection["to_node"], connection["to_port"])
+func _on_disconnection_removed(conn: Dictionary):
+	disconnect_node(
+		conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"]
+	)
 	
 #endregion
