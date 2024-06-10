@@ -6,7 +6,8 @@ extends GraphEdit
 
 @onready var popup: NodeCreatorPopup = $NodeCreatorPopup
 
-var _node_scene: PackedScene = preload ("res://addons/dianodes/scenes/dialogue_node.tscn")
+var _line_scene: PackedScene = preload ("res://addons/dianodes/scenes/line_node.tscn")
+var _condition_scene: PackedScene = preload ("res://addons/dianodes/scenes/condition_node.tscn")
 var _last_right_click_pos: Vector2
 
 #region GODOT METHODS
@@ -76,8 +77,12 @@ func _on_scroll_offset_changed(offset):
 #region UI HELPERS
 
 func _render_view():
+	var created: Node
 	for node_data in data.nodes:
-		var created = _node_scene.instantiate()
+		if node_data is LineNodeData:
+			created = _line_scene.instantiate()
+		elif node_data is ConditionNodeData:
+			created = _condition_scene.instantiate()			
 		created.data = node_data
 		add_child(created)
 		created.name = node_data.guid
@@ -101,7 +106,7 @@ func _clear_view():
 
 func register(data: Dialogue):
 	# todo unregister this might be unnecessary once i don't reload the editor. 
-	# now it throw annoying but harmless errors on graph load
+	# now it throws annoying but harmless errors on graph load
 	unregister()
 	
 	data.node_added.connect(_on_data_node_added)
@@ -126,7 +131,11 @@ func unregister():
 	_clear_view()
 
 func _on_data_node_added(data: BaseNodeData):
-	var node: DialogueNode = _node_scene.instantiate()
+	var node: Node
+	if data is LineNodeData:
+		node = _line_scene.instantiate()
+	elif data is ConditionNodeData:
+		node = _condition_scene.instantiate()
 	node.data = data
 	node.name = data.guid
 	add_child(node)

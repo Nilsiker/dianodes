@@ -1,13 +1,17 @@
-[gd_scene format=3 uid="uid://bwxe4e6sk7hy8"]
+[gd_scene load_steps=2 format=3 uid="uid://bwxe4e6sk7hy8"]
+
+[ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueOption.gd" id="1_rmmoj"]
 
 [node name="Option" type="HBoxContainer"]
+script = ExtResource("1_rmmoj")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "X"
 
 [node name="OptionEdit" type="TextEdit" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Option 1..."
+wrap_mode = 1
 scroll_fit_content_height = true
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 2
-text = "X"

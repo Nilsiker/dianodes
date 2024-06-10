@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://eploah4gsj5d"]
 
-[ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueNode.gd" id="1_djhg2"]
-[ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="1_v5b8j"]
-[ext_resource type="PackedScene" uid="uid://bwxe4e6sk7hy8" path="res://addons/dianodes/scenes/dialogue_option.tscn" id="3_vui1q"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/LineNode.gd" id="1_mrwvy"]
+[ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_vbp0c"]
+[ext_resource type="PackedScene" uid="uid://bwxe4e6sk7hy8" path="res://addons/dianodes/scenes/dialogue_option.tscn" id="3_r6ub1"]
 
-[node name="DialogueNode" type="GraphNode" node_paths=PackedStringArray("name_edit", "portrait", "line_edit")]
+[node name="LineNode" type="GraphNode" node_paths=PackedStringArray("name_edit", "portrait", "line_edit")]
 offset_right = 148.0
 offset_bottom = 119.0
 resizable = true
@@ -36,7 +36,7 @@ slot/2/right_type = 0
 slot/2/right_color = Color(1, 1, 1, 1)
 slot/2/right_icon = null
 slot/2/draw_stylebox = true
-script = ExtResource("1_djhg2")
+script = ExtResource("1_mrwvy")
 name_edit = NodePath("VBoxContainer/HBoxContainer/NameEdit")
 portrait = NodePath("VBoxContainer/HBoxContainer/Portrait")
 line_edit = NodePath("VBoxContainer/LineEdit")
@@ -54,13 +54,11 @@ placeholder_text = "Enter name..."
 expand_to_text_length = true
 
 [node name="Portrait" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
-texture = ExtResource("1_v5b8j")
+texture = ExtResource("2_vbp0c")
 expand_mode = 2
 
 [node name="LineEdit" type="TextEdit" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Enter line..."
@@ -68,17 +66,16 @@ wrap_mode = 1
 autowrap_mode = 2
 scroll_fit_content_height = true
 
-[node name="Option" parent="." instance=ExtResource("3_vui1q")]
-visible = false
+[node name="Option" parent="." instance=ExtResource("3_r6ub1")]
 layout_mode = 2
 
-[node name="Button" parent="Option" index="1"]
+[node name="Button" parent="Option" index="0"]
 visible = false
 
-[node name="AddOptionButton" type="Button" parent="."]
+[node name="AddOptionButton2" type="Button" parent="."]
 layout_mode = 2
 text = "Add Option"
 
-[connection signal="pressed" from="AddOptionButton" to="." method="_on_add_option_button_pressed"]
+[connection signal="pressed" from="AddOptionButton2" to="." method="_on_add_option_button_pressed"]
 
 [editable path="Option"]
