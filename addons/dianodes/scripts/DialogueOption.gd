@@ -3,10 +3,16 @@ class_name DialogueOption
 extends HBoxContainer
 
 signal removed
-signal option_updated(text)
+signal updated(index, text)
+
+var index = 0
+
+var text: String = "":
+	get: return text
+	set(value): $OptionEdit.text = value
 
 func _ready():
-	$OptionEdit.text_changed.connect(func(): option_updated.emit($OptionEdit.text))
+	$OptionEdit.text_changed.connect(func(): updated.emit(index, $OptionEdit.text))
 	$Button.pressed.connect(_on_close_button_pressed)
 
 func set_show_close_button(show):

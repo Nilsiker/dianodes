@@ -1,43 +1,29 @@
-[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3 uid="uid://dbe558te2elsw"]
+[gd_resource type="Resource" script_class="Dialogue" load_steps=5 format=3 uid="uid://dbe558te2elsw"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_8ykbr"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="1_377w7"]
 
-[sub_resource type="Resource" id="Resource_t3bte"]
+[sub_resource type="Resource" id="Resource_uotdh"]
 script = ExtResource("1_8ykbr")
-line = ""
-options = Array[String](["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""])
-name = ""
-guid = "-9223354239902746382"
-position = Vector2(-60, -140)
-size = Vector2(180.128, 272.026)
+line = "What do you want?"
+options = Array[String](["Nothing"])
+name = "Stranger"
+guid = "-9223368402809068070"
+position = Vector2(307.818, -23.9091)
+size = Vector2(213.155, 253)
 
-[sub_resource type="Resource" id="Resource_1kdrd"]
+[sub_resource type="Resource" id="Resource_2oh25"]
 script = ExtResource("1_8ykbr")
 line = ""
 options = Array[String]([""])
 name = ""
-guid = "-9223353655904627900"
-position = Vector2(320, -160)
+guid = "-9223368394118466267"
+position = Vector2(600, 20)
 size = Vector2(133, 161)
-
-[sub_resource type="Resource" id="Resource_sv0a4"]
-script = ExtResource("1_8ykbr")
-line = ""
-options = Array[String](["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""])
-name = ""
-guid = "-9223348848024290347"
-position = Vector2(-440, 20)
-size = Vector2(181.93, 563)
 
 [resource]
 script = ExtResource("1_377w7")
-zoom = 1.06408
-scroll_offset = Vector2(-729.273, -84.0557)
-nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_t3bte"), SubResource("Resource_1kdrd"), SubResource("Resource_sv0a4")])
-connections = Array[Dictionary]([{
-"from_node": "-9223354239902746382",
-"from_port": 0,
-"to_node": &"-9223353655904627900",
-"to_port": 0
-}])
+zoom = 1.77156
+scroll_offset = Vector2(354.174, -160.21)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25")])
+connections = Array[Dictionary]([])

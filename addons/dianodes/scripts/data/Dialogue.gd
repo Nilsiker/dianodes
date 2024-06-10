@@ -39,6 +39,10 @@ func remove_connection(conn: Dictionary):
 		connections.erase(found[0])
 		connection_removed.emit(conn)
 
+func remove_connection_by_name_and_slot(name, slot):
+	for conn in connections.filter(func(c): return c["from_node"] == name and c["from_port"] == slot):
+		remove_connection(conn)
+
 func _remove_connections_to(node: StringName):
 	print("removing connections for ", node)
 	for conn in connections.filter(func(c): return c["to_node"] == node or c["from_node"] == node):

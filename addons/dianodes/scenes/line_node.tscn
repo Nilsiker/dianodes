@@ -66,16 +66,20 @@ wrap_mode = 1
 autowrap_mode = 2
 scroll_fit_content_height = true
 
+[node name="OptionsLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
 [node name="Option" parent="." instance=ExtResource("3_r6ub1")]
 layout_mode = 2
 
 [node name="Button" parent="Option" index="0"]
 visible = false
 
-[node name="AddOptionButton2" type="Button" parent="."]
+[node name="AddOptionButton" type="Button" parent="."]
 layout_mode = 2
-text = "Add Option"
+text = "+"
 
-[connection signal="pressed" from="AddOptionButton2" to="." method="_on_add_option_button_pressed"]
+[connection signal="pressed" from="AddOptionButton" to="." method="_on_add_option_button_pressed"]
 
 [editable path="Option"]
