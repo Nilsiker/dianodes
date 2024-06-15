@@ -17,15 +17,14 @@ func _on_dialogue_ended():
 	get_parent().visible = false
 	queue_free()
 
-
 func _on_dialogue_progressed(node: BaseNodeData):
 	print("progressed to node ", node.guid)
-	start_animated_line_tween()
-	options.visible = false
 
 	if node is LineNodeData:
 		_line_label.text = node.line
 		_name_label.text = node.name
+		start_animated_line_tween()
+		options.visible = false
 		# _portrait.texture = node.portrait
 		for child in options.get_children():
 			child.queue_free()

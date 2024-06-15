@@ -6,11 +6,11 @@
 [sub_resource type="Resource" id="Resource_uotdh"]
 script = ExtResource("1_8ykbr")
 line = "What do you want?"
-options = Array[String](["Nothing", "I want your money!"])
+options = Array[String](["Nothing", "I want your money!", "", "", ""])
 name = "Stranger"
 guid = "-9223368402809068070"
 position = Vector2(300, -20)
-size = Vector2(221.42, 287)
+size = Vector2(221.42, 311)
 
 [sub_resource type="Resource" id="Resource_2oh25"]
 script = ExtResource("1_8ykbr")
@@ -18,8 +18,8 @@ line = "Ok then..."
 options = Array[String]([""])
 name = "Stranger"
 guid = "-9223368394118466267"
-position = Vector2(640, -40)
-size = Vector2(133, 191)
+position = Vector2(640, 0)
+size = Vector2(133, 187.033)
 
 [sub_resource type="Resource" id="Resource_2lja7"]
 script = ExtResource("1_8ykbr")
@@ -27,13 +27,13 @@ line = "You can't have it!"
 options = Array[String](["Then die!", "Fine..."])
 name = "Stranger"
 guid = "-9223367728583084143"
-position = Vector2(640, 180)
+position = Vector2(640, 280)
 size = Vector2(178.079, 258.026)
 
 [resource]
 script = ExtResource("1_377w7")
 zoom = 1.21
-scroll_offset = Vector2(177.282, -184.005)
+scroll_offset = Vector2(-138.776, -242.225)
 nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25"), SubResource("Resource_2lja7")])
 connections = Array[Dictionary]([{
 "from_node": "-9223368402809068070",

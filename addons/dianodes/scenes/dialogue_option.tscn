@@ -1,12 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwxe4e6sk7hy8"]
+[gd_scene load_steps=3 format=3 uid="uid://bwxe4e6sk7hy8"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueOption.gd" id="1_rmmoj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqd3n"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.27, 0.1674, 0.17424, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Option" type="HBoxContainer"]
 script = ExtResource("1_rmmoj")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_yqd3n")
 text = "  -  "
 
 [node name="OptionEdit" type="TextEdit" parent="."]

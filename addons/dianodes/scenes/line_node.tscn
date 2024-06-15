@@ -1,8 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://eploah4gsj5d"]
+[gd_scene load_steps=6 format=3 uid="uid://eploah4gsj5d"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/LineNode.gd" id="1_mrwvy"]
 [ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_vbp0c"]
 [ext_resource type="PackedScene" uid="uid://bwxe4e6sk7hy8" path="res://addons/dianodes/scenes/dialogue_option.tscn" id="3_r6ub1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7xir"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.618065, 0, 0.0397133, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mf8oa"]
+bg_color = Color(0.1495, 0.23, 0.161575, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="LineNode" type="GraphNode" node_paths=PackedStringArray("name_edit", "portrait", "line_edit")]
 offset_right = 148.0
@@ -75,9 +93,11 @@ layout_mode = 2
 
 [node name="Button" parent="Option" index="0"]
 visible = false
+theme_override_styles/normal = SubResource("StyleBoxFlat_i7xir")
 
 [node name="AddOptionButton" type="Button" parent="."]
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_mf8oa")
 text = "+"
 
 [connection signal="pressed" from="AddOptionButton" to="." method="_on_add_option_button_pressed"]
