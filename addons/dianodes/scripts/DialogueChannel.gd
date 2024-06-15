@@ -1,7 +1,7 @@
 @tool
 extends Node
 
-signal progressed(node: BaseNodeData)
+signal updated(data: LineNodeData)
 signal ended
 
 var dialogue: Dialogue = null
@@ -16,7 +16,7 @@ func start_dialogue(dialogue: Dialogue, callbacks={}, variables={}):
 	if dialogue:
 		current_node = _find_start_node()
 		print("current_node ", current_node)
-		progressed.emit(current_node)
+		updated.emit(current_node)
 
 func progress(slot: int):
 	var conn = dialogue.connections.filter(func(conn):
@@ -38,7 +38,15 @@ func progress(slot: int):
 		return
 
 	current_node = to[0]
-	progressed.emit(current_node)
+
+	if current_node is LineNodeData:
+		updated.emit(current_node)
+	elif current_node is ConditionNodeData:
+		print("todo handle condition")
+		progress(0)
+	elif current_node is EventNodeData:
+		print("todo handle event")
+		progress(0)
 
 func _find_start_node():
 	var start_conn = dialogue.connections.filter(func(conn): return conn.from_node == "Start")

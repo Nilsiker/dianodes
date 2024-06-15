@@ -10,6 +10,7 @@ extends DialogueNode
 func _ready():
 	super._ready()
 	$NameEdit.text_changed.connect(_on_name_edit_text_changed)
+	$NameEdit.text = data._condition_name
 #endregion
 
 #region UI HANDLERS

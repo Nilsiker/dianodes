@@ -44,7 +44,7 @@ size = Vector2(133, 257)
 [resource]
 script = ExtResource("2_iakda")
 zoom = 0.967348
-scroll_offset = Vector2(105.598, 164.563)
+scroll_offset = Vector2(-45.4025, 171.563)
 nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25"), SubResource("Resource_2lja7"), SubResource("Resource_0bx7s")])
 connections = Array[Dictionary]([{
 "from_node": "-9223368402809068070",
