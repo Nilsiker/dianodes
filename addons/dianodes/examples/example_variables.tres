@@ -12,7 +12,7 @@ options = Array[String](["Tell me where we are."])
 name = "Stranger"
 guid = "-9223368402809068070"
 position = Vector2(220, 200)
-size = Vector2(200.33, 343)
+size = Vector2(237.921, 341.151)
 
 [sub_resource type="Resource" id="Resource_140l3"]
 script = ExtResource("1_vidbp")
@@ -21,12 +21,12 @@ options = Array[String](["End"])
 name = "Stranger"
 guid = "-9223352026115540561"
 position = Vector2(480, 320)
-size = Vector2(210.062, 247)
+size = Vector2(206.645, 266.952)
 
 [resource]
 script = ExtResource("2_scwbb")
-zoom = 1.06408
-scroll_offset = Vector2(-17.1176, -0.245501)
+zoom = 1.17049
+scroll_offset = Vector2(-55.2294, -38.17)
 nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_140l3")])
 connections = Array[Dictionary]([{
 "from_node": "Start",

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://eploah4gsj5d"]
+[gd_scene load_steps=7 format=3 uid="uid://eploah4gsj5d"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/LineNode.gd" id="1_mrwvy"]
 [ext_resource type="Texture2D" uid="uid://c8xbg0yudw3ib" path="res://icon.svg" id="2_vbp0c"]
 [ext_resource type="PackedScene" uid="uid://bwxe4e6sk7hy8" path="res://addons/dianodes/scenes/dialogue_option.tscn" id="3_r6ub1"]
+[ext_resource type="Texture2D" uid="uid://s4vfhm0thfo7" path="res://addons/dianodes/icons/plus.svg" id="4_g4eu5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7xir"]
 content_margin_left = 6.0
@@ -16,6 +17,10 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mf8oa"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(0.1495, 0.23, 0.161575, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
@@ -91,14 +96,15 @@ text = "Options"
 [node name="Option" parent="." instance=ExtResource("3_r6ub1")]
 layout_mode = 2
 
-[node name="Button" parent="Option" index="0"]
+[node name="Button" parent="Option" index="1"]
 visible = false
 theme_override_styles/normal = SubResource("StyleBoxFlat_i7xir")
 
 [node name="AddOptionButton" type="Button" parent="."]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_mf8oa")
-text = "+"
+icon = ExtResource("4_g4eu5")
+icon_alignment = 1
 
 [connection signal="pressed" from="AddOptionButton" to="." method="_on_add_option_button_pressed"]
 

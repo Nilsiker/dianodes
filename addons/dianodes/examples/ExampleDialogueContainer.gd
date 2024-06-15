@@ -3,7 +3,7 @@ class_name ExampleDialogueContainer
 extends PanelContainer
 
 @export var _name_label: Label
-@export var _line_label: Label
+@export var _line_label: RichTextLabel
 @export var options: Control
 @export var call: Callable
 

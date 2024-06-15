@@ -45,8 +45,10 @@ func progress(slot: int):
 		var try_condition: Callable = callables[current_node._condition_name]
 		progress(try_condition.call())
 	elif current_node is EventNodeData:
-		print("todo handle event")
+		var event_callback: Callable = callables[current_node._event_name]
+		event_callback.call()
 		progress(0)
+	# todo add Label and Goto nodes for less messy flows :)
 
 func _find_start_node():
 	var start_conn = dialogue.connections.filter(func(conn): return conn.from_node == "Start")

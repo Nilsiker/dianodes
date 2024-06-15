@@ -8,6 +8,8 @@ extends GraphEdit
 
 var _line_scene: PackedScene = preload ("res://addons/dianodes/scenes/line_node.tscn")
 var _condition_scene: PackedScene = preload ("res://addons/dianodes/scenes/condition_node.tscn")
+var _event_scene: PackedScene = preload ("res://addons/dianodes/scenes/event_node.tscn")
+
 var _last_right_click_pos: Vector2
 
 #region GODOT METHODS
@@ -87,6 +89,8 @@ func _render_view():
 			created.option_removed.connect(_on_node_option_removed)
 		elif node_data is ConditionNodeData:
 			created = _condition_scene.instantiate()
+		elif node_data is EventNodeData:
+			created = _event_scene.instantiate()
 		created.data = node_data
 		add_child(created)
 		created.name = node_data.guid
@@ -142,6 +146,9 @@ func _on_data_node_added(data: BaseNodeData):
 		node.option_removed.connect(_on_node_option_removed)
 	elif data is ConditionNodeData:
 		node = _condition_scene.instantiate()
+	elif data is EventNodeData:
+		node = _event_scene.instantiate()
+
 	node.data = data
 	node.name = data.guid
 	add_child(node)

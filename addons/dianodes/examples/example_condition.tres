@@ -12,15 +12,15 @@ line = "This is a dialogue example using conditional flows.
 options = Array[String](["[Persuade 50%] Tell me all your secrets..."])
 name = "Stranger"
 guid = "-9223368402809068070"
-position = Vector2(220, 200)
-size = Vector2(200.33, 295)
+position = Vector2(260, 200)
+size = Vector2(224.764, 317.338)
 
 [sub_resource type="Resource" id="Resource_5kg5o"]
 script = ExtResource("2_2wsdt")
 _condition_name = "persuaded"
 name = ""
 guid = "-9223354983351515765"
-position = Vector2(460, 380)
+position = Vector2(540, 380)
 size = Vector2(129, 107)
 
 [sub_resource type="Resource" id="Resource_i8s7k"]
@@ -29,8 +29,8 @@ line = "Ok, the secret is... that I don't have any secrets."
 options = Array[String](["Start over", "End"])
 name = "Stranger"
 guid = "-9223354933640627250"
-position = Vector2(620, 140)
-size = Vector2(214.551, 265.467)
+position = Vector2(700, 140)
+size = Vector2(235.91, 261.195)
 
 [sub_resource type="Resource" id="Resource_wycn3"]
 script = ExtResource("1_1cmq7")
@@ -38,13 +38,13 @@ line = "No way!"
 options = Array[String](["Start Over", "End"])
 name = "Stranger"
 guid = "-9223354917517725703"
-position = Vector2(620, 460)
-size = Vector2(132.223, 209)
+position = Vector2(700, 460)
+size = Vector2(234.667, 236.815)
 
 [resource]
 script = ExtResource("2_nn02i")
-zoom = 0.799462
-scroll_offset = Vector2(-64.0744, -128.416)
+zoom = 1.06408
+scroll_offset = Vector2(0, 176.137)
 nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_5kg5o"), SubResource("Resource_i8s7k"), SubResource("Resource_wycn3")])
 connections = Array[Dictionary]([{
 "from_node": "Start",
