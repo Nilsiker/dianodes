@@ -5,6 +5,7 @@ extends PanelContainer
 @export var _name_label: Label
 @export var _line_label: Label
 @export var options: Control
+@export var call: Callable
 
 @export var _line_speed: float = 20
 
@@ -17,16 +18,19 @@ func _on_dialogue_ended():
 	get_parent().visible = false
 	queue_free()
 
-func _on_dialogue_updated(node: LineNodeData):
+func _on_dialogue_updated(node: LineNodeData, variables: Dictionary):
 	print("progressed to node ", node.guid)
-	_line_label.text = node.line
+	var line = node.line
+	for variable in variables:
+		line = line.format(variables)
+	_line_label.text = line
 	_name_label.text = node.name
+	
 	start_animated_line_tween()
+	
 	options.visible = false
-	# _portrait.texture = node.portrait
 	for child in options.get_children():
 		child.queue_free()
-		
 	for i in node.options.size():
 		var option_button = DialogueOptionButton.new(i, node.options[i])
 		options.add_child(option_button)

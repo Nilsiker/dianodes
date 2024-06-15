@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhprqc2wco6en"]
+[gd_scene load_steps=4 format=3 uid="uid://dhprqc2wco6en"]
 
 [ext_resource type="Script" path="res://addons/dianodes/examples/ExampleDialogueContainer.gd" id="1_povxf"]
-[ext_resource type="Script" path="res://addons/dianodes/scripts/OptionButton.gd" id="3_1u87o"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/dianodes/icons/player.svg" id="3_5jess"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cthh"]
@@ -20,59 +19,53 @@ grow_vertical = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3cthh")
 script = ExtResource("1_povxf")
-_name_label = NodePath("MarginContainer/VBoxContainer/NameLabel")
-_line_label = NodePath("MarginContainer/VBoxContainer/LineLabel")
-options = NodePath("MarginContainer/VBoxContainer/Options")
+_name_label = NodePath("MarginContainer/VBoxContainer/VBoxContainer/NameLabel")
+_line_label = NodePath("MarginContainer/VBoxContainer/VBoxContainer/LineLabel")
+options = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Options")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 1
+theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 60
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 60
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-alignment = 1
 
 [node name="Portrait" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
+size_flags_vertical = 0
 texture = ExtResource("3_5jess")
 expand_mode = 1
 
-[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.446777, 0.446777, 0.446777, 1)
 theme_override_font_sizes/font_size = 52
-text = "Player"
-horizontal_alignment = 1
+text = "Stranger"
 vertical_alignment = 1
 
-[node name="LineLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="LineLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 52
-text = "Hello stranger, can you spare some coin?"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 42
+text = "That's the lower number, for sure!"
 autowrap_mode = 2
-visible_characters = 39467
-visible_ratio = 986.675
+visible_characters = 34
 
-[node name="Options" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-visible = false
+[node name="Options" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/separation = 20
-
-[node name="DialogueOptionButton" type="Button" parent="MarginContainer/VBoxContainer/Options"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 36
-text = "Option"
-script = ExtResource("3_1u87o")
