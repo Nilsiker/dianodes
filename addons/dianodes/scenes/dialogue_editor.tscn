@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://i7bflbb5kv57"]
+[gd_scene load_steps=13 format=3 uid="uid://i7bflbb5kv57"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/DialogueEditor.gd" id="1_bqdsv"]
 [ext_resource type="Texture2D" uid="uid://dl2kn66hcvc10" path="res://addons/dianodes/icons/play.svg" id="1_v4xmj"]
@@ -9,6 +9,19 @@
 [ext_resource type="Script" path="res://addons/dianodes/scripts/NodeCreatorPopup.gd" id="6_dc56l"]
 [ext_resource type="Texture2D" uid="uid://c5yym0vytchht" path="res://addons/dianodes/icons/condition.svg" id="6_qy6wd"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/DialoguePreview.gd" id="9_es730"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7sdq3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_num8k"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.58, 0.58, 0.1914, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itprv"]
 bg_color = Color(0, 0, 0, 0.552941)
@@ -106,6 +119,32 @@ item_2/icon = ExtResource("5_jyaj7")
 item_2/id = 2
 script = ExtResource("6_dc56l")
 
+[node name="Start" type="GraphNode" parent="VBox/HSplitContainer/DialogueGraph"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 291.0
+offset_right = 130.0
+offset_bottom = 322.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7sdq3")
+theme_override_styles/titlebar = SubResource("StyleBoxFlat_num8k")
+position_offset = Vector2(66, 291)
+draggable = false
+selectable = false
+title = "START ▶️"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Control" type="Control" parent="VBox/HSplitContainer/DialogueGraph/Start"]
+layout_mode = 2
+
 [node name="DialoguePreview" type="MarginContainer" parent="."]
 visible = false
 layout_mode = 1
@@ -121,6 +160,7 @@ theme_override_constants/margin_bottom = 60
 script = ExtResource("9_es730")
 
 [node name="NoFileOverlay" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

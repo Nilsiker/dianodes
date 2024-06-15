@@ -9,9 +9,8 @@ var current_node: BaseNodeData = null
 
 func start_dialogue(dialogue: Dialogue):
 	current_dialogue = dialogue
-	print("dialogue ", dialogue)
-	if dialogue.nodes:
-		current_node = dialogue.nodes[0]
+	if current_dialogue:
+		current_node = _find_start_node()
 		print("current_node ", current_node)
 		progressed.emit(current_node)
 
@@ -37,3 +36,8 @@ func progress(slot: int):
 
 	current_node = to[0]
 	progressed.emit(current_node)
+
+func _find_start_node():
+	var start_conn = current_dialogue.connections.filter(func(conn): return conn.from_node == "Start")
+	var start_node = current_dialogue.nodes.filter(func(n): return n.guid == start_conn[0].to_node)
+	return start_node[0]

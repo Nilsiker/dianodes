@@ -33,7 +33,6 @@ func _ready():
 	data.option_removed.connect(_on_data_option_removed)
 	
 	var options = data.options
-	print(options)
 	$Option.text = options.front()
 	$Option.updated.connect(_on_option_updated)
 	$Option.removed.connect(_on_option_removed)

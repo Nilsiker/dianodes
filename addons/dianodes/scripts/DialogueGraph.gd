@@ -42,7 +42,7 @@ func _on_popup_node_created(node):
 	data.add_node(node)
 
 func _on_connection_request(from_node, from_port, to_node, to_port):
-	if not data: return	
+	if not data: return
 	data.add_connection(
 		{
 			"from_node"=from_node,
@@ -53,7 +53,7 @@ func _on_connection_request(from_node, from_port, to_node, to_port):
 	)
 
 func _on_disconnection_request(from_node, from_port, to_node, to_port):
-	if not data: return	
+	if not data: return
 	data.remove_connection(
 		{
 			"from_node"=from_node,
@@ -64,7 +64,7 @@ func _on_disconnection_request(from_node, from_port, to_node, to_port):
 	)
 
 func _on_delete_nodes_request(nodes):
-	if not data: return	
+	if not data: return
 	for node in nodes:
 		data.remove_node_by_guid(node)
 
@@ -86,18 +86,16 @@ func _render_view():
 			created = _line_scene.instantiate()
 			created.option_removed.connect(_on_node_option_removed)
 		elif node_data is ConditionNodeData:
-			created = _condition_scene.instantiate()			
+			created = _condition_scene.instantiate()
 		created.data = node_data
 		add_child(created)
 		created.name = node_data.guid
-		
 	
 	for conn in data.connections:
 		connect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
 	
 	zoom = data.zoom
 	scroll_offset = data.scroll_offset
-
 
 func _clear_view():
 	for child in self.get_children():
@@ -106,13 +104,13 @@ func _clear_view():
 
 #endregion
 
-
 #region DATA HANDLERS
 
 func register(data: Dialogue):
 	# todo unregister this might be unnecessary once i don't reload the editor. 
 	# now it throws annoying but harmless errors on graph load
 	unregister()
+	if not data: return
 	
 	data.node_added.connect(_on_data_node_added)
 	data.node_removed.connect(_on_data_node_removed)
@@ -130,7 +128,7 @@ func unregister():
 	data.node_added.disconnect(_on_data_node_added)
 	data.node_removed.disconnect(_on_data_node_removed)
 	data.connection_added.disconnect(_on_connection_added)
-	data.connection_removed.disconnect(_on_disconnection_removed)	
+	data.connection_removed.disconnect(_on_disconnection_removed)
 	data = null
 	
 	_clear_view()
