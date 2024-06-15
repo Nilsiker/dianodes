@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhprqc2wco6en"]
+[gd_scene load_steps=5 format=3 uid="uid://dhprqc2wco6en"]
 
-[ext_resource type="Script" path="res://addons/DialogueSystem/examples/ExampleDialogueContainer.cs" id="1_yv24s"]
+[ext_resource type="Script" path="res://addons/dianodes/examples/ExampleDialogueContainer.gd" id="1_povxf"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/OptionButton.gd" id="3_1u87o"]
 [ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/dianodes/icons/player.svg" id="3_5jess"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cthh"]
@@ -10,7 +11,7 @@ border_width_top = 6
 border_width_right = 6
 border_width_bottom = 6
 
-[node name="ExampleDialogueContainer" type="PanelContainer" node_paths=PackedStringArray("_nameLabel", "_lineLabel", "_portrait")]
+[node name="ExampleDialogueContainer" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_line_label", "options")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -18,10 +19,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3cthh")
-script = ExtResource("1_yv24s")
-_nameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
-_lineLabel = NodePath("MarginContainer/VBoxContainer/LineLabel")
-_portrait = NodePath("MarginContainer/VBoxContainer/Portrait")
+script = ExtResource("1_povxf")
+_name_label = NodePath("MarginContainer/VBoxContainer/NameLabel")
+_line_label = NodePath("MarginContainer/VBoxContainer/LineLabel")
+options = NodePath("MarginContainer/VBoxContainer/Options")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -61,3 +62,17 @@ horizontal_alignment = 1
 autowrap_mode = 2
 visible_characters = 39467
 visible_ratio = 986.675
+
+[node name="Options" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 20
+
+[node name="DialogueOptionButton" type="Button" parent="MarginContainer/VBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "Option"
+script = ExtResource("3_1u87o")

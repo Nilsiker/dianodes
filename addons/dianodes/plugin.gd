@@ -6,11 +6,15 @@ var _icon = preload ("res://addons/dianodes/icons/dialogue.svg")
 
 var _editor: DialogueEditor
 
+func _enable_plugin():
+	add_autoload_singleton("DialogueChannel", "res://addons/dianodes/scripts/DialogueChannel.gd")
+
+func _disable_plugin():
+	remove_autoload_singleton("DialogueChannel")
+
 func _enter_tree():
 	_reload()
-
-func _exit_tree():
-	pass
+	
 
 func _make_visible(visible):
 	if visible:

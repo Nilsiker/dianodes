@@ -14,6 +14,10 @@ config/name="godot-tools"
 run/main_scene="res://addons/dianodes/examples/preview_dialogue.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 
+[autoload]
+
+DialogueChannel="*res://addons/dianodes/scripts/DialogueChannel.gd"
+
 [dotnet]
 
 project/assembly_name="godot-tools"

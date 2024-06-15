@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Dialogue" load_steps=5 format=3 uid="uid://dbe558te2elsw"]
+[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3 uid="uid://dbe558te2elsw"]
 
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_8ykbr"]
 [ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="1_377w7"]
@@ -6,24 +6,43 @@
 [sub_resource type="Resource" id="Resource_uotdh"]
 script = ExtResource("1_8ykbr")
 line = "What do you want?"
-options = Array[String](["Nothing"])
+options = Array[String](["Nothing", "I want your money!"])
 name = "Stranger"
 guid = "-9223368402809068070"
-position = Vector2(307.818, -23.9091)
-size = Vector2(213.155, 253)
+position = Vector2(300, -20)
+size = Vector2(221.42, 287)
 
 [sub_resource type="Resource" id="Resource_2oh25"]
 script = ExtResource("1_8ykbr")
-line = ""
+line = "Ok then..."
 options = Array[String]([""])
-name = ""
+name = "Stranger"
 guid = "-9223368394118466267"
-position = Vector2(600, 20)
-size = Vector2(133, 161)
+position = Vector2(640, -40)
+size = Vector2(133, 191)
+
+[sub_resource type="Resource" id="Resource_2lja7"]
+script = ExtResource("1_8ykbr")
+line = "You can't have it!"
+options = Array[String](["Then die!", "Fine..."])
+name = "Stranger"
+guid = "-9223367728583084143"
+position = Vector2(640, 180)
+size = Vector2(178.079, 258.026)
 
 [resource]
 script = ExtResource("1_377w7")
-zoom = 1.77156
-scroll_offset = Vector2(354.174, -160.21)
-nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25")])
-connections = Array[Dictionary]([])
+zoom = 1.21
+scroll_offset = Vector2(177.282, -184.005)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25"), SubResource("Resource_2lja7")])
+connections = Array[Dictionary]([{
+"from_node": "-9223368402809068070",
+"from_port": 0,
+"to_node": &"-9223368394118466267",
+"to_port": 0
+}, {
+"from_node": "-9223368402809068070",
+"from_port": 1,
+"to_node": &"-9223367728583084143",
+"to_port": 0
+}])
