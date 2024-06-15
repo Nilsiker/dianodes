@@ -98,6 +98,8 @@ func _render_view():
 	scroll_offset = data.scroll_offset
 
 func _clear_view():
+	for conn in get_connection_list():
+		disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
 	for child in self.get_children():
 		if child is DialogueNode:
 			child.free()

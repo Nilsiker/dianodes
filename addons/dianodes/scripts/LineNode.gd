@@ -21,13 +21,16 @@ func _ready():
 	if not data: 
 		push_error("no line node data")
 		return
-	name_edit.text_changed.connect(_on_name_edit_changed)
 
 	title = "Line"
 	
+	name_edit.text = data.name
+	name_edit.text_changed.connect(_on_name_edit_changed)
+
 	line_edit.text = data.line
-	portrait.texture = data.portrait
 	line_edit.text_changed.connect(_on_line_edit_changed)
+	
+	portrait.texture = data.portrait
 	
 	data.option_added.connect(_on_data_option_added)
 	data.option_removed.connect(_on_data_option_removed)
