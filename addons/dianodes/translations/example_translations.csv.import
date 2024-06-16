@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b1l7p36ookoms"
+
+[deps]
+
+files=["res://addons/dianodes/translations/example_translations.en.translation", "res://addons/dianodes/translations/example_translations.de.translation", "res://addons/dianodes/translations/example_translations.fr.translation"]
+
+source_file="res://addons/dianodes/translations/example_translations.csv"
+dest_files=["res://addons/dianodes/translations/example_translations.en.translation", "res://addons/dianodes/translations/example_translations.de.translation", "res://addons/dianodes/translations/example_translations.fr.translation"]
+
+[params]
+
+compress=true
+delimiter=0

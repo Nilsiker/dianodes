@@ -20,7 +20,7 @@ line = "That's the lower number, for sure!"
 options = Array[String](["Let me pick another one.", "Bye!"])
 name = "Stranger"
 guid = "-9223368394118466267"
-position = Vector2(520, 360)
+position = Vector2(500, 260)
 size = Vector2(181.092, 315)
 
 [sub_resource type="Resource" id="Resource_2lja7"]
@@ -29,7 +29,7 @@ line = "The higher one, nice!"
 options = Array[String](["Let me pick another one.", "Ok bye!"])
 name = "Stranger"
 guid = "-9223367728583084143"
-position = Vector2(520, 660)
+position = Vector2(520, 600)
 size = Vector2(168.594, 281)
 
 [sub_resource type="Resource" id="Resource_0bx7s"]
@@ -38,13 +38,13 @@ line = "Ok, pick another number!"
 options = Array[String](["41", "68"])
 name = "Stranger"
 guid = "-9223360240223714763"
-position = Vector2(300, 580)
-size = Vector2(133, 272)
+position = Vector2(220, 600)
+size = Vector2(214.667, 259.595)
 
 [resource]
 script = ExtResource("2_kt6vi")
 zoom = 0.967345
-scroll_offset = Vector2(-52.8182, 157.462)
+scroll_offset = Vector2(0, 157.776)
 nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25"), SubResource("Resource_2lja7"), SubResource("Resource_0bx7s")])
 connections = Array[Dictionary]([{
 "from_node": "-9223368402809068070",
