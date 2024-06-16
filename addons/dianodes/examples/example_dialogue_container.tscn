@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhprqc2wco6en"]
+
+[ext_resource type="Script" path="res://addons/dianodes/examples/ExampleDialogueContainer.gd" id="1_povxf"]
+[ext_resource type="Texture2D" uid="uid://dky257obbiias" path="res://addons/dianodes/icons/player.svg" id="3_5jess"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cthh"]
+bg_color = Color(0.176419, 0.176419, 0.176419, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ltx06"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c1w0b"]
+
+[sub_resource type="Theme" id="Theme_j3pej"]
+RichTextLabel/styles/focus = SubResource("StyleBoxEmpty_ltx06")
+RichTextLabel/styles/normal = SubResource("StyleBoxEmpty_c1w0b")
+
+[node name="ExampleDialogueContainer" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_line_label", "options")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3cthh")
+script = ExtResource("1_povxf")
+_name_label = NodePath("MarginContainer/VBoxContainer/VBoxContainer/NameLabel")
+_line_label = NodePath("MarginContainer/VBoxContainer/VBoxContainer/LineLabel")
+options = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Options")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("3_5jess")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.446777, 0.446777, 0.446777, 1)
+theme_override_font_sizes/font_size = 52
+text = "Stranger"
+vertical_alignment = 1
+
+[node name="LineLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+mouse_filter = 1
+theme = SubResource("Theme_j3pej")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "In branching dialogues, multiple options can be specified.
+
+Pick a number!"
+scroll_active = false
+autowrap_mode = 2
+visible_characters = 74
+
+[node name="Options" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 20

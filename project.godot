@@ -11,8 +11,12 @@ config_version=5
 [application]
 
 config/name="godot-tools"
-run/main_scene="res://addons/DialogueSystem/examples/example_dialogue.tscn"
-config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
+run/main_scene="res://addons/dianodes/examples/example_dialogue_container.tscn"
+config/features=PackedStringArray("4.2", "GL Compatibility")
+
+[autoload]
+
+DialogueChannel="*res://addons/dianodes/scripts/DialogueChannel.gd"
 
 [dotnet]
 
@@ -20,7 +24,7 @@ project/assembly_name="godot-tools"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/DialogueSystem/plugin.cfg")
+enabled=PackedStringArray("res://addons/dianodes/plugin.cfg")
 
 [rendering]
 

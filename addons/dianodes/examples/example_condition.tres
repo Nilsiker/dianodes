@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=8 format=3 uid="uid://bxayh2l80vfa7"]
+
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_1cmq7"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/ConditionNodeData.gd" id="2_2wsdt"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="2_nn02i"]
+
+[sub_resource type="Resource" id="Resource_uotdh"]
+script = ExtResource("1_1cmq7")
+line = "This is a dialogue example using conditional flows.
+
+"
+options = Array[String](["[Persuade 50%] Tell me all your secrets..."])
+name = "Stranger"
+guid = "-9223368402809068070"
+position = Vector2(260, 200)
+size = Vector2(224.764, 317.338)
+
+[sub_resource type="Resource" id="Resource_5kg5o"]
+script = ExtResource("2_2wsdt")
+_condition_name = "persuaded"
+name = ""
+guid = "-9223354983351515765"
+position = Vector2(540, 380)
+size = Vector2(129, 107)
+
+[sub_resource type="Resource" id="Resource_i8s7k"]
+script = ExtResource("1_1cmq7")
+line = "Ok, the secret is... that I don't have any secrets."
+options = Array[String](["Start over", "End"])
+name = "Stranger"
+guid = "-9223354933640627250"
+position = Vector2(700, 140)
+size = Vector2(235.91, 261.195)
+
+[sub_resource type="Resource" id="Resource_wycn3"]
+script = ExtResource("1_1cmq7")
+line = "No way!"
+options = Array[String](["Start Over", "End"])
+name = "Stranger"
+guid = "-9223354917517725703"
+position = Vector2(700, 460)
+size = Vector2(234.667, 236.815)
+
+[resource]
+script = ExtResource("2_nn02i")
+zoom = 0.967345
+scroll_offset = Vector2(-28.8336, 14.8307)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_5kg5o"), SubResource("Resource_i8s7k"), SubResource("Resource_wycn3")])
+connections = Array[Dictionary]([{
+"from_node": "Start",
+"from_port": 0,
+"to_node": &"-9223368402809068070",
+"to_port": 0
+}, {
+"from_node": "-9223368402809068070",
+"from_port": 0,
+"to_node": &"-9223354983351515765",
+"to_port": 0
+}, {
+"from_node": "-9223354983351515765",
+"from_port": 1,
+"to_node": &"-9223354917517725703",
+"to_port": 0
+}, {
+"from_node": "-9223354983351515765",
+"from_port": 0,
+"to_node": &"-9223354933640627250",
+"to_port": 0
+}, {
+"from_node": "-9223354917517725703",
+"from_port": 0,
+"to_node": &"-9223368402809068070",
+"to_port": 0
+}, {
+"from_node": "-9223354933640627250",
+"from_port": 0,
+"to_node": &"-9223368402809068070",
+"to_port": 0
+}])

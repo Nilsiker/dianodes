@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=7 format=3 uid="uid://0mmylok5bvjr"]
+
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_m6eoc"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/EventNodeData.gd" id="2_jm6x1"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="2_qklaw"]
+
+[sub_resource type="Resource" id="Resource_uotdh"]
+script = ExtResource("1_m6eoc")
+line = "This is a dialogue example using events. 
+
+In essence, it uses Callables to execute logic as part of the dialogue flow.
+"
+options = Array[String](["Show me!"])
+name = "Stranger"
+guid = "-9223368402809068070"
+position = Vector2(220, 180)
+size = Vector2(237.921, 341.151)
+
+[sub_resource type="Resource" id="Resource_x3fty"]
+script = ExtResource("2_jm6x1")
+_event_name = "print_hello"
+name = ""
+guid = "-9223359569151849324"
+position = Vector2(520, 320)
+size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_a886q"]
+script = ExtResource("1_m6eoc")
+line = "Look at the Godot terminal output!"
+options = Array[String](["End"])
+name = "Stranger"
+guid = "-9223359106654341371"
+position = Vector2(700, 280)
+size = Vector2(133, 259)
+
+[resource]
+script = ExtResource("2_qklaw")
+zoom = 1.17049
+scroll_offset = Vector2(-55.2294, -38.17)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_x3fty"), SubResource("Resource_a886q")])
+connections = Array[Dictionary]([{
+"from_node": "Start",
+"from_port": 0,
+"to_node": &"-9223368402809068070",
+"to_port": 0
+}, {
+"from_node": "-9223368402809068070",
+"from_port": 0,
+"to_node": &"-9223359569151849324",
+"to_port": 0
+}, {
+"from_node": "-9223359569151849324",
+"from_port": 0,
+"to_node": &"-9223359106654341371",
+"to_port": 0
+}])

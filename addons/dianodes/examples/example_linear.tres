@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3 uid="uid://dbe558te2elsw"]
+
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/LineNodeData.gd" id="1_8ykbr"]
+[ext_resource type="Script" path="res://addons/dianodes/scripts/data/Dialogue.gd" id="1_377w7"]
+
+[sub_resource type="Resource" id="Resource_uotdh"]
+script = ExtResource("1_8ykbr")
+line = "This is an example of a linear dialogue.
+
+"
+options = Array[String](["Go on!"])
+name = "Stranger"
+guid = "-9223368402809068070"
+position = Vector2(200, 200)
+size = Vector2(200.33, 273.71)
+
+[sub_resource type="Resource" id="Resource_2oh25"]
+script = ExtResource("1_8ykbr")
+line = "And if there is text specified for the option, it shows up as that instead!"
+options = Array[String](["Cool, thanks!"])
+name = "Stranger"
+guid = "-9223368394118466267"
+position = Vector2(640, 200)
+size = Vector2(179.386, 277.08)
+
+[sub_resource type="Resource" id="Resource_3sd3w"]
+script = ExtResource("1_8ykbr")
+line = "If the options are empty, the option will show up as three dots."
+options = Array[String]([""])
+name = "Stranger"
+guid = "-9223358892761614491"
+position = Vector2(420, 200)
+size = Vector2(197.093, 276.393)
+
+[resource]
+script = ExtResource("1_377w7")
+zoom = 1.06408
+scroll_offset = Vector2(22.2, -77.7)
+nodes = Array[Resource("res://addons/dianodes/scripts/data/BaseNodeData.gd")]([SubResource("Resource_uotdh"), SubResource("Resource_2oh25"), SubResource("Resource_3sd3w")])
+connections = Array[Dictionary]([{
+"from_node": "Start",
+"from_port": 0,
+"to_node": &"-9223368402809068070",
+"to_port": 0
+}, {
+"from_node": "-9223368402809068070",
+"from_port": 0,
+"to_node": &"-9223358892761614491",
+"to_port": 0
+}, {
+"from_node": "-9223358892761614491",
+"from_port": 0,
+"to_node": &"-9223368394118466267",
+"to_port": 0
+}])
