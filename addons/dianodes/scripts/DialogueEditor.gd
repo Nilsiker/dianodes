@@ -21,3 +21,6 @@ func edit(dialogue: Dialogue):
 func _on_run_pressed():
 	print("start preview")
 	_preview.start(_graph.data)
+
+func _on_locales_toggled(toggled: bool):
+	$VBox/HSplitContainer/LocalesPanel.visible = toggled
