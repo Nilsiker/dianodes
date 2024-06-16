@@ -33,7 +33,7 @@ The plugin currently includes the features below.
 
 The list below outlines things currently being worked on.
 
-- Variable lookup for templated dialogue lines
+- In-editor translation support
 
 ## The wishing well 🪙
 
