@@ -1,4 +1,4 @@
-# Dialogue System 💬
+# Dianodes - A Dialogue System for Godot 4
 ![Godot version 4.2.x](https://img.shields.io/badge/godot-4.2.x-blue)
 
 > ⚠️ Bear in mind the plugin is in very early development. APIs are rough at the moment and I cannot guarantee non-breaking changes to the API or resource structure. Feel free to voice your opinion and open issues!
